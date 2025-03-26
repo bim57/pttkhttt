@@ -1,0 +1,49 @@
+{{#block "css"}}
+    <link rel="stylesheet" href="/css/product.css">
+{{/block}}
+
+<div class="product-table">
+    <div class="inside-table">
+        <div class="productHeader">
+            <h2>Thêm Sản Phẩm Mới</h2>
+            <a href="/product"><button class="cancel-btn">Quay lại</button></a>
+        </div>
+
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="id" class="form-label">ID Sản Phẩm</label>
+                <input type="text" class="form-control" id="id" name="id">
+            </div>
+            <div class="form-group">
+                <label for="name" class="form-label">Tên Sản Phẩm</label>
+                <input type="text" class="form-control" id="name" name="name">
+            </div>
+            <div class="form-group">
+                <label for="author" class="form-label">Tác Giả</label>
+                <input type="text" class="form-control" id="author" name="author">
+            </div>
+            <div class="form-group">
+                <label for="publisher" class="form-label">Nhà Xuất Bản</label>
+                <input type="text" class="form-control" id="publisher" name="publisher">
+            </div>
+            <div class="form-group">
+                <label for="price" class="form-label">Giá</label>
+                <input type="text" class="form-control" id="price" name="price">
+            </div>
+            <div class="form-group">
+                <label for="inventory" class="form-label">Số Lượng Tồn</label>
+                <input type="text" class="form-control" id="inventory" name="inventory">
+            </div>
+            <div class="form-group">
+                <label for="pages" class="form-label">Số Trang</label>
+                <input type="text" class="form-control" id="pages" name="pages">
+            </div>
+            <div class="form-group">
+                <label for="description" class="form-label">Mô Tả</label>
+                <textarea class="form-control" name="description" id="description" cols="30" rows="15"></textarea>
+            </div>
+            <button class="add-btn" type="submit">Thêm</button>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,50 @@
+{{#block "css"}}
+    <link rel="stylesheet" href="/css/provider.css">
+{{/block}}
+
+{{#block "js"}}
+    {{!-- <script src="/js/provider.js"></script> --}}
+{{/block}}
+
+<!-- Provider table -->
+<div class="provider-table">
+    <div class="inside-table">
+        <div class="providerHeader">
+            <h2>Danh Sách Nhà Cung Cấp</h2>
+            <div>
+                <a href="/provider/create"><button class="add-provider">Thêm Nhà Cung Cấp</button></a>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Tên</td>
+                    <td>SĐT</td>
+                    <td>Email</td>
+                    <td>Số nhà, Đường</td>
+                    <td>Quận, Huyện</td>
+                    <td>Tỉnh, Thành phố</td>
+                    <td>Hoạt động</td>
+                </tr>
+            </thead>
+            <tbody class="providers-list">
+                {{#each provider}}
+                    <tr>
+                        <td>{{this.ID_NCC}}</td>
+                        <td>{{this.TenNCC}}</td>
+                        <td>{{this.SDT}}</td>
+                        <td>{{this.Email}}</td>
+                        <td>{{this.SoNhaDuong}}</td>
+                        <td>{{this.QuanHuyen}}</td>
+                        <td>{{this.TinhThanhPho}}</td>
+                        <td>
+                            <a href="/provider/update/{{this.ID_NCC}}"><button class="edit-btn"><i class="fas fa-edit"></i></button></a>
+                            <a href="/provider/delete/{{this.ID_NCC}}"><button class="delete-btn"><i class="fas fa-trash-alt"></i></button></a>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,138 @@
+/* Product table */
+.provider-table{
+    position: relative;
+    width: 100%;
+    padding: 20px;
+}
+.provider-table .inside-table{
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    background: #fff;
+}
+.provider-table .inside-table .providerHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.provider-table .inside-table .providerHeader .add-provider{
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 18px;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #3a8dfb, #4fb8ff, #63d4ff);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+.provider-table .inside-table .providerHeader h2{
+    font-size: 30px;
+    font-weight: 600;
+}
+.cancel-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: #fff;
+    font-size: 18px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+.cancel-btn::before {
+    content: "←"; /* Unicode cho mũi tên trái */
+    font-size: 18px;
+    margin-right: 8px;
+}
+.provider-table .inside-table table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.no-data{
+    text-align: center;
+}
+.provider-table .inside-table table tr{
+    border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+}
+.provider-table .inside-table table tr td{
+    padding: 9px 5px;
+}
+.provider-table .inside-table table thead td{
+    font-weight: 600;
+    text-align: center;
+}
+.provider-table .inside-table table tbody tr:last-child{
+    border-bottom: none;
+}
+.edit-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: none;
+    margin: 3px 3px;
+    background: linear-gradient(135deg, #2196F3, #21CBF3);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+.delete-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: none;
+    margin: 3px 3px;
+    background: linear-gradient(135deg, #FF3D00, #FF6D00);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+form {
+    width: 100%;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+.form-group{
+    margin-bottom: 1rem;
+}
+.form-label{
+    font-size: 18px;
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.form-control {
+    width: 100%;
+    font-size: 16px;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.add-btn{
+    display: inline-block;
+    margin: 10px 50%;
+    padding: 5px 10px;
+    font-size: 24px;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #16A34A, #22C55E, #4ADE80);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
