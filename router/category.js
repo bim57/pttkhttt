@@ -10,6 +10,10 @@ router.get('/create', CategoryController.create);
 
 router.post('/store', CategoryController.store);
 
+router.get('/update/:id', CategoryController.update);
+
+router.post('/edit', CategoryController.edit);
+
 router.get('/delete/:id', CategoryController.delete);
 
 router.get('/', CategoryController.index);

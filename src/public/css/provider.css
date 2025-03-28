@@ -72,7 +72,7 @@
     border-bottom: none;
 }
 .edit-btn{
-    display: inline-flex;
+    position: relative;
     align-items: center;
     justify-content: center;
     width: 30px;
@@ -87,7 +87,7 @@
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 }
 .delete-btn{
-    display: inline-flex;
+    position: relative;
     align-items: center;
     justify-content: center;
     width: 30px;
@@ -120,7 +120,7 @@ form {
     font-size: 16px;
     padding: 8px;
     margin-top: 5px;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     border-radius: 5px;
 }
 .add-btn{
@@ -135,4 +135,38 @@ form {
     background: linear-gradient(135deg, #16A34A, #22C55E, #4ADE80);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+.button-container a {
+    text-decoration: none;
+}
+.icon-btn{
+    display: flex;
+}
+.tooltip {
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.edit-btn:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+.delete-btn:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
 }

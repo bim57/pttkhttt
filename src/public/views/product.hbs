@@ -37,7 +37,12 @@
                         <td>{{this.TenSanPham}}</td>
                         <td>{{this.TenTacGia}}</td>
                         <td>{{this.TenNXB}}</td>
-                        <td><img src="{{this.Anh}}" width="100"></td>
+                        <td>
+                            <div class="image-container">
+                                <img src="{{this.Anh}}" width="100">
+                                <span class="view-more">+ Thêm</span>
+                            </div>
+                        </td>
                         <td>{{formatCurrency this.Gia}}</td>
                         <td>{{this.SoLuongTon}}</td>
                         <td>{{this.SoTrang}}</td>
@@ -47,8 +52,26 @@
                             </div>
                         </td>
                         <td>
-                            <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                            <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
+                            <div class="button-container">
+                                <a href="/product/view/{{this.SanPhamID}}">
+                                    <button class="icon-btn view-btn">
+                                        <i class="fas fa-eye"></i>
+                                        <span class="tooltip">Chi tiết</span>
+                                    </button>
+                                </a>
+                                <a href="/product/update/{{this.SanPhamID}}">
+                                    <button class="icon-btn edit-btn">
+                                        <i class="fas fa-edit"></i>
+                                        <span class="tooltip">Chỉnh sửa</span>
+                                    </button>
+                                </a>
+                                <a href="/product/delete/{{this.SanPhamID}}">
+                                    <button class="icon-btn delete-btn">
+                                        <i class="fas fa-trash-alt"></i>
+                                        <span class="tooltip">Xóa</span>
+                                    </button>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 {{/each}}

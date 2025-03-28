@@ -21,7 +21,7 @@ class Category{
         LEFT JOIN sanpham ON sanpham.SanPhamID = sp_dm.SanPhamID
         LEFT JOIN nxb ON sanpham.ID_NXB = nxb.ID_NXB
         LEFT JOIN sp_tg ON sanpham.SanPhamID = sp_tg.SanPhamID
-        LEFT JOIN anhsp ON sanpham.SanPhamID = anhsp.ID_SP
+        LEFT JOIN anhsp ON sanpham.SanPhamID = anhsp.ID_SP AND anhsp.STT = 1
         LEFT JOIN tacgia ON sp_tg.IDTacGia = tacgia.IDTacGia
         WHERE danhmuc.DanhMucID = ?`; 
         const [rows] = await pool.query(query, [id]);
@@ -39,6 +39,15 @@ class Category{
         `INSERT INTO danhmuc (DanhMucID, TenDanhMuc) VALUES
         (?, ?)`;
         const [rows] = await pool.query(query, [id, name]);
+        return rows;
+    }
+
+    async update(id, name){
+        const query = 
+        `UPDATE danhmuc  
+        SET TenDanhMuc = ?
+        WHERE DanhMucID = ?;`;
+        const [rows] = await pool.query(query, [name, id]);
         return rows;
     }
 

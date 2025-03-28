@@ -56,6 +56,28 @@ class CategoryController{
         }
     }
 
+    // update data form
+    async update(req, res){
+        try {
+            const {id} = req.params;
+            const edit_category = (await categoryConfig.search(id))[0];
+            res.render('update_category', {edit_category});
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // get data from update and edit category
+    async edit(req, res){
+        try {
+            const {id, name} = req.body;
+            const category = await categoryConfig.update(id, name);
+            res.redirect('/category');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     // delete data
     async delete(req, res){
         try {

@@ -39,8 +39,20 @@
                         <td>{{this.QuanHuyen}}</td>
                         <td>{{this.TinhThanhPho}}</td>
                         <td>
-                            <a href="/provider/update/{{this.ID_NCC}}"><button class="edit-btn"><i class="fas fa-edit"></i></button></a>
-                            <a href="/provider/delete/{{this.ID_NCC}}"><button class="delete-btn"><i class="fas fa-trash-alt"></i></button></a>
+                            <div class="button-container">
+                                <a href="/provider/update/{{this.ID_NCC}}">
+                                    <button class="icon-btn edit-btn">
+                                        <i class="fas fa-edit"></i>
+                                        <span class="tooltip">Chỉnh sửa</span>
+                                    </button>
+                                </a>
+                                <a href="/provider/delete/{{this.ID_NCC}}">
+                                    <button class="icon-btn delete-btn">
+                                        <i class="fas fa-trash-alt"></i>
+                                        <span class="tooltip">Xóa</span>
+                                    </button>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 {{/each}}
