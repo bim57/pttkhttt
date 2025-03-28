@@ -1,6 +1,7 @@
 const pool = require('../index');
 
 class Product{
+    // Xem tất cả sản phẩm
     async getAll(){
         const query = 
         `SELECT sanpham.SanPhamID, TenSanPham, tacgia.TenTacGia, nxb.TenNXB, anhsp.Anh, MoTa, Gia, SoLuongTon, SoTrang
@@ -13,6 +14,7 @@ class Product{
         return rows;
     }
 
+    // search sản phẩm
     async search(id){
         const query = 
         `SELECT sanpham.SanPhamID, TenSanPham, tacgia.TenTacGia, nxb.TenNXB, MoTa, Gia, SoLuongTon, SoTrang
@@ -25,6 +27,7 @@ class Product{
         return rows;
     }
     
+    // hiển thị các danh mục của sản phẩm trong chi tiết sp
     async getCategory(id){
         const query = 
         `SELECT danhmuc.TenDanhMuc
@@ -36,6 +39,7 @@ class Product{
         return rows;
     }
 
+    // hiển thị hình ảnh của sp trong chi tiết sp
     async getImage(id){
         const query = 
         `SELECT Anh
@@ -47,8 +51,10 @@ class Product{
     }
 
     async insert(){
-        const query = 
-        ``;
+        let query = 
+        `INSERT INTO nxb (ID_NXB, TenNXB) VALUES`;
+
+        query = `INSERT INTO sanpham (SanPhamID, TenSanPham, ID_NXB, MoTa, Gia, SoLuongTon, SoTrang) VALUES`;
         const [rows] = await pool.query(query);
         return rows;
     }

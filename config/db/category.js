@@ -1,18 +1,21 @@
 const pool = require('../index');
 
-class Category{
-    async getAll(){
-        const query = "SELECT * FROM danhmuc"; 
+class Category {
+    // Xem tất cả danh mục
+    async getAll() {
+        const query = "SELECT * FROM danhmuc";
         const [rows] = await pool.query(query);
         return rows;
     }
 
-    async search(id){
-        const query = "SELECT * FROM danhmuc WHERE DanhMucID = ?"; 
+    // search danh mục
+    async search(id) {
+        const query = "SELECT * FROM danhmuc WHERE DanhMucID = ?";
         const [rows] = await pool.query(query, [id]);
         return rows;
     }
 
+    // Xem các sản phẩm có trong danh mục
     async viewProduct(id){
         const query = 
         `SELECT danhmuc.DanhMucID, TenDanhMuc, sanpham.SanPhamID, TenSanPham, tacgia.TenTacGia, nxb.TenNXB, anhsp.Anh, Gia, SoLuongTon, SoTrang, MoTa
@@ -28,12 +31,14 @@ class Category{
         return rows;
     }
 
-    async detailHeader(id){
-        const query = "SELECT TenDanhMuc FROM danhmuc WHERE DanhMucID = ?"; 
+    // Hiển thị header của danh mục trong chi tiết danh mục
+    async detailHeader(id) {
+        const query = "SELECT TenDanhMuc FROM danhmuc WHERE DanhMucID = ?";
         const [rows] = await pool.query(query, [id]);
         return rows;
     }
 
+    // Thêm một danh mục mới
     async insert(id, name){
         const query = 
         `INSERT INTO danhmuc (DanhMucID, TenDanhMuc) VALUES
@@ -42,6 +47,7 @@ class Category{
         return rows;
     }
 
+    // sửa danh mục
     async update(id, name){
         const query = 
         `UPDATE danhmuc  
@@ -51,6 +57,7 @@ class Category{
         return rows;
     }
 
+    // xoá danh mục 
     async delete(id){
         const query = "DELETE FROM danhmuc WHERE DanhMucID = ?";
         const [rows] = await pool.query(query, [id]);
