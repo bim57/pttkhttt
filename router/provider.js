@@ -1,6 +1,8 @@
-const express = require('express');
+// const express = require('express');
+// const ProviderController = require('../controller/ProviderController');
+import express from 'express';
 const router = express.Router();
-const ProviderController = require('../controller/ProviderController');
+import ProviderController from '../controller/ProviderController.js';
 
 router.get('/search/:id', ProviderController.search);
 
@@ -16,4 +18,5 @@ router.get('/delete/:id', ProviderController.delete);
 
 router.get('/', ProviderController.index);
 
-module.exports = router;
+// module.exports = router;
+export default router;

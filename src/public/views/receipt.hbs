@@ -1,48 +1,59 @@
 {{#block "css"}}
-    <link rel="stylesheet" href="/css/category.css">
+    <link rel="stylesheet" href="/css/receipt.css">
 {{/block}}
 
 {{#block "js"}}
-    {{!-- <script src="/js/category.js"></script> --}}
+    <script src="/js/receipt.js"></script>
 {{/block}}
 
-<!-- Category table -->
-<div class="category-table">
+<!-- Receipt table -->
+<div class="receipt-table">
     <div class="inside-table">
-        <div class="categoryHeader">
-            <h2>Danh Mục</h2>
+        <div class="receiptHeader">
+            <h2>Hóa Đơn Nhập Hàng</h2>
             <div>
-                <a href="/category/create"><button class="add-category">Thêm Danh Mục</button></a>
+                <a href="/receipt/create"><button class="add-receipt">Thêm Hóa Đơn</button></a>
             </div>
+        </div>
+        <div>
+            
         </div>
         <table>
             <thead>
                 <tr>
-                    <td>ID danh mục</td>
-                    <td>Tên danh mục</td>
+                    <td style="width: 40px;;"><input type="checkbox" id="allCheckbox"></td>
+                    <td>ID</td>
+                    <td>Nhà cung cấp</td>
+                    <td>Nhân viên</td>
+                    <td>Ngày nhập</td>
+                    <td>Tổng hóa đơn</td>
                     <td>Hoạt động</td>
                 </tr>
             </thead>
-            <tbody class="category-list">
-                {{#each category}}
+            <tbody class="receipts-list">
+                {{#each receipt}}
                     <tr>
-                        <td>{{this.DanhMucID}}</td>
-                        <td>{{this.TenDanhMuc}}</td>
+                        <td><input type="checkbox" class="itemCheckbox" name="" id=""></td>
+                        <td>#{{this.IDHoaDonNhap}}</td>
+                        <td>{{this.TenNCC}}</td>
+                        <td>{{this.TenNhanVien}}</td>
+                        <td>{{formatDate this.NgayNhap "DD/MM/YYYY HH:mm"}}</td>
+                        <td>{{formatCurrency this.TongTien}}</td>
                         <td>
                             <div class="button-container">
-                                <a href="/category/view/{{this.DanhMucID}}">
+                                <a href="/receipt/view/{{this.IDHoaDonNhap}}">
                                     <button class="icon-btn view-btn">
                                         <i class="fas fa-eye"></i>
                                         <span class="tooltip">Chi tiết</span>
                                     </button>
                                 </a>
-                                <a href="/category/update/{{this.DanhMucID}}">
+                                <a href="/receipt/update/{{this.IDHoaDonNhap}}">
                                     <button class="icon-btn edit-btn">
                                         <i class="fas fa-edit"></i>
                                         <span class="tooltip">Chỉnh sửa</span>
                                     </button>
                                 </a>
-                                <a href="/category/delete/{{this.DanhMucID}}">
+                                <a href="/receipt/delete/{{this.IDHoaDonNhap}}">
                                     <button class="icon-btn delete-btn">
                                         <i class="fas fa-trash-alt"></i>
                                         <span class="tooltip">Xóa</span>
@@ -54,6 +65,5 @@
                 {{/each}}
             </tbody>
         </table>
-        
     </div>
 </div>

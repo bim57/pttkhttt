@@ -1,6 +1,8 @@
-const express = require('express');
+// const express = require('express');
+// const CategoryController = require('../controller/CategoryController');
+import express from 'express';
 const router = express.Router();
-const CategoryController = require('../controller/CategoryController')
+import CategoryController from '../controller/CategoryController.js';
 
 router.get('/search/:id', CategoryController.search);
 
@@ -18,4 +20,5 @@ router.get('/delete/:id', CategoryController.delete);
 
 router.get('/', CategoryController.index);
 
-module.exports = router;
+// module.exports = router;
+export default router;

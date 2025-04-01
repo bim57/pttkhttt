@@ -1,17 +1,18 @@
-const pool = require('../index');
+// const pool = require('../index');
+import pool from '../index.js';
 
 class Category {
     // Xem tất cả danh mục
     async getAll() {
         const query = "SELECT * FROM danhmuc";
-        const [rows] = await pool.query(query);
+        const [rows] = await pool.execute(query);
         return rows;
     }
 
     // search danh mục
     async search(id) {
         const query = "SELECT * FROM danhmuc WHERE DanhMucID = ?";
-        const [rows] = await pool.query(query, [id]);
+        const [rows] = await pool.execute(query, [id]);
         return rows;
     }
 
@@ -27,23 +28,22 @@ class Category {
         LEFT JOIN anhsp ON sanpham.SanPhamID = anhsp.ID_SP AND anhsp.STT = 1
         LEFT JOIN tacgia ON sp_tg.IDTacGia = tacgia.IDTacGia
         WHERE danhmuc.DanhMucID = ?`; 
-        const [rows] = await pool.query(query, [id]);
+        const [rows] = await pool.execute(query, [id]);
         return rows;
     }
 
     // Hiển thị header của danh mục trong chi tiết danh mục
     async detailHeader(id) {
         const query = "SELECT TenDanhMuc FROM danhmuc WHERE DanhMucID = ?";
-        const [rows] = await pool.query(query, [id]);
+        const [rows] = await pool.execute(query, [id]);
         return rows;
     }
 
     // Thêm một danh mục mới
-    async insert(id, name){
+    async insert(name){
         const query = 
-        `INSERT INTO danhmuc (DanhMucID, TenDanhMuc) VALUES
-        (?, ?)`;
-        const [rows] = await pool.query(query, [id, name]);
+        `INSERT INTO danhmuc (TenDanhMuc) VALUES (?)`;
+        const [rows] = await pool.execute(query, [name]);
         return rows;
     }
 
@@ -53,16 +53,17 @@ class Category {
         `UPDATE danhmuc  
         SET TenDanhMuc = ?
         WHERE DanhMucID = ?;`;
-        const [rows] = await pool.query(query, [name, id]);
+        const [rows] = await pool.execute(query, [name, id]);
         return rows;
     }
 
     // xoá danh mục 
     async delete(id){
         const query = "DELETE FROM danhmuc WHERE DanhMucID = ?";
-        const [rows] = await pool.query(query, [id]);
+        const [rows] = await pool.execute(query, [id]);
         return rows;
     }
 }
 
-module.exports = new Category();
+// module.exports = new Category();
+export default new Category();

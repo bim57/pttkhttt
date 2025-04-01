@@ -1,4 +1,5 @@
-const providerConfig = require('../config/db/provider');
+// const providerConfig = require('../config/db/provider');
+import providerConfig from '../config/db/provider.js';
 
 class ProviderController{
     // show all providers
@@ -34,8 +35,8 @@ class ProviderController{
     // get data from create form and create new provider
     async store(req, res){
         try {
-            const {id, name, phone, email, street, district, city} = req.body;
-            const provider = await providerConfig.insert(id, name, phone, email, street, district, city);
+            const {name, phone, email, street, district, city} = req.body;
+            await providerConfig.insert(name, phone, email, street, district, city);
             res.redirect('/provider');
         } catch (error) {
             console.log(error);
@@ -57,7 +58,7 @@ class ProviderController{
     async edit(req, res){
         try {
             const {id, name, phone, email, street, district, city} = req.body;
-            const provider = await providerConfig.update(id, name, phone, email, street, district, city);
+            await providerConfig.update(id, name, phone, email, street, district, city);
             res.redirect('/provider');
         } catch (error) {
             console.log(error);
@@ -75,4 +76,5 @@ class ProviderController{
     }
 }
 
-module.exports = new ProviderController();
+// module.exports = new ProviderController();
+export default new ProviderController();

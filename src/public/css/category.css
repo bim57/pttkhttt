@@ -52,30 +52,36 @@
 }
 .category-table .inside-table table{
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate; /* Phải dùng separate thay vì collapse */
+    border-spacing: 0; /* Loại bỏ khoảng cách giữa các ô */
     margin-top: 10px;
+    border: 1px solid rgb(0, 0, 0, 0.2);
+    border-radius: 10px;
 }
 .no-data{
     text-align: center;
 }
-.category-table .inside-table table tr{
-    border-bottom: 1px solid rgb(0, 0, 0, 0.2);
-}
 .category-table .inside-table table tr td{
     padding: 9px 5px;
+    text-align: center;
+}
+.category-table .inside-table thead tr td:first-child {
+    border-top-left-radius: 10px;
+}
+.category-table .inside-table thead tr td:last-child {
+    border-top-right-radius: 10px;
 }
 .category-table .inside-table table thead td{
     font-weight: 600;
     text-align: center;
+    background: #003147;
+    color: white;
 }
-.category-table .inside-table table tbody tr:last-child{
+.category-table .inside-table table tbody tr td{
+    border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+}
+.category-table .inside-table table tbody tr:last-child td{
     border-bottom: none;
-}
-.category-table .inside-table table tbody tr td:nth-child(1),
-.category-table .inside-table table tbody tr td:nth-child(2),
-.category-table .inside-table table tbody tr td:nth-child(3),
-.category-table .inside-table table tbody tr td:nth-child(4){
-    text-align: center;
 }
 .view-btn{
     position: relative;

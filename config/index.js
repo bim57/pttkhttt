@@ -1,4 +1,5 @@
-const mysql = require('mysql2');
+// const mysql = require('mysql2');
+import mysql from 'mysql2';
 
 // cài đặt kết nối mysql 
 const pool = mysql.createPool({
@@ -8,4 +9,5 @@ const pool = mysql.createPool({
     database: "cua_hang_sach",
 });
 
-module.exports = pool.promise();
+// module.exports = pool.promise();
+export default pool.promise();

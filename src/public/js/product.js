@@ -1,3 +1,4 @@
+// tải ảnh trang create product
 document.getElementById("imageUpload").addEventListener("change", function(event) {
     let preview = document.getElementById("imagePreview");
     let hiddenInput = document.getElementById("imageBase64"); // Input ẩn
@@ -40,4 +41,9 @@ document.getElementById("imageUpload").addEventListener("change", function(event
         document.getElementById("imageBase64").value = "[]"; // Reset input ẩn
         document.getElementById("clearAllImages").style.display = "none"; // Ẩn nút sau khi xóa hết ảnh
     });
+});
+
+document.getElementById("clearImages").addEventListener("click", function () {
+    document.getElementById("imagePreview").innerHTML = ""; // Xóa giao diện ảnh
+    document.getElementById("imageBase64").value = "[]"; // Reset input ẩn
 });

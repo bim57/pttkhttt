@@ -1,4 +1,5 @@
-const categoryConfig = require('../config/db/category');
+// const categoryConfig = require('../config/db/category');
+import categoryConfig from '../config/db/category.js';
 
 class CategoryController{
     // show all category
@@ -48,8 +49,8 @@ class CategoryController{
     // get data from create form and add new category
     async store(req, res){
         try {
-            const {id, name} = req.body;
-            const category = await categoryConfig.insert(id, name);
+            const {name} = req.body;
+            await categoryConfig.insert(name);
             res.redirect('/category');
         } catch (error) {
             console.log(error);
@@ -71,7 +72,7 @@ class CategoryController{
     async edit(req, res){
         try {
             const {id, name} = req.body;
-            const category = await categoryConfig.update(id, name);
+            await categoryConfig.update(id, name);
             res.redirect('/category');
         } catch (error) {
             console.log(error);
@@ -81,7 +82,7 @@ class CategoryController{
     // delete data
     async delete(req, res){
         try {
-            const del_category = await categoryConfig.delete(req.params.id);
+            await categoryConfig.delete(req.params.id);
             res.redirect('/category');
         } catch (error) {
             console.log(error);
@@ -89,4 +90,5 @@ class CategoryController{
     }
 }
 
-module.exports = new CategoryController();
+// module.exports = new CategoryController();
+export default new CategoryController();
