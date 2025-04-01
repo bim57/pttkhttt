@@ -91,8 +91,6 @@ class Product{
         const base64Images = rows.map(row => {
             let base64String = row.Anh.toString(); // Chuyển Buffer hoặc string thành chuỗi
 
-            console.log("Chuỗi Base64 gốc:", base64String.slice(0, 50)); // Debug
-
             let format = "jpeg"; // Mặc định là JPEG nếu không tìm thấy
 
             // Kiểm tra xem chuỗi có tiền tố "data:image/...;base64,"

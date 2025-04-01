@@ -59,9 +59,15 @@ class Category {
 
     // xoá danh mục 
     async delete(id){
-        const query = "DELETE FROM danhmuc WHERE DanhMucID = ?";
-        const [rows] = await pool.execute(query, [id]);
-        return rows;
+        // Xóa sp_dm
+        await pool.execute(
+            `DELETE FROM sp_dm WHERE SanPhamID = ?`, [id]
+        );
+
+        // Xóa danh mục
+        await pool.execute(
+            `DELETE FROM danhmuc WHERE DanhMucID = ?`, [id]
+        );
     }
 }
 

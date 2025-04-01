@@ -26,19 +26,19 @@ class Receipt{
     }
 
     // thêm hóa đơn
-    async insert(){
+    // async insert(){
        
-    }
+    // }
 
     // sửa hóa đơn
-    async update(){
+    // async update(){
         
-    }
+    // }
 
     // xoá hóa đơn
-    async delete(){
+    // async delete(){
         
-    }
+    // }
 }
 
 // module.exports = new Receipt();

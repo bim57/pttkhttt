@@ -42,9 +42,10 @@ class Provider{
 
     // xoá ncc
     async delete(id){
-        const query = "DELETE FROM ncc WHERE ID_NCC = ?";
-        const [rows] = await pool.execute(query, [id]);
-        return rows;
+        // xoá ncc trong 
+
+        // xoá ncc
+        await pool.execute(`DELETE FROM ncc WHERE ID_NCC = ?`, [id]);
     }
 }
 
