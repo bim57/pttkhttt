@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  width: 220px;
+  height: 100%;
+  background-color: #003147;
+  transition: all 0.5s;
+  overflow: hidden;
+  /* z-index: 100; */
+}
+
+/* .sidebar.active {
+  width: 60px;
+} */
+
+.sidebar ul {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.sidebar li {
+  width: 100%;
+  list-style: none;
+}
+
+.sidebar li.active {
+  background-color: #033b54;
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+  color: white;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  background-color: #033b54;
+}
+
+.sidebar a span:first-child {
+  margin-right: 1rem;
+}
+
+.sidebar a span:first-child i {
+  font-size: 1.5rem; /* Larger icons */
+}
+
+.sidebar h1 {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 220px;
+  flex: 1;
+}
+
+.main.active {
+  width: calc(100% - 60px);
+  left: 60px;
+}
+/* Order content should fill available space */
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.8rem;
+  background-color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-toggle {
+  cursor: pointer;
+}
+
+.navbar-toggle i {
+  font-size: 1.25rem;
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  padding: 0.3rem;
+  padding-left: 2.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+}
+
+.search-box input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 49, 71, 0.2);
+}
+
+.search-box i {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #353738;
+}
+
+.user-profile img {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+}

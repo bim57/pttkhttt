@@ -1,0 +1,216 @@
+<div class="container">
+  <!-- side bar -->
+  <div class="sidebar">
+    <ul>
+      <li>
+        <a href="#">
+          <span></span>
+          <span><h1>BOOK STORE</h1></span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span><i class="fas fa-home"></i></span>
+          <span>Tổng Quan</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span><i class="fas fa-gifts"></i></span>
+          <span>Sản Phẩm</span>
+        </a>
+      </li>
+      <li class="active">
+        <a href="/orders/show">
+          <span><i class="fas fa-shopping-cart"></i></span>
+          <span>Đơn Hàng</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span><i class="fas fa-chart-bar"></i></span>
+          <span>Thống Kê</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span><i class="fas fa-sign-out-alt"></i></span>
+          <span>Đăng Xuất</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <!-- nav bar -->
+    <div class="navbar">
+      <div class="navbar-toggle">
+        {{! <i class="fas fa-bars"></i> }}
+      </div>
+      <div class="search-box">
+        <label>
+          <input type="text" placeholder="Tìm Kiếm" />
+          <i class="fas fa-search"></i>
+        </label>
+      </div>
+      <div class="user-profile">
+        <a href="#"><img src="/user.jpg" /></a>
+      </div>
+    </div>
+
+    <!-- Nội dung quản lý đơn hàng -->
+    <div class="order-content">
+      <div class="order-header">
+        <h2 class="order-title">Đơn Hàng</h2>
+        <div class="order-filters">
+          <form class="filter-form">
+            <div class="filter-group">
+              <input type="text" name="id" placeholder="Mã đơn hàng" value="{{query.id}}" />
+            </div>
+            <div class="filter-group">
+              <select name="status">
+                <option value="" {{#unless query.status}}selected{{/unless}}>Trạng thái đơn hàng</option>
+                <option value="pending" {{#if (eq query.status "pending")}}selected{{/if}}>Chờ xác nhận</option>
+                <option value="processing" {{#if (eq query.status "processing")}}selected{{/if}}>Chờ lấy hàng</option>
+                <option value="shipping" {{#if (eq query.status "shipping")}}selected{{/if}}>Đang giao hàng</option>
+                <option value="completed" {{#if (eq query.status "completed")}}selected{{/if}}>Đã giao</option>
+                <option value="cancelled" {{#if (eq query.status "cancelled")}}selected{{/if}}>Đã hủy</option>
+                <option value="returned" {{#if (eq query.status "returned")}}selected{{/if}}>Trả hàng</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <select name="paymentMethod">
+                <option value="" {{#unless query.paymentMethod}}selected{{/unless}}>Tất cả PTTT</option>
+                <option value="cod" {{#if (eq query.paymentMethod "cod")}}selected{{/if}}>Tiền mặt</option>
+                <option value="bank" {{#if (eq query.paymentMethod "bank")}}selected{{/if}}>Chuyển khoản</option>
+                <option value="credit" {{#if (eq query.paymentMethod "credit")}}selected{{/if}}>Credit card</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <select name="paymentStatus">
+                <option value="" {{#unless query.paymentStatus}}selected{{/unless}}>Tình trạng thanh toán</option>
+                <option value="paid" {{#if (eq query.paymentStatus "paid")}}selected{{/if}}>Đã thanh toán</option>
+                <option value="unpaid" {{#if (eq query.paymentStatus "unpaid")}}selected{{/if}}>Chưa thanh toán</option>
+                <option value="refunded" {{#if (eq query.paymentStatus "refunded")}}selected{{/if}}>Đã hoàn tiền</option>
+                <option value="not_refunded" {{#if (eq query.paymentStatus "not_refunded")}}selected{{/if}}>Chưa hoàn tiền</option>
+              </select>
+            </div>
+            <div class="filter-group">
+              <input
+                type="text"
+                name="fromDate"
+                id="fromDate"
+                onfocus="(this.type='date')"
+                onblur="if(!this.value) this.type='text'"
+                placeholder="Từ ngày"
+                value="{{query.fromDate}}"
+              />
+            </div>
+            <div class="filter-group">
+              <input
+                type="text"
+                name="toDate"
+                onfocus="(this.type='date')"
+                onblur="if(!this.value) this.type='text'"
+                id="toDate"
+                placeholder="Đến ngày"
+                value="{{query.toDate}}"
+              />
+            </div>
+
+            <div class="form-buttons-container">
+              <button class="filter-button" type="submit">
+                <i class="fas fa-filter"></i>
+                Lọc
+              </button>
+              <button class="export-button" type="button">
+                <i class="fas fa-file-export"></i>
+                Xuất File
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Bảng đơn hàng -->
+      <div class="order-table-container">
+        <table class="order-table">
+          <thead>
+            <tr>
+              <th style="width: 40px;" class="checkbox-cell">
+                <input
+                  type="checkbox"
+                  id="select-all-checkbox"
+                  class="checkbox-custom"
+                />
+              </th>
+              <th>Mã đơn hàng</th>
+              <th>Khách hàng</th>
+              <th>Ngày đặt</th>
+              <th>Tổng tiền</th>
+              <th>Trạng thái đơn hàng</th>
+              <th>Phương Thức Thanh Toán</th>
+              <th>Tình Trạng Thanh Toán</th>
+              <th class="text-center" style="width: 120px;">Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each orders}}
+              <tr data-id="{{this.IDHoaDonXuat}}">
+                <td class="checkbox-cell">
+                  <input
+                    type="checkbox"
+                    class="order-checkbox checkbox-custom"
+                    data-id="{{this.IDHoaDonXuat}}"
+                  />
+                </td>
+                <td class="order-id">
+                  <a
+                    href="/orders/{{this.IDHoaDonXuat}}"
+                  >#{{this.IDHoaDonXuat}}</a>
+                </td>
+                <td>{{this.TenKH}}</td>
+                <td>{{formatCurrentDate this.NgayXuat}}</td>
+                <td>{{formatCurrency this.TongTien}}</td>
+                <td>
+                  <span class="status-badge {{statusClass this.TinhTrangDon}}">
+                    {{this.TinhTrangDon}}
+                  </span>
+                </td>
+                <td>{{this.PhuongThucThanhToan}}</td>
+                <td>
+                  <span
+                    class="status-badge {{statusClass this.TinhTrangThanhToan}}"
+                  >
+                    {{this.TinhTrangThanhToan}}
+                  </span>
+                </td>
+                <td class="action-buttons">
+                  <button class="edit-button">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="delete-button">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Phân trang -->
+      {{! <div class="pagination">
+        <button class="page-button">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="page-button active">1</button>
+        <button class="page-button">2</button>
+        <button class="page-button">3</button>
+        <button class="page-button">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div> }}
+    </div>
+  </div>
+</div>

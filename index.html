@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/css/output.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="flex w-full relative">
+      <!-- Side bar -->
+      <div class="sidebar">
+        <ul>
+          <li>
+            <a href="#">
+              <span class="min-w-12"></span>
+              <span><h1>BOOK STORE</h1></span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="mr-4"><i class="fas fa-home"></i></span>
+              <span>Tổng Quan</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="mr-4"><i class="fas fa-gifts"></i></span>
+              <span>Sản Phẩm</span>
+            </a>
+          </li>
+          <li class="active">
+            <a href="/orders/show">
+              <span class="mr-4"><i class="fas fa-shopping-cart"></i></span>
+              <span>Đơn Hàng</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="mr-4"><i class="fas fa-chart-bar"></i></span>
+              <span>Thống Kê</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span class="mr-4"><i class="fas fa-sign-out-alt"></i></span>
+              <span>Đăng Xuất</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="main-content">
+        <!-- Nav bar -->
+        <div class="navbar">
+          <div class="cursor-pointer">
+            <i class="fas fa-bars"></i>
+          </div>
+          <div class="search">
+            <label>
+              <input type="text" placeholder="Tìm Kiếm" />
+              <i class="fas fa-search"></i>
+            </label>
+          </div>
+          <div class="user">
+            <a href="#"><img src="/user.jpg" /></a>
+          </div>
+        </div>
+
+        <!-- Nội dung quản lý đơn hàng -->
+        <div class="content">
+          <div class="flex justify-between items-center mb-5">
+            <h2>Quản Lý Đơn Hàng</h2>
+            <div class="filter">
+              <select>
+                <option value="">Tất cả trạng thái</option>
+                <option value="pending">Chờ xác nhận</option>
+                <option value="processing">Đang xử lý</option>
+                <option value="shipping">Đang giao hàng</option>
+                <option value="completed">Đã hoàn thành</option>
+                <option value="cancelled">Đã hủy</option>
+              </select>
+              <input type="date" />
+              <button>
+                <i class="fas fa-filter"></i>
+                Lọc
+              </button>
+            </div>
+          </div>
+
+          <!-- Bảng đơn hàng -->
+          <div>
+            <table class="order-table">
+              <thead>
+                <tr>
+                  <th>Mã đơn hàng</th>
+                  <th>Khách hàng</th>
+                  <th>Ngày đặt</th>
+                  <th>Tổng tiền</th>
+                  <th>Trạng thái đơn hàng</th>
+                  <th>Phương Thức Thanh Toán</th>
+                  <th>Tình Trạng Thanh Toán</th>
+                  <th class="text-center w-32">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><a href="/orders/ORD001">#ORD001</a></td>
+                  <td>Nguyễn Văn A</td>
+                  <td>20/03/2025</td>
+                  <td>320.000₫</td>
+                  <td><span class="status pending">Chờ xác nhận</span></td>
+                  <td>Thẻ tín dụng</td>
+                  <td>
+                    <span class="payment-status unpaid">Chưa thanh toán</span>
+                  </td>
+                  <td class="text-center actions">
+                    <button class="edit"><i class="fas fa-edit"></i></button>
+                    <button class="delete"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="/orders/ORD002">#ORD002</a></td>
+                  <td>Trần Thị B</td>
+                  <td>19/03/2025</td>
+                  <td>450.000₫</td>
+                  <td><span class="status processing">Đang xử lý</span></td>
+                  <td>Chuyển khoản</td>
+                  <td>
+                    <span class="payment-status paid">Đã thanh toán</span>
+                  </td>
+                  <td class="text-center actions">
+                    <button class="edit"><i class="fas fa-edit"></i></button>
+                    <button class="delete"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="/orders/ORD003">#ORD003</a></td>
+                  <td>Lê Văn C</td>
+                  <td>18/03/2025</td>
+                  <td>275.000₫</td>
+                  <td><span class="status completed">Đã hoàn thành</span></td>
+                  <td>Tiền mặt</td>
+                  <td>
+                    <span class="payment-status paid">Đã thanh toán</span>
+                  </td>
+                  <td class="text-center actions">
+                    <button class="edit"><i class="fas fa-edit"></i></button>
+                    <button class="delete"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="/orders/ORD004">#ORD004</a></td>
+                  <td>Phạm Thị D</td>
+                  <td>17/03/2025</td>
+                  <td>560.000₫</td>
+                  <td><span class="status shipping">Đang giao hàng</span></td>
+                  <td>Thẻ tín dụng</td>
+                  <td>
+                    <span class="payment-status unpaid">Chưa thanh toán</span>
+                  </td>
+                  <td class="text-center actions">
+                    <button class="edit"><i class="fas fa-edit"></i></button>
+                    <button class="delete"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><a href="/orders/ORD005">#ORD005</a></td>
+                  <td>Hoàng Văn E</td>
+                  <td>16/03/2025</td>
+                  <td>180.000₫</td>
+                  <td><span class="status cancelled">Đã hủy</span></td>
+                  <td>Tiền mặt</td>
+                  <td>
+                    <span class="payment-status unpaid">Chưa thanh toán</span>
+                  </td>
+                  <td class="text-center actions">
+                    <button class="edit"><i class="fas fa-edit"></i></button>
+                    <button class="delete"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Phân trang -->
+          <div class="pagination">
+            <button><i class="fas fa-chevron-left"></i></button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
