@@ -67,4 +67,43 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+
+  const exportBtn = document.querySelector(".export-button");
+  // if (exportBtn) {
+  //   exportBtn.addEventListener('click', (event)=>{
+  //     event.preventDefault()
+  //     const selectedOrders = [...orderCheckboxes]
+  //       .filter((checkbox) => checkbox.checked)
+  //       .map((checkbox) => checkbox.value);
+  //     if (selectedOrders.length === 0) {
+  //       alert("Vui lòng chọn ít nhất một đơn hàng để xuất.");
+  //       return;
+  //     }
+  //     const form = document.createElement("form");
+  //     form.method = "POST";
+  //     form.action = "/orders/export-pdf";
+  //     form.style.display = "none";
+  //     selectedOrders.forEach((orderId) => {
+  //       const input = document.createElement("input");
+  //       input.type = "hidden";
+  //       input.name = "orderIds[]"; // Use array notation to send multiple values
+  //       input.value = orderId;
+  //       form.appendChild(input);
+  //     });
+  //     document.body.appendChild(form);
+  //     form.submit();
+  //     document.body.removeChild(form);
+  //   });
+  // }
+
+  if (exportBtn) {
+    exportBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      const queryParams = new URLSearchParams(window.location.search);
+      console.log(queryParams.toString());
+
+      window.location.href = `/orders/export-excel?${queryParams.toString()}`;
+    });
+  }
 });

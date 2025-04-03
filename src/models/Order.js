@@ -43,12 +43,11 @@ export class Order extends BaseModel {
    */
   async findAll(body = {}) {
     try {
-      let sql =
-        "SELECT hdx.IDHoaDonXuat, kh.TenKH, hdx.NgayXuat, hdx.TongTien, hdx.PhuongThucThanhToan,\
-                gh.TinhTrangDon, hdx.TinhTrangThanhToan \
-        FROM hoadonxuat hdx \
-        JOIN khachhang kh ON hdx.ID_KH = kh.ID_KH \
-        JOIN giaohang gh ON hdx.IDHoaDonXuat = gh.ID_HDX";
+      let sql = `
+         SELECT hdx.IDHoaDonXuat, dckh.TenNguoiNhan, dckh.SoDienThoai, dckh.SoNhaDuong, dckh.QuanHuyen, dckh.TinhThanhPho, hdx.NgayXuat, hdx.TongTien, hdx.PhuongThucThanhToan, gh.TinhTrangDon, hdx.TinhTrangThanhToan
+         FROM hoadonxuat hdx
+         JOIN giaohang gh ON hdx.IDHoaDonXuat = gh.ID_HDX
+         JOIN diachi_kh dckh ON dckh.ID_DCKH = gh.IDDiaChi`;
 
       let conditions = [];
       let params = [];

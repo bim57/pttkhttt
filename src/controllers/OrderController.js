@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import { generateOrdersExcel } from "../services/excelService.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -121,22 +122,6 @@ class OrderController {
     }
   }
 
-  async saveOrder(req, res, next) {
-    const orderId = req.params.id;
-    const orderModel = new Order();
-    const orderDetails = await orderModel._findById(orderId);
-    if (!orderDetails) {
-      return res.status(404).json({
-        success: false,
-        message: "Đơn hàng không tồn tại",
-      });
-    }
-    res.render("orders/orderDetail", {
-      title: "Order test",
-      orderDetails,
-    });
-  }
-
   async exportOrderPdf(req, res, next) {
     try {
       console.log("Exporting PDF...");
@@ -194,6 +179,55 @@ class OrderController {
       res.status(500).json({
         success: false,
         message: "Lỗi khi xuất PDF",
+      });
+    }
+  }
+
+  async exportOrdersExcel(req, res, next) {
+    try {
+      const query = req.query;
+      const orderModel = new Order();
+      const orders = await orderModel.findAll(query);
+      if (!orders) {
+        return res.status(404).json({
+          success: false,
+          message: "Không tìm thấy đơn hàng",
+        });
+      }
+
+      const result = await generateOrdersExcel(orders);
+
+      if (!result.success || !result.fileName) {
+        return res.status(500).json({
+          success: false,
+          message: "Lỗi khi tạo Excel",
+        });
+      }
+
+      res.setHeader(
+        "Content-Type",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      );
+      // Fix: Corrected the Content-Disposition header format
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename=${result.fileName}`
+      );
+
+      const filePath = path.join(
+        __dirname,
+        "..",
+        "public",
+        "exports",
+        result.fileName
+      );
+      const fileStream = fs.createReadStream(filePath);
+      fileStream.pipe(res);
+    } catch (error) {
+      console.error("Error exporting Excel:", error);
+      res.status(500).json({
+        success: false,
+        message: "Lỗi khi xuất Excel",
       });
     }
   }

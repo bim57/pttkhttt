@@ -4,6 +4,7 @@ import orderController from "../controllers/OrderController.js";
 const router = express.Router();
 
 router.get("/show", orderController.show);
+router.get("/export-excel", orderController.exportOrdersExcel);
 router.get("/:id/exportPdf", orderController.exportOrderPdf);
 router.post("/:id/confirm", orderController.updateStatus);
 router.post("/:id/cancel", orderController.updateStatus);
