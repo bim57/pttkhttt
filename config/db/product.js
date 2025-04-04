@@ -18,7 +18,8 @@ class Product{
         LEFT JOIN nxb ON sanpham.ID_NXB = nxb.ID_NXB
         LEFT JOIN sp_tg ON sanpham.SanPhamID = sp_tg.SanPhamID
         LEFT JOIN anhsp ON sanpham.SanPhamID = anhsp.ID_SP AND anhsp.STT = 1
-        LEFT JOIN tacgia ON sp_tg.IDTacGia = tacgia.IDTacGia`;
+        LEFT JOIN tacgia ON sp_tg.IDTacGia = tacgia.IDTacGia
+        WHERE sanpham.tinhTrang = 1`;
         const [rows] = await pool.execute(query);
         return rows;
     }
@@ -32,7 +33,8 @@ class Product{
         LEFT JOIN sp_tg ON sanpham.SanPhamID = sp_tg.SanPhamID
         LEFT JOIN anhsp ON sanpham.SanPhamID = anhsp.ID_SP AND anhsp.STT = 1
         LEFT JOIN tacgia ON sp_tg.IDTacGia = tacgia.IDTacGia
-        WHERE sanpham.SanPhamID = ?`; 
+        WHERE sanpham.SanPhamID = ?
+        AND sanpham.tinhTrang = 1`; 
         const [rows] = await pool.execute(query, [id]);
         return rows;
     }
@@ -41,10 +43,11 @@ class Product{
     async getCategory_by_name(id){
         const query = 
         `SELECT danhmuc.TenDanhMuc
-        FROM sp_dm 
+        FROM sp_dm
         LEFT JOIN sanpham ON sanpham.SanPhamID = sp_dm.SanPhamID
         LEFT JOIN danhmuc ON danhmuc.DanhMucID = sp_dm.DanhMucID
-        where sanpham.SanPhamID = ?`; 
+        where sanpham.SanPhamID = ?
+        AND danhmuc.tinhTrang = 1`;
         const [rows] = await pool.execute(query, [id]);
         return rows;
     }
@@ -56,7 +59,8 @@ class Product{
         FROM sp_dm 
         LEFT JOIN sanpham ON sanpham.SanPhamID = sp_dm.SanPhamID
         LEFT JOIN danhmuc ON danhmuc.DanhMucID = sp_dm.DanhMucID
-        where sanpham.SanPhamID = ?`; 
+        where sanpham.SanPhamID = ?
+        AND danhmuc.tinhTrang = 1`; 
         const [rows] = await pool.execute(query, [id]);
         return rows;
     }
@@ -159,12 +163,10 @@ class Product{
         );
 
         // Thêm danh mục
-        if (Array.isArray(category)) {
-            for (let cateID of category) {
-                await pool.execute(
-                    `INSERT INTO sp_dm (SanPhamID, DanhMucID) VALUES (?, ?)`, [id, cateID]
-                );
-            }
+        for (let cateID of category) {
+            await pool.execute(
+                `INSERT INTO sp_dm (SanPhamID, DanhMucID) VALUES (?, ?)`, [id, cateID]
+            );
         }
 
         // Lưu ảnh vào database
@@ -244,12 +246,10 @@ class Product{
         );
 
         // Thêm danh mục mới của sp
-        if (Array.isArray(category)) {
-            for (let cateID of category) {
-                await pool.execute(
-                    `INSERT INTO sp_dm (SanPhamID, DanhMucID) VALUES (?, ?)`, [id, cateID]
-                );
-            }
+        for (let cateID of category) {
+            await pool.execute(
+                `INSERT INTO sp_dm (SanPhamID, DanhMucID) VALUES (?, ?)`, [id, cateID]
+            );
         }
 
         // Xóa ảnh cũ của sp
@@ -275,24 +275,11 @@ class Product{
 
     // Xóa sp
     async delete(id){
-        // Xóa ảnh sp
-        await pool.execute(
-            `DELETE FROM anhsp WHERE ID_SP = ?`, [id]
-        );
-
-        // Xóa sp_dm
-        await pool.execute(
-            `DELETE FROM sp_dm WHERE SanPhamID = ?`, [id]
-        );
-
-        // Xóa sp_tg
-        await pool.execute(
-            `DELETE FROM sp_tg WHERE SanPhamID = ?`, [id]
-        );
-
         // Xóa sản phẩm
         await pool.execute(
-            `DELETE FROM sanpham WHERE SanPhamID = ?`, [id]
+            `UPDATE sanpham
+            SET tinhTrang = 0
+            WHERE SanPhamID = ?`, [id]
         );
     }
 }

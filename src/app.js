@@ -29,7 +29,11 @@ app.engine("hbs", exphbs.engine({
 
         formatCurrency: (value) => {
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
-        },        
+        },
+        
+        add: (a, b) => { 
+            return Number(a) + Number(b);
+        },
 
         isChecked: function (categoryId, checkedCategories) {
             if (!Array.isArray(checkedCategories)) return "";

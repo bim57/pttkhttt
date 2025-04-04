@@ -4,14 +4,19 @@ import pool from '../index.js';
 class Category {
     // Xem tất cả danh mục
     async getAll() {
-        const query = "SELECT * FROM danhmuc";
+        const query = 
+        `SELECT * FROM danhmuc 
+        WHERE tinhTrang = 1`;
         const [rows] = await pool.execute(query);
         return rows;
     }
 
     // search danh mục
     async search(id) {
-        const query = "SELECT * FROM danhmuc WHERE DanhMucID = ?";
+        const query = 
+        `SELECT * FROM danhmuc 
+        WHERE DanhMucID = ?
+        AND tinhTrang = 1`;
         const [rows] = await pool.execute(query, [id]);
         return rows;
     }
@@ -19,10 +24,10 @@ class Category {
     // Xem các sản phẩm có trong danh mục
     async viewProduct(id){
         const query = 
-        `SELECT danhmuc.DanhMucID, TenDanhMuc, sanpham.SanPhamID, TenSanPham, tacgia.TenTacGia, nxb.TenNXB, anhsp.Anh, Gia, SoLuongTon, SoTrang, MoTa
+        `SELECT sanpham.SanPhamID, TenSanPham, tacgia.TenTacGia, nxb.TenNXB, anhsp.Anh, Gia, SoLuongTon, SoTrang, MoTa
         FROM danhmuc 
         LEFT JOIN sp_dm ON sp_dm.DanhMucID = danhmuc.DanhMucID
-        LEFT JOIN sanpham ON sanpham.SanPhamID = sp_dm.SanPhamID
+        LEFT JOIN sanpham ON sanpham.SanPhamID = sp_dm.SanPhamID AND sanpham.tinhTrang = 1
         LEFT JOIN nxb ON sanpham.ID_NXB = nxb.ID_NXB
         LEFT JOIN sp_tg ON sanpham.SanPhamID = sp_tg.SanPhamID
         LEFT JOIN anhsp ON sanpham.SanPhamID = anhsp.ID_SP AND anhsp.STT = 1
@@ -34,7 +39,11 @@ class Category {
 
     // Hiển thị header của danh mục trong chi tiết danh mục
     async detailHeader(id) {
-        const query = "SELECT TenDanhMuc FROM danhmuc WHERE DanhMucID = ?";
+        const query = 
+        `SELECT TenDanhMuc 
+        FROM danhmuc 
+        WHERE DanhMucID = ?
+        AND tinhTrang = 1`;
         const [rows] = await pool.execute(query, [id]);
         return rows;
     }
@@ -43,8 +52,7 @@ class Category {
     async insert(name){
         const query = 
         `INSERT INTO danhmuc (TenDanhMuc) VALUES (?)`;
-        const [rows] = await pool.execute(query, [name]);
-        return rows;
+        await pool.execute(query, [name]);
     }
 
     // sửa danh mục
@@ -53,20 +61,15 @@ class Category {
         `UPDATE danhmuc  
         SET TenDanhMuc = ?
         WHERE DanhMucID = ?;`;
-        const [rows] = await pool.execute(query, [name, id]);
-        return rows;
+        await pool.execute(query, [name, id]);
     }
 
     // xoá danh mục 
     async delete(id){
-        // Xóa sp_dm
         await pool.execute(
-            `DELETE FROM sp_dm WHERE SanPhamID = ?`, [id]
-        );
-
-        // Xóa danh mục
-        await pool.execute(
-            `DELETE FROM danhmuc WHERE DanhMucID = ?`, [id]
+            `UPDATE danhmuc  
+            SET tinhTrang = 0
+            WHERE DanhMucID = ?;`, [id]
         );
     }
 }

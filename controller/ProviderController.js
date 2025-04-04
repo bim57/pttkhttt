@@ -68,7 +68,7 @@ class ProviderController{
     // delete provider
     async delete(req, res){
         try {
-            const del_provider = await providerConfig.delete(req.params.id);
+            await providerConfig.delete(req.params.id);
             res.redirect('/provider');
         } catch (error) {
             console.log(error);

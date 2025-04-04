@@ -27,7 +27,13 @@ class ReceiptController{
     async view(req, res){
         try {
             const {id} = req.params;
-            res.render('view_receipt', {id});
+            const receipt_info = (await receiptConfig.view(id))[0];
+            const product_detail = await receiptConfig.view_product_in_receipt(id);
+            res.render('view_receipt', {
+                id,
+                receipt_info,
+                product_detail
+            });
         } catch (error) {
             console.log(error);
         }
@@ -36,47 +42,47 @@ class ReceiptController{
     // create new receipt form
     async create(req, res){
         try {
-            res.json('Thêm hóa đơn');
+            res.render('create_receipt');
         } catch (error) {
             console.log(error);
         }
     }
 
-    // get data from create form and create new receipt
-    async store(req, res){
-        try {
+    // // get data from create form and create new receipt
+    // async store(req, res){
+    //     try {
             
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
-    // update data form
-    async update(req, res){
-        try {
+    // // update data form
+    // async update(req, res){
+    //     try {
             
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
-    // get data from update and edit receipt
-    async edit(req, res){
-        try {
+    // // get data from update and edit receipt
+    // async edit(req, res){
+    //     try {
             
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
-    // delete receipt
-    async delete(req, res){
-        try {
+    // // delete receipt
+    // async delete(req, res){
+    //     try {
             
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 }
 
 // module.exports = new ReceiptController();

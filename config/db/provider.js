@@ -4,14 +4,19 @@ import pool from '../index.js';
 class Provider{
     // Xem tất cả thông tin ncc
     async getAll(){
-        const query = "SELECT * FROM ncc";
+        const query = 
+        `SELECT * FROM ncc
+        WHERE tinhTrang = 1`;
         const [rows] = await pool.execute(query);
         return rows;
     }
 
     // search ncc
     async search(id){
-        const query = "SELECT * FROM ncc where ID_NCC = ?";
+        const query = 
+        `SELECT * FROM ncc 
+        WHERE ID_NCC = ?
+        AND tinhTrang = 1`;
         const [rows] = await pool.execute(query, [id]);
         return rows;
     }
@@ -42,10 +47,12 @@ class Provider{
 
     // xoá ncc
     async delete(id){
-        // xoá ncc trong 
-
         // xoá ncc
-        await pool.execute(`DELETE FROM ncc WHERE ID_NCC = ?`, [id]);
+        await pool.execute(
+            `UPDATE ncc 
+            SET tinhTrang = 0
+            WHERE ID_NCC = ?`, [id]
+        );
     }
 }
 

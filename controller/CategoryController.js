@@ -26,7 +26,11 @@ class CategoryController{
     async view(req, res){
         try {
             const {id} = req.params;
-            const category_detail = await categoryConfig.viewProduct(id);
+            let category_detail = await categoryConfig.viewProduct(id);
+            // Hàm kiểm tra xem tất cả giá trị trong object có phải là null không
+            const isAllNull = obj => Object.values(obj).every(value => value === null);
+            // Lọc bỏ những object có tất cả giá trị là null
+            category_detail = category_detail.filter(sp => !isAllNull(sp));
             const detail_header = (await categoryConfig.detailHeader(id))[0];
             res.render('view_category', {
                 detail_header,
