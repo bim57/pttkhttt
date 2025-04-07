@@ -9,17 +9,17 @@
 <div class="cardBox">
     <div class="card">
         <div>
-            <div class="numbers">12.643</div>
-            <div class="cardName">Lượt Truy Cập</div>
+            <div class="numbers">{{sum_product.SLsanpham}}</div>
+            <div class="cardName">Sản Phẩm</div>
         </div>
         <div class="iconBox">
-            <i class="fas fa-eye"></i>
+            <i class="fas fa-gifts"></i>
         </div>
     </div>
     <div class="card">
         <div>
-            <div class="numbers">689</div>
-            <div class="cardName">Khách Hàng</div>
+            <div class="numbers">{{sum_provider.SLncc}}</div>
+            <div class="cardName">Nhà Cung Cấp</div>
         </div>
         <div class="iconBox">
             <i class="fas fa-user"></i>
@@ -27,8 +27,8 @@
     </div>
     <div class="card">
         <div>
-            <div class="numbers">875</div>
-            <div class="cardName">Đơn Đặt Hàng</div>
+            <div class="numbers">{{sum_receipt.SLhoadon}}</div>
+            <div class="cardName">Đơn Nhập Hàng</div>
         </div>
         <div class="iconBox">
             <i class="fas fa-shopping-cart"></i>
@@ -36,8 +36,8 @@
     </div>
     <div class="card">
         <div>
-            <div class="numbers">390.075.000</div>
-            <div class="cardName">Doanh Thu</div>
+            <div class="numbers">{{formatCurrency sum_paid_money.TongHoaDon}}</div>
+            <div class="cardName">Số Tiền Đã Nhập</div>
         </div>
         <div class="iconBox">
             <i class="fas fa-dollar-sign"></i>
@@ -48,8 +48,8 @@
 <div class="details">
     <div class="recentOrders">
         <div class="cardHeader">
-            <h2>Đơn Hàng Gần Đây</h2>
-            <a href="./orders.html" class="btn">Xem Tất Cả</a>
+            <h2>Đơn Nhập Hàng Gần Đây</h2>
+            <a href="/receipt" class="btn">Xem Tất Cả</a>
         </div>
         <table>
             <thead>
@@ -60,92 +60,28 @@
                 </tr>
             </thead>
             <tbody>
+                {{#each receipt_recently}}
                 <tr>
-                    <td>912873</td>
-                    <td>1.280.000</td>
-                    <td><span class="status delivered">Thành công</span></td>
+                    <td>{{this.IDHoaDonNhap}}</td>
+                    <td>{{formatCurrency this.TongTien}}</td>
+                    <td><span class="status delivered">{{this.TinhTrangThanhToan}}</span></td>
                 </tr>
-                <tr>
-                    <td>882948</td>
-                    <td>1.000.000</td>
-                    <td><span class="status pending">Chưa xử lý</span></td>
-                </tr>
-                <tr>
-                    <td>234738</td>
-                    <td>450.000</td>
-                    <td><span class="status return">Đã hủy</span></td>
-                </tr>
-                <tr>
-                    <td>723791</td>
-                    <td>600.000</td>
-                    <td><span class="status inprogress">Đang giao hàng</span></td>
-                </tr>
-                <tr>
-                    <td>123929</td>
-                    <td>200.000</td>
-                    <td><span class="status delivered">Thành công</span></td>
-                </tr>
-                <tr>
-                    <td>643823</td>
-                    <td>500.000</td>
-                    <td><span class="status pending">Chưa xử lý</span></td>
-                </tr>
-                <tr>
-                    <td>239493</td>
-                    <td>350.000</td>
-                    <td><span class="status return">Đã hủy</span></td>
-                </tr>
-                <tr>
-                    <td>873827</td>
-                    <td>700.000</td>
-                    <td><span class="status inprogress">Đang giao hàng</span></td>
-                </tr>
-                <tr>
-                    <td>299310</td>
-                    <td>300.000</td>
-                    <td><span class="status delivered">Thành công</span></td>
-                </tr>
+                {{/each}}
             </tbody>
         </table>
     </div>
     <div class="recentCustomers">
         <div class="cardHeader">
-            <h2>Khách Hàng Gần Đây</h2>
+            <h2>Nhà Cung Cấp Gần Đây</h2>
         </div>
         <table>
             <tbody>
+                {{#each provider_recently}}
                 <tr>
-                    <td width="60px"><div class="imgBx"><img src="./img/logo-an-danh.jpg" alt=""></div></td>
-                    <td><h4>bob_smith</h4></td>
+                    <td width="60px"><div class="imgBx"><img src="/img/logo-an-danh.jpg" alt=""></div></td>
+                    <td><h4>{{this.TenNCC}}</h4></td>
                 </tr>
-                <tr>
-                    <td width="60px"><div class="imgBx"><img src="./img/logo-an-danh.jpg" alt=""></div></td>
-                    <td><h4>david_lee</h4></td>
-                </tr>
-                <tr>
-                    <td width="60px"><div class="imgBx"><img src="./img/logo-an-danh.jpg" alt=""></div></td>
-                    <td><h4>grace_martin</h4></td>
-                </tr>
-                <tr>
-                    <td width="60px"><div class="imgBx"><img src="./img/logo-an-danh.jpg" alt=""></div></td>
-                    <td><h4>alice_wang</h4></td>
-                </tr>
-                <tr>
-                    <td width="60px"><div class="imgBx"><img src="./img/logo-an-danh.jpg" alt=""></div></td>
-                    <td><h4>henry_wilson</h4></td>
-                </tr>
-                <tr>
-                    <td width="60px"><div class="imgBx"><img src="./img/logo-an-danh.jpg" alt=""></div></td>
-                    <td><h4>hello89hihi</h4></td>
-                </tr>
-                <tr>
-                    <td width="60px"><div class="imgBx"><img src="./img/logo-an-danh.jpg" alt=""></div></td>
-                    <td><h4>frank_harris</h4></td>
-                </tr>
-                <tr>
-                    <td width="60px"><div class="imgBx"><img src="./img/logo-an-danh.jpg" alt=""></div></td>
-                    <td><h4>carol_jones</h4></td>
-                </tr>
+                {{/each}}
             </tbody>
         </table>
     </div>
