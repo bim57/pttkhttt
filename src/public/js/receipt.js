@@ -57,6 +57,21 @@ const productInput = document.getElementById("product");
 const suggestions_product = document.getElementById("suggestions_product");
 const productList = document.getElementById("product-list").querySelector("tbody");
 
+function updateEmptyMessage() {
+    const existingMessageRow = productList.querySelector(".empty-row");
+
+    if (productList.children.length === 0) {
+        const row = document.createElement("tr");
+        row.classList.add("empty-row");
+        row.innerHTML = `<td colspan="4" style="text-align:center;">Chưa có sản phẩm nào</td>`;
+        productList.appendChild(row);
+    } else if (existingMessageRow) {
+        existingMessageRow.remove();
+    }
+}
+
+updateEmptyMessage(); // Cập nhật thông báo
+
 productInput.addEventListener("input", async () => {
     const query = productInput.value.trim();
     if (query === '') {
@@ -90,11 +105,15 @@ function addProductToTable(product) {
     row.querySelector(".quantity").addEventListener("input", () => validateNumber(row.querySelector(".quantity")));
     row.querySelector(".price").addEventListener("input", () => validateNumber(row.querySelector(".price")));
 
-    row.querySelector(".remove-btn").addEventListener("click", () => row.remove());
+    row.querySelector(".remove-btn").addEventListener("click", () => {
+        row.remove();
+        updateEmptyMessage(); // cập nhật sau khi xóa
+    });
 
     productList.appendChild(row);
     product.value = "";
     suggestions_product.innerHTML = "";
+    updateEmptyMessage(); // cập nhật sau khi thêm
 }
 
 function validateNumber(input) {
