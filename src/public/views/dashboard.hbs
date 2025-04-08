@@ -64,7 +64,11 @@
                 <tr>
                     <td>{{this.IDHoaDonNhap}}</td>
                     <td>{{formatCurrency this.TongTien}}</td>
-                    <td><span class="status delivered">{{this.TinhTrangThanhToan}}</span></td>
+                    {{#if this.TinhTrangThanhToan}}
+                        <td><span class="status delivered">Đã thanh toán</span></td>
+                    {{else}}
+                        <td><span class="status pending">Chưa thanh toán</span></td>
+                    {{/if}}
                 </tr>
                 {{/each}}
             </tbody>

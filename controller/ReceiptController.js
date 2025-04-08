@@ -1,6 +1,14 @@
 // const receiptConfig = require('../config/db/receipt');
 import receiptConfig from '../config/db/receipt.js';
 
+function normalizeString(str) {
+    return str
+        .normalize("NFD") // Chuyển ký tự có dấu thành dạng tổ hợp (VD: é → e + ´)
+        .replace(/[\u0300-\u036f]/g, "") // Xóa dấu
+        .toLowerCase() // Chuyển về chữ thường
+        .trim(); // Xóa khoảng trắng đầu & cuối
+}
+
 class ReceiptController{
     // show all receipts
     async index(req, res){
@@ -43,6 +51,48 @@ class ReceiptController{
     async create(req, res){
         try {
             res.render('create_receipt');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // select provider (create form)
+    async search_provider(req, res){
+        try {
+            const query = req.query.q?.toLowerCase() || '';
+            let products = await receiptConfig.get_provider();
+            const result = products.filter(product =>
+                normalizeString(product.provider_info).toLowerCase().includes(query)
+            );
+            res.json(result);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // select employee (create form)
+    async search_employee(req, res){
+        try {
+            const query = req.query.q?.toLowerCase() || '';
+            let employees = await receiptConfig.get_employee();
+            const result = employees.filter(employee =>
+                normalizeString(employee.employee_info).toLowerCase().includes(query)
+            );
+            res.json(result);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // select employee (create form)
+    async search_product(req, res){
+        try {
+            const query = req.query.q?.toLowerCase() || '';
+            let products = await receiptConfig.get_product();
+            const result = products.filter(product =>
+                normalizeString(product.product_info).toLowerCase().includes(query)
+            );
+            res.json(result);
         } catch (error) {
             console.log(error);
         }

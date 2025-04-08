@@ -15,9 +15,15 @@
                 <p>Ngày lập đơn: {{formatDate receipt_info.NgayNhap "DD/MM/YYYY HH:mm"}}</p>
             </div>
             <div class="des-receiptHeader">
-                <div class="delivered">
-                    {{receipt_info.TinhTrangThanhToan}}
-                </div>
+                {{#if receipt_info.TinhTrangThanhToan}}
+                    <div class="delivered">
+                        Đã thanh toán
+                    </div>
+                {{else}}
+                    <div class="pending">
+                        Chưa thanh toán
+                    </div>
+                {{/if}}
             </div>
         </div>
         <hr>

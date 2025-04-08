@@ -27,6 +27,7 @@
                     <td>Nhân viên</td>
                     <td>Ngày nhập</td>
                     <td>Tổng hóa đơn</td>
+                    <td>Tình trạng thanh toán</td>
                     <td>Hoạt động</td>
                 </tr>
             </thead>
@@ -39,6 +40,19 @@
                         <td>{{this.TenNhanVien}}</td>
                         <td>{{formatDate this.NgayNhap "DD/MM/YYYY HH:mm"}}</td>
                         <td>{{formatCurrency this.TongTien}}</td>
+                        {{#if this.TinhTrangThanhToan}}
+                            <td>
+                                <div class="delivered">
+                                    Đã thanh toán
+                                </div>
+                            </td>
+                        {{else}}
+                            <td>
+                                <div class="pending">
+                                    Chưa thanh toán
+                                </div>
+                            </td>
+                        {{/if}}
                         <td>
                             <div class="button-container">
                                 <a href="/receipt/view/{{this.IDHoaDonNhap}}">

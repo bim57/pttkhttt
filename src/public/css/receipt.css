@@ -187,6 +187,16 @@ input[type="checkbox"]{
     font-weight: 600;
     letter-spacing: 1px;
 }
+.pending{
+    position: relative;
+    padding: 2px 10px;
+    color: #FFD700;
+    background: rgba(255, 255, 102, 0.15);
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
 .receipt-table .inside-table .info-container{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -378,4 +388,35 @@ form {
     background: linear-gradient(135deg, #16A34A, #22C55E, #4ADE80);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
+}
+#suggestions_provider{
+    border: 1px solid #ccc;
+    max-width: 500px;
+    max-height: 200px;
+    background: #fff;
+    position: absolute;
+    overflow-y: auto;
+}
+#suggestions_employee{
+    border: 1px solid #ccc;
+    max-width: 500px;
+    max-height: 200px;
+    background: #fff;
+    position: absolute;
+    overflow-y: auto;
+}
+#suggestions_product{
+    border: 1px solid #ccc;
+    max-width: 500px;
+    max-height: 200px;
+    background: #fff;
+    position: absolute;
+    overflow-y: auto;
+}
+.suggestion-item{
+    padding: 8px;
+    cursor: pointer;
+}
+.suggestion-item:hover{
+    background-color: #f0f0f0;
 }

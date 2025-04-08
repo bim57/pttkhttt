@@ -5,7 +5,7 @@ class Receipt{
     // Xem tất cả thông tin hóa đơn
     async getAll(){
         const query = 
-        `SELECT hoadonnhap.IDHoaDonNhap, ncc.TenNCC, nhanvien.TenNhanVien, NgayNhap, TongTien
+        `SELECT hoadonnhap.IDHoaDonNhap, ncc.TenNCC, nhanvien.TenNhanVien, NgayNhap, TongTien, TinhTrangThanhToan
         FROM hoadonnhap 
         LEFT JOIN ncc ON hoadonnhap.ID_NCC = ncc.ID_NCC
         LEFT JOIN nhanvien ON hoadonnhap.IDNhanVien = nhanvien.IDNhanVien`;
@@ -16,7 +16,7 @@ class Receipt{
     // search hóa đơn
     async search(id){
         const query = 
-        `SELECT hoadonnhap.IDHoaDonNhap, ncc.TenNCC, nhanvien.TenNhanVien, NgayNhap, TongTien
+        `SELECT hoadonnhap.IDHoaDonNhap, ncc.TenNCC, nhanvien.TenNhanVien, NgayNhap, TongTien, TinhTrangThanhToan
         FROM hoadonnhap 
         LEFT JOIN ncc ON hoadonnhap.ID_NCC = ncc.ID_NCC
         LEFT JOIN nhanvien ON hoadonnhap.IDNhanVien = nhanvien.IDNhanVien
@@ -52,6 +52,30 @@ class Receipt{
         LEFT JOIN tacgia ON sp_tg.IDTacGia = tacgia.IDTacGia
         WHERE chitiethoadonnhap.IDHoaDonNhap = ?`;
         const [rows] = await pool.execute(query, [id]);
+        return rows;
+    }
+
+    // lấy thông tin ncc
+    async get_provider(){
+        const query = 
+        `SELECT CONCAT(ID_NCC, ' - ', TenNCC) AS provider_info FROM ncc`;
+        const [rows] = await pool.execute(query);
+        return rows;
+    }
+
+    // lấy thông tin nhân viên
+    async get_employee(){
+        const query = 
+        `SELECT CONCAT(IDNhanVien, ' - ', TenNhanVien) AS employee_info FROM nhanvien`;
+        const [rows] = await pool.execute(query);
+        return rows;
+    }
+
+    // lấy thông tin nhân viên
+    async get_product(){
+        const query = 
+        `SELECT TenSanPham, CONCAT(SanPhamID, ' - ', TenSanPham) AS product_info FROM sanpham`;
+        const [rows] = await pool.execute(query);
         return rows;
     }
 
