@@ -4,8 +4,6 @@ import express from 'express';
 const router = express.Router();
 import CategoryController from '../controller/CategoryController.js';
 
-router.get('/search/:id', CategoryController.search);
-
 router.get('/view/:id', CategoryController.view);
 
 router.get('/create', CategoryController.create);

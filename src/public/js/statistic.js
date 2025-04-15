@@ -7,13 +7,22 @@ window.addEventListener("DOMContentLoaded", () => {
             td.addEventListener("click", () => sortTable(index));
         }
     });
+    const from = document.querySelector('input[name="from"]').value;
+    const to = document.querySelector('input[name="to"]').value;
+
+    const excelLink = document.getElementById("excel-link");
+    if (from && to) {
+        excelLink.href = `/statistic/create_excel?from=${from}&to=${to}`;
+    } else {
+        excelLink.href = `/statistic/create_excel`; // fallback
+    }
 });
 
 // Sắp xếp
 let sortDirections = {}; // lưu trạng thái sort từng cột
 
 function sortTable(colIndex) {
-    const table = document.getElementById("provider_table");
+    const table = document.getElementById("statistic_table");
     const rows = Array.from(table.tBodies[0].rows);
   
     const isAscending = !sortDirections[colIndex];
@@ -23,10 +32,16 @@ function sortTable(colIndex) {
         const cellA = a.cells[colIndex];
         const cellB = b.cells[colIndex];
       
-        const valA = cellA.dataset.value || cellA.innerText.trim();
-        const valB = cellB.dataset.value || cellB.innerText.trim();
+        let valA = (cellA.dataset.value || cellA.innerText.trim()).replace('#', '');
+        let valB = (cellB.dataset.value || cellB.innerText.trim()).replace('#', '');        
       
         const isNumber = !isNaN(valA) && !isNaN(valB);
+        const isDate = !isNaN(Date.parse(valA)) && !isNaN(Date.parse(valB));
+        if (isDate) {
+            return isAscending 
+                ? new Date(valA) - new Date(valB) 
+                : new Date(valB) - new Date(valA);
+        }
         return isNumber
           ? (isAscending ? valA - valB : valB - valA)
           : (isAscending ? valA.localeCompare(valB) : valB.localeCompare(valA));

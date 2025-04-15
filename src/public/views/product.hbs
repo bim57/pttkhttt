@@ -3,7 +3,7 @@
 {{/block}}
 
 {{#block "js"}}
-    {{!-- <script src="/js/product.js"></script> --}}
+    <script src="/js/product.js"></script>
 {{/block}}
 
 <!-- Product table -->
@@ -15,17 +15,17 @@
                 <a href="/product/create"><button class="add-product">Thêm Sản Phẩm</button></a>
             </div>
         </div>
-        <table>
+        <table id="product_table">
             <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>Tên</td>
-                    <td>Tác giả</td>
-                    <td>Nhà xuất bản</td>
+                <tr id="header-row">
+                    <td class="sortable">ID<span class="arrow">▲</span></td>
+                    <td class="sortable">Tên<span class="arrow">▲</span></td>
+                    <td class="sortable">Tác giả<span class="arrow">▲</span></td>
+                    <td class="sortable">Nhà xuất bản<span class="arrow">▲</span></td>
                     <td>Hình ảnh</td>
-                    <td>Giá</td>
-                    <td>SL tồn</td>
-                    <td>Số trang</td>
+                    <td class="sortable">Giá<span class="arrow">▲</span></td>
+                    <td class="sortable">SL tồn<span class="arrow">▲</span></td>
+                    <td class="sortable">Số trang<span class="arrow">▲</span></td>
                     <td>Mô tả</td>
                     <td>Hoạt động</td>
                 </tr>
@@ -43,7 +43,7 @@
                                 <span class="view-more">+ Thêm</span>
                             </div>
                         </td>
-                        <td>{{formatCurrency this.Gia}}</td>
+                        <td data-value="{{this.Gia}}">{{formatCurrency this.Gia}}</td>
                         <td>{{this.SoLuongTon}}</td>
                         <td>{{this.SoTrang}}</td>
                         <td>

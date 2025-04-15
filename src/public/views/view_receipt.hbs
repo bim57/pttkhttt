@@ -43,21 +43,6 @@
                     <p><b>Địa chỉ</b>: {{receipt_info.SoNhaDuong}}, {{receipt_info.QuanHuyen}}, {{receipt_info.TinhThanhPho}}</p>
                 </div>
             </div>
-            {{!-- <div class="info-box">
-                <div class="header">
-                    <p>
-                        <i class="fas fa-user"></i>
-                        <span>Thông tin người nhận</span>
-                    </p>
-                </div>
-                <div class="body">
-                    <p><b>ID</b>: #{{receipt_info.ID_NCC}}</p>
-                    <p><b>Tên</b>: {{receipt_info.TenNCC}}</p>
-                    <p><b>Số điện thoại</b>: {{receipt_info.SDT}}</p>
-                    <p><b>Email</b>: {{receipt_info.Email}}</p>
-                    <p><b>Địa chỉ</b>: {{receipt_info.SoNhaDuong}}, {{receipt_info.QuanHuyen}}, {{receipt_info.TinhThanhPho}}</p>
-                </div>
-            </div> --}}
         </div>
         <div class="order-container">
             <div class="order-product">
@@ -71,6 +56,7 @@
                     <table class="product-table">
                         <thead>
                             <tr>
+                                <td>STT</td>
                                 <td>Sản phẩm</td>
                                 <td>Giá nhập</td>
                                 <td>Số lượng</td>
@@ -80,6 +66,7 @@
                         <tbody>
                             {{#each product_detail}}
                             <tr>
+                                <td>{{inc @index}}</td>
                                 <td>
                                     <div class="product-info">
                                         <img src="{{this.Anh}}" width="80">
@@ -124,6 +111,6 @@
                 </div>
             </div>
         </div>
-        <button class="download-btn"><i class="fas fa-download"></i> Tải hóa đơn</button>
+        <a href="/receipt/create_pdf/{{id}}"><button class="download-btn"><i class="fas fa-download"></i> Tải hóa đơn</button></a>
     </div>
 </div>

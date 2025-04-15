@@ -1,5 +1,5 @@
-// const categoryConfig = require('../config/db/category');
-import categoryConfig from '../config/db/category.js';
+// const categoryConfig = require('../db/category');
+import categoryConfig from '../db/category.js';
 
 class CategoryController{
     // show all category

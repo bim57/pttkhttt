@@ -1,5 +1,5 @@
-// const dashboardConfig = require('../config/db/dashboard');
-import dashboardConfig from '../config/db/dashboard.js';
+// const dashboardConfig = require('../db/dashboard');
+import dashboardConfig from '../db/dashboard.js';
 
 class DashboardController{
     // show the dashboard

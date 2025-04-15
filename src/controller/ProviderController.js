@@ -1,5 +1,5 @@
-// const providerConfig = require('../config/db/provider');
-import providerConfig from '../config/db/provider.js';
+// const providerConfig = require('../db/provider');
+import providerConfig from '../db/provider.js';
 
 class ProviderController{
     // show all providers

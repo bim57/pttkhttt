@@ -3,7 +3,7 @@
 {{/block}}
 
 {{#block "js"}}
-    {{!-- <script src="/js/provider.js"></script> --}}
+    <script src="/js/provider.js"></script>
 {{/block}}
 
 <!-- Provider table -->
@@ -15,16 +15,16 @@
                 <a href="/provider/create"><button class="add-provider">Thêm Nhà Cung Cấp</button></a>
             </div>
         </div>
-        <table>
+        <table id="provider_table">
             <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>Tên</td>
-                    <td>SĐT</td>
-                    <td>Email</td>
-                    <td>Số nhà, Đường</td>
-                    <td>Quận, Huyện</td>
-                    <td>Tỉnh, Thành phố</td>
+                <tr id="header-row">
+                    <td class="sortable">ID<span class="arrow">▲</span></td>
+                    <td class="sortable">Tên<span class="arrow">▲</span></td>
+                    <td class="sortable">SĐT<span class="arrow">▲</span></td>
+                    <td class="sortable">Email<span class="arrow">▲</span></td>
+                    <td class="sortable">Số nhà, Đường<span class="arrow">▲</span></td>
+                    <td class="sortable">Quận, Huyện<span class="arrow">▲</span></td>
+                    <td class="sortable">Tỉnh, Thành phố<span class="arrow">▲</span></td>
                     <td>Hoạt động</td>
                 </tr>
             </thead>

@@ -1,7 +1,7 @@
-// const productConfig = require('../config/db/product');
-// const categoryConfig = require('../config/db/category');
-import productConfig from '../config/db/product.js';
-import categoryConfig from '../config/db/category.js';
+// const productConfig = require('../db/product');
+// const categoryConfig = require('../db/category');
+import productConfig from '../db/product.js';
+import categoryConfig from '../db/category.js';
 
 class ProductController{
     // show all products

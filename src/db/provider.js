@@ -1,5 +1,5 @@
-// const pool = require('../index');
-import pool from '../index.js';
+// const pool = require('../config/index');
+import pool from '../config/index.js';
 
 class Provider{
     // Xem tất cả thông tin ncc
