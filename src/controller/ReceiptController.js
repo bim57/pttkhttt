@@ -159,7 +159,7 @@ class ReceiptController{
             const {id} = req.params;
             const receipt_info = (await receiptConfig.view(id))[0];
             const product_detail = await receiptConfig.view_product_in_receipt(id);
-            const html = await hbs.render(path.join(__dirname,'../public/views/create_receipt_pdf.hbs'), {
+            const html = await hbs.render(path.join(__dirname,'../resources/views/create_receipt_pdf.hbs'), {
                 id,
                 receipt_info,
                 product_detail

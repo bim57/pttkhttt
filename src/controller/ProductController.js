@@ -18,7 +18,7 @@ class ProductController{
     async search(req, res){
         try {
             const query = req.query.search || '';
-            const product = await productConfig.search(query);
+            const product = await productConfig.search_product(query);
             res.render('product', {product});
         } catch (err) {
             console.error(err);

@@ -12,7 +12,17 @@ class Provider{
     }
 
     // search ncc
-    async search(keyword){
+    async search(id){
+        const query = 
+        `SELECT * FROM ncc
+        WHERE ID_NCC = ? 
+        AND tinhTrang = 1`;
+        const [rows] = await pool.execute(query, [id]);
+        return rows;
+    }
+
+    // search ncc
+    async search_provider(keyword){
         const input_query = keyword.toLowerCase();
         const str = `%${input_query}%`;
         const query = 
