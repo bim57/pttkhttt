@@ -27,6 +27,35 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
+#search-fornm{
+    width: 50%;
+    margin: 20px 0;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+.search-container{
+    display: flex;
+    gap: 15px;
+}
+#search{
+    width: 50%;
+    font-size: 16px;
+    padding: 8px;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+.search-btn{
+    display: inline-block;
+    padding: 5px 15px;
+    font-size: 16px;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
 .product-table .inside-table .productHeader h2{
     font-size: 30px;
     font-weight: 600;

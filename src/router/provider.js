@@ -4,6 +4,8 @@ import express from 'express';
 const router = express.Router();
 import ProviderController from '../controller/ProviderController.js';
 
+router.get('/search', ProviderController.search)
+
 router.get('/create', ProviderController.create);
 
 router.post('/store', ProviderController.store);

@@ -4,6 +4,8 @@ import express from 'express';
 const router = express.Router();
 import ProductController from '../controller/ProductController.js';
 
+router.get('/search', ProductController.search);
+
 router.get('/view/:id', ProductController.view);
 
 router.get('/create', ProductController.create);

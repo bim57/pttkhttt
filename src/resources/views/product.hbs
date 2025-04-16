@@ -15,6 +15,15 @@
                 <a href="/product/create"><button class="add-product">Thêm Sản Phẩm</button></a>
             </div>
         </div>
+        <div>
+            <form action="/product/search" method="get" id="search-form">
+                <div class="search-container">
+                    <input type="text" name="search" id="search" 
+                    placeholder="Nhập thông tin cần tìm kiếm ..." autocomplete="off">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+        </div>
         <table id="product_table">
             <thead>
                 <tr id="header-row">
@@ -31,6 +40,7 @@
                 </tr>
             </thead>
             <tbody class="products-list">
+                {{#if product.length}}
                 {{#each product}}
                     <tr>
                         <td>{{this.SanPhamID}}</td>
@@ -75,6 +85,11 @@
                         </td>
                     </tr>
                 {{/each}}
+                {{else}}
+                    <tr>
+                        <td colspan="10" style="text-align: center;">Không có dữ liệu</td>
+                    </tr>
+                {{/if}}
             </tbody>
         </table>
 

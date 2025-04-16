@@ -12,12 +12,22 @@ class Provider{
     }
 
     // search ncc
-    async search(id){
+    async search(keyword){
+        const input_query = keyword.toLowerCase();
+        const str = `%${input_query}%`;
         const query = 
         `SELECT * FROM ncc 
-        WHERE ID_NCC = ?
+        WHERE (
+            LOWER(ID_NCC) LIKE ? OR
+            LOWER(TenNCC) LIKE ? OR
+            LOWER(SDT) LIKE ? OR
+            LOWER(Email) LIKE ? OR
+            LOWER(SoNhaDuong) LIKE ? OR
+            LOWER(QuanHuyen) LIKE ? OR
+            LOWER(TinhThanhPho) LIKE ?
+        )
         AND tinhTrang = 1`;
-        const [rows] = await pool.execute(query, [id]);
+        const [rows] = await pool.execute(query, [str, str, str, str, str, str, str]);
         return rows;
     }
 

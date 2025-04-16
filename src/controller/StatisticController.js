@@ -63,7 +63,7 @@ class StatisticController{
             ];
         
             // Thêm dữ liệu
-            data.forEach((item, index) => {
+            data.forEach((item) => {
                 worksheet.addRow({
                     ...item,
                     NgayNhap: new Date(item.NgayNhap),

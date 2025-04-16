@@ -15,8 +15,8 @@ class ProviderController{
     // search provider
     async search(req, res){
         try {
-            const {id} = req.params;
-            const provider = await providerConfig.search(id);
+            const query = req.query.search || '';
+            const provider = await providerConfig.search(query);
             res.render('provider', {provider});
         } catch (error) {
             console.log(error);

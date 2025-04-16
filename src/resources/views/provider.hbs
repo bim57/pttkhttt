@@ -15,6 +15,15 @@
                 <a href="/provider/create"><button class="add-provider">Thêm Nhà Cung Cấp</button></a>
             </div>
         </div>
+        <div>
+            <form action="/provider/search" method="get" id="search-form">
+                <div class="search-container">
+                    <input type="text" name="search" id="search" 
+                    placeholder="Nhập thông tin cần tìm kiếm ..." autocomplete="off">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+        </div>
         <table id="provider_table">
             <thead>
                 <tr id="header-row">
@@ -29,6 +38,7 @@
                 </tr>
             </thead>
             <tbody class="providers-list">
+                {{#if provider.length}}
                 {{#each provider}}
                     <tr>
                         <td>{{this.ID_NCC}}</td>
@@ -56,6 +66,11 @@
                         </td>
                     </tr>
                 {{/each}}
+                {{else}}
+                    <tr>
+                        <td colspan="7" style="text-align: center;">Không có dữ liệu</td>
+                    </tr>
+                {{/if}}
             </tbody>
         </table>
     </div>

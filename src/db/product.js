@@ -25,7 +25,9 @@ class Product{
     }
 
     // search sản phẩm
-    async search(id){
+    async search(keyword){
+        const input_query = keyword.toLowerCase();
+        const str = `%${input_query}%`;
         const query = 
         `SELECT sanpham.SanPhamID, TenSanPham, tacgia.TenTacGia, nxb.TenNXB, anhsp.Anh, MoTa, Gia, SoLuongTon, SoTrang
         FROM sanpham
@@ -33,9 +35,15 @@ class Product{
         LEFT JOIN sp_tg ON sanpham.SanPhamID = sp_tg.SanPhamID
         LEFT JOIN anhsp ON sanpham.SanPhamID = anhsp.ID_SP AND anhsp.STT = 1
         LEFT JOIN tacgia ON sp_tg.IDTacGia = tacgia.IDTacGia
-        WHERE sanpham.SanPhamID = ?
+        WHERE (
+            LOWER(sanpham.SanPhamID) LIKE ? OR
+            LOWER(TenSanPham) LIKE ? OR 
+            LOWER(tacgia.TenTacGia) LIKE ? OR 
+            LOWER(nxb.TenNXB) LIKE ? OR
+            LOWER(Gia) LIKE ? 
+        )
         AND sanpham.tinhTrang = 1`; 
-        const [rows] = await pool.execute(query, [id]);
+        const [rows] = await pool.execute(query, [str, str, str, str, str]);
         return rows;
     }
     

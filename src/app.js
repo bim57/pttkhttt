@@ -44,7 +44,7 @@ const hbs = exphbs.create({
 // Dùng hbs để cấu hình engine
 app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");
-app.set('views', path.join(__dirname, 'public', 'views'));
+app.set('views', path.join(__dirname, 'resources', 'views'));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(express.static(path.join(__dirname, 'public'))); // sử dụng file tĩnh
