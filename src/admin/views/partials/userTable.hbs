@@ -1,0 +1,23 @@
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Tên nhân viên</th>
+      <th>Nhóm quyền</th>
+      <th>Thao tác</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each users}}
+      <tr>
+        <td>{{ID_TK}}</td>
+        <td>{{TenNhanVien}}</td>
+        <td>{{TenNhomQuyen}}</td>
+        <td>
+          <button class="btn-edit" data-id="{{ID_TK}}">Sửa</button>
+          <button class="btn-delete" data-id="{{ID_TK}}">Xóa</button>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
