@@ -9,7 +9,6 @@ const __dirname = dirname(__filename);
 
 hbs.registerHelper("eq", (a, b) => a === b);
 
-// Add the inc helper to increment a value by 1 (for indices)
 hbs.registerHelper("inc", function (value) {
   return parseInt(value) + 1;
 });
@@ -21,7 +20,6 @@ hbs.registerHelper("formatDate", (value) => {
 
   const date = new Date(value);
 
-  // Check if date is valid
   if (isNaN(date.getTime())) {
     return "Invalid date";
   }

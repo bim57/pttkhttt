@@ -44,7 +44,9 @@ export class Order extends BaseModel {
   async findAll(body = {}) {
     try {
       let sql = `
-         SELECT hdx.IDHoaDonXuat, dckh.TenNguoiNhan, dckh.SoDienThoai, dckh.SoNhaDuong, dckh.QuanHuyen, dckh.TinhThanhPho, hdx.NgayXuat, hdx.TongTien, hdx.PhuongThucThanhToan, gh.TinhTrangDon, hdx.TinhTrangThanhToan
+         SELECT hdx.IDHoaDonXuat, dckh.TenNguoiNhan, dckh.SoDienThoai, dckh.SoNhaDuong, 
+                dckh.QuanHuyen, dckh.TinhThanhPho, hdx.NgayXuat, 
+                hdx.TongTien, hdx.PhuongThucThanhToan, gh.TinhTrangDon, hdx.TinhTrangThanhToan
          FROM hoadonxuat hdx
          JOIN giaohang gh ON hdx.IDHoaDonXuat = gh.ID_HDX
          JOIN diachi_kh dckh ON dckh.ID_DCKH = gh.IDDiaChi`;
@@ -87,6 +89,118 @@ export class Order extends BaseModel {
 
       if (conditions.length > 0) {
         sql += " WHERE " + conditions.join(" AND ");
+      }
+
+      const [rows] = await db.query(sql, params);
+      return rows;
+    } catch (err) {
+      console.error(err);
+      throw new Error(err);
+    }
+  }
+
+  async findReturnCancelRequests(body = {}) {
+    try {
+      let sql = `
+         SELECT hdx.IDHoaDonXuat, dckh.TenNguoiNhan, dckh.SoDienThoai, 
+                dckh.SoNhaDuong, dckh.QuanHuyen, dckh.TinhThanhPho, 
+                hdx.NgayXuat, hdx.TongTien, hdx.PhuongThucThanhToan, 
+                hdx.YeuCau, gh.TinhTrangDon, hdx.TinhTrangThanhToan
+         FROM hoadonxuat hdx
+         JOIN giaohang gh ON hdx.IDHoaDonXuat = gh.ID_HDX
+         JOIN diachi_kh dckh ON dckh.ID_DCKH = gh.IDDiaChi
+         WHERE (hdx.YeuCau = 'Trả' OR hdx.YeuCau = 'Hủy')`;
+
+      let conditions = [];
+      let params = [];
+
+      if (body.id) {
+        conditions.push("hdx.IDHoaDonXuat = ?");
+        params.push(body.id);
+      }
+
+      if (body.status) {
+        conditions.push("gh.TinhTrangDon = ?");
+        let status = _status[body.status];
+        params.push(status);
+      }
+
+      if (body.paymentMethod) {
+        conditions.push("hdx.PhuongThucThanhToan = ?");
+        params.push(_paymentMethod[body.paymentMethod]);
+      }
+
+      if (body.paymentStatus) {
+        conditions.push("hdx.TinhTrangThanhToan = ?");
+        params.push(_paymentStatus[body.paymentStatus]);
+      }
+
+      if (body.fromDate && body.toDate) {
+        conditions.push("hdx.NgayXuat BETWEEN ? AND ?");
+        params.push(body.fromDate, body.toDate);
+      } else if (body.fromDate) {
+        conditions.push("hdx.NgayXuat = ?");
+        params.push(body.fromDate);
+      }
+
+      if (conditions.length > 0) {
+        sql += " AND " + conditions.join(" AND ");
+      }
+
+      const [rows] = await db.query(sql, params);
+      return rows;
+    } catch (err) {
+      console.error(err);
+      throw new Error(err);
+    }
+  }
+
+  async findArchivedOrders(body = {}) {
+    try {
+      let sql = `
+         SELECT hdx.IDHoaDonXuat, dckh.TenNguoiNhan, dckh.SoDienThoai, 
+                dckh.SoNhaDuong, dckh.QuanHuyen, dckh.TinhThanhPho, 
+                hdx.NgayXuat, hdx.TongTien, hdx.PhuongThucThanhToan, 
+                gh.TinhTrangDon, hdx.TinhTrangThanhToan, hdx.LuuTru
+         FROM hoadonxuat hdx
+         JOIN giaohang gh ON hdx.IDHoaDonXuat = gh.ID_HDX
+         JOIN diachi_kh dckh ON dckh.ID_DCKH = gh.IDDiaChi
+         WHERE hdx.LuuTru = '1'`;
+
+      let conditions = [];
+      let params = [];
+
+      if (body.id) {
+        conditions.push("hdx.IDHoaDonXuat = ?");
+        params.push(body.id);
+      }
+
+      if (body.status) {
+        conditions.push("gh.TinhTrangDon = ?");
+        let status = _status[body.status];
+        params.push(status);
+      }
+
+      if (body.paymentMethod) {
+        conditions.push("hdx.PhuongThucThanhToan = ?");
+        params.push(_paymentMethod[body.paymentMethod]);
+      }
+
+      if (body.paymentStatus) {
+        conditions.push("hdx.TinhTrangThanhToan = ?");
+        params.push(_paymentStatus[body.paymentStatus]);
+      }
+
+      if (body.fromDate && body.toDate) {
+        conditions.push("hdx.NgayXuat BETWEEN ? AND ?");
+        params.push(body.fromDate, body.toDate);
+      } else if (body.fromDate) {
+        conditions.push("hdx.NgayXuat = ?");
+        params.push(body.fromDate);
+      }
+
+      if (conditions.length > 0) {
+        sql += " AND " + conditions.join(" AND ");
       }
 
       const [rows] = await db.query(sql, params);
@@ -181,8 +295,9 @@ export class Order extends BaseModel {
    *
    * @param {number} id
    * @param {string} status
+   * @param {Request | null} request
    */
-  async _updateStatus(id, status) {
+  async _updateStatus(id, status, request = null) {
     try {
       const [rows] = await db.query(
         `
@@ -191,6 +306,17 @@ export class Order extends BaseModel {
       WHERE gh.ID_HDX = ?;`,
         [status, id]
       );
+
+      if (request) {
+        const [result] = await db.query(
+          `
+          UPDATE hoadonxuat hdx
+          SET hdx.YeuCau = ?
+          WHERE hdx.IDHoaDonXuat = ?;
+          `,
+          [request, id]
+        );
+      }
       return rows;
     } catch (err) {
       console.error(err);
@@ -203,6 +329,21 @@ export class Order extends BaseModel {
         `
         UPDATE hoadonxuat hdx
         SET hdx.LuuTru = ?
+        WHERE hdx.IDHoaDonXuat = ?;`,
+        [status, id]
+      );
+      return rows;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async _updatePaymentStatus(id, status) {
+    try {
+      const [rows] = await db.query(
+        `
+        UPDATE hoadonxuat hdx
+        SET hdx.TinhTrangThanhToan = ?
         WHERE hdx.IDHoaDonXuat = ?;`,
         [status, id]
       );

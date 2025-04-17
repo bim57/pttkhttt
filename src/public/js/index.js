@@ -1,37 +1,41 @@
 // Menu Bar
 
-// Checkbox functionality for order table
-document.addEventListener("DOMContentLoaded", function () {
-  const selectAllCheckbox = /**@type {HTMLInputElement} */ (
-    document.getElementById("select-all-checkbox")
-  );
-  const orderCheckboxes = /**@type {NodeListOf<HTMLInputElement>} */ (
-    document.querySelectorAll(".order-checkbox")
-  );
+// Checkbox
+document.addEventListener("DOMContentLoaded", () => {
+  const setupSelectAllCheckbox = (containerId) => {
+    const container = document.getElementById(containerId);
+    if (!container) return;
 
-  // Add event listener to "select all" checkbox
-  if (selectAllCheckbox) {
-    selectAllCheckbox.addEventListener("change", function () {
-      orderCheckboxes.forEach((checkbox) => {
-        checkbox.checked = selectAllCheckbox.checked;
+    const selectAllCheckbox = /**@type{HTMLInputElement} */ (
+      container.querySelector("thead .checkbox-custom")
+    );
+    const checkboxes = /**@type{NodeListOf<HTMLInputElement>} */ (
+      container.querySelectorAll("tbody .checkbox-custom")
+    );
+
+    if (selectAllCheckbox) {
+      selectAllCheckbox.addEventListener("change", () => {
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = selectAllCheckbox.checked;
+        });
       });
-    });
-  }
 
-  // Update "select all" checkbox state based on individual checkboxes
-  orderCheckboxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", function () {
-      const allChecked = [...orderCheckboxes].every((cb) => cb.checked);
-      // const someChecked = [...orderCheckboxes].some((cb) => cb.checked);
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", () => {
+          const allChecked = Array.from(checkboxes).every((c) => c.checked);
+          const someChecked = Array.from(checkboxes).some((c) => c.checked);
 
-      if (selectAllCheckbox) {
-        selectAllCheckbox.checked = allChecked;
-        // selectAllCheckbox.indeterminate = someChecked && !allChecked;
-      }
-    });
-  });
+          selectAllCheckbox.checked = allChecked;
+          selectAllCheckbox.indeterminate = someChecked && !allChecked;
+        });
+      });
+    }
+  };
 
-  // Date range validation
+  setupSelectAllCheckbox("all-orders");
+  setupSelectAllCheckbox("return-cancel-requests");
+  setupSelectAllCheckbox("archived-orders");
+
   const fromDateInput = /**@type {HTMLInputElement}*/ (
     document.getElementById("fromDate")
   );
@@ -39,10 +43,12 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("toDate")
   );
 
+  const filterForm = /**@type {HTMLFormElement}*/ (
+    document.querySelector(".filter-form")
+  );
   const filterBtn = document.querySelector(".filter-button");
 
   if (fromDateInput && toDateInput && filterBtn) {
-    // When "from date" changes, make sure "to date" is not earlier
     fromDateInput.addEventListener("change", () => {
       if (
         fromDateInput.value &&
@@ -54,55 +60,71 @@ document.addEventListener("DOMContentLoaded", function () {
       toDateInput.min = fromDateInput.value;
     });
 
-    // Initialize min date on page load if "from date" already has a value
     if (fromDateInput.value) {
       toDateInput.min = fromDateInput.value;
     }
 
-    filterBtn.addEventListener("submit", (event) => {
-      event.preventDefault();
-      if (!fromDateInput.value && toDateInput.value) {
-        alert("Vui lòng chọn ngày bắt đầu trước khi chọn ngày kết thúc.");
-        return;
-      }
-    });
+    // Xử lý sự kiện submit của form lọc đơn hàng
+    if (filterForm) {
+      filterForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        if (!fromDateInput.value && toDateInput.value) {
+          alert("Vui lòng chọn ngày bắt đầu trước khi chọn ngày kết thúc.");
+          return;
+        }
+
+        const formData = new FormData(filterForm);
+        const params = new URLSearchParams();
+
+        for (const [key, value] of formData.entries()) {
+          if (value) {
+            if (typeof value === "string") {
+              params.set(key, value);
+            }
+          }
+        }
+
+        const currentTab = new URLSearchParams(window.location.search).get(
+          "tab"
+        );
+        if (currentTab) {
+          params.set("tab", currentTab);
+        }
+
+        const url = `${window.location.pathname}?${params.toString()}`;
+
+        window.location.href = url;
+      });
+    }
   }
 
-  const exportBtn = document.querySelector(".export-button");
-  // if (exportBtn) {
-  //   exportBtn.addEventListener('click', (event)=>{
-  //     event.preventDefault()
-  //     const selectedOrders = [...orderCheckboxes]
-  //       .filter((checkbox) => checkbox.checked)
-  //       .map((checkbox) => checkbox.value);
-  //     if (selectedOrders.length === 0) {
-  //       alert("Vui lòng chọn ít nhất một đơn hàng để xuất.");
-  //       return;
-  //     }
-  //     const form = document.createElement("form");
-  //     form.method = "POST";
-  //     form.action = "/orders/export-pdf";
-  //     form.style.display = "none";
-  //     selectedOrders.forEach((orderId) => {
-  //       const input = document.createElement("input");
-  //       input.type = "hidden";
-  //       input.name = "orderIds[]"; // Use array notation to send multiple values
-  //       input.value = orderId;
-  //       form.appendChild(input);
-  //     });
-  //     document.body.appendChild(form);
-  //     form.submit();
-  //     document.body.removeChild(form);
-  //   });
-  // }
+  // Sửa lại để các tab có thể sử dụng bộ lọc
+  const orderTabs = document.querySelectorAll(".order-tab");
+  orderTabs.forEach((tab) => {
+    tab.addEventListener("click", function () {
+      const tabValue = this.getAttribute("data-value") || "";
 
+      const currentParams = new URLSearchParams(window.location.search);
+
+      if (tabValue) {
+        currentParams.set("tab", tabValue);
+      } else {
+        currentParams.delete("tab");
+      }
+
+      const newUrl = `${window.location.pathname}?${currentParams.toString()}`;
+
+      window.location.href = newUrl;
+    });
+  });
+
+  const exportBtn = document.querySelector(".export-button");
   if (exportBtn) {
     exportBtn.addEventListener("click", (event) => {
       event.preventDefault();
 
       const queryParams = new URLSearchParams(window.location.search);
-      console.log(queryParams.toString());
-
       window.location.href = `/orders/export-excel?${queryParams.toString()}`;
     });
   }

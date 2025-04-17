@@ -3,13 +3,13 @@
   <div class="sidebar">
     <ul>
       <li>
-        <a href="#">
+        <a href="/">
           <span></span>
           <span><h1>BOOK STORE</h1></span>
         </a>
       </li>
       <li>
-        <a href="#">
+        <a href="/">
           <span><i class="fas fa-home"></i></span>
           <span>Tổng Quan</span>
         </a>
@@ -179,52 +179,89 @@
         </div>
 
         <!-- Order Summary -->
-        <div class="order-summary-card">
-          <div class="card-header">
-            <h3><i class="fas fa-calculator"></i> Tổng kết đơn hàng</h3>
-          </div>
-          <div class="card-body">
-            <div class="summary-row">
-              <div class="summary-label">Tạm tính:</div>
-              <div class="summary-value">{{formatCurrency
-                  orderDetails.summary.subtotal
-                }}</div>
+        <div
+          style="flex: 1;
+          min-width: 250px;
+          margin-bottom: 0;
+          align-self: flex-start; 
+          position: sticky; 
+          top: 20px;"
+        >
+          <div class="order-summary-card">
+            <div class="card-header">
+              <h3><i class="fas fa-calculator"></i> Tổng kết đơn hàng</h3>
             </div>
-            <div class="summary-row">
-              <div class="summary-label">Phí vận chuyển:</div>
-              <div class="summary-value">{{formatCurrency
-                  orderDetails.summary.shipping
-                }}</div>
-            </div>
-            {{#if orderDetails.summary.discount}}
+            <div class="card-body">
               <div class="summary-row">
-                <div class="summary-label">Giảm giá:</div>
-                <div class="summary-value">-{{formatCurrency
-                    orderDetails.summary.discount
-                  }}</div>
-              </div>
-            {{/if}}
-            {{#if (eq orderDetails.order.TinhTrangThanhToan "Đã hoàn tiền")}}
-              <div class="summary-row">
-                <div class="summary-label">Hoàn tiền:</div>
-                <div class="summary-value">-{{formatCurrency
-                    orderDetails.summary.total
-                  }}</div>
-              </div>
-              <div class="summary-row total">
-                <div class="summary-label">Tổng cộng:</div>
-                <div class="summary-value">{{formatCurrency 0}}</div>
-              </div>
-            {{else}}
-              <div class="summary-row total">
-                <div class="summary-label">Tổng cộng:</div>
+                <div class="summary-label">Tạm tính:</div>
                 <div class="summary-value">{{formatCurrency
-                    orderDetails.summary.total
+                    orderDetails.summary.subtotal
                   }}</div>
               </div>
-            {{/if}}
+              <div class="summary-row">
+                <div class="summary-label">Phí vận chuyển:</div>
+                <div class="summary-value">{{formatCurrency
+                    orderDetails.summary.shipping
+                  }}</div>
+              </div>
+              {{#if orderDetails.summary.discount}}
+                <div class="summary-row">
+                  <div class="summary-label">Giảm giá:</div>
+                  <div class="summary-value">-{{formatCurrency
+                      orderDetails.summary.discount
+                    }}</div>
+                </div>
+              {{/if}}
+              {{#if (eq orderDetails.order.TinhTrangThanhToan "Đã hoàn tiền")}}
+                <div class="summary-row">
+                  <div class="summary-label">Hoàn tiền:</div>
+                  <div class="summary-value">-{{formatCurrency
+                      orderDetails.summary.total
+                    }}</div>
+                </div>
+                <div class="summary-row total">
+                  <div class="summary-label">Tổng cộng:</div>
+                  <div class="summary-value">{{formatCurrency 0}}</div>
+                </div>
+              {{else}}
+                <div class="summary-row total">
+                  <div class="summary-label">Tổng cộng:</div>
+                  <div class="summary-value">{{formatCurrency
+                      orderDetails.summary.total
+                    }}</div>
+                </div>
+              {{/if}}
 
+            </div>
           </div>
+
+          {{#if
+            (or
+              (eq orderDetails.order.TinhTrangDon "Đã hủy")
+              (eq orderDetails.order.TinhTrangDon "Trả hàng")
+            )
+          }}
+            {{#if (eq orderDetails.order.TinhTrangThanhToan "Chưa hoàn tiền")}}
+              <button
+                class="btn btn-primary"
+                id="confirmRefundBtn"
+                data-order-id="{{orderDetails.order.IDHoaDonXuat}}"
+                style="margin-top: 20px;"
+              ><i class="fas fa-money-bill-wave"></i>
+                Xác nhận hoàn trả</button>
+            {{/if}}
+          {{else}}
+            {{#if (eq orderDetails.order.TinhTrangThanhToan "Chưa thanh toán")}}
+              <button
+                class="btn btn-primary"
+                id="confirmPaymentBtn"
+                data-order-id="{{orderDetails.order.IDHoaDonXuat}}"
+                style="margin-top: 20px;"
+              ><i class="fas fa-money-bill-wave"></i>
+                Xác nhận thanh toán</button>
+            {{/if}}
+          {{/if}}
+
         </div>
       </div>
 
@@ -238,19 +275,39 @@
           ><i class="fas fa-check"></i>
             Xác nhận đơn hàng</button>
         {{/if}}
-        {{#if
-          (or
-            (eq orderDetails.order.TinhTrangDon "Chờ xác nhận")
-            (eq orderDetails.order.TinhTrangDon "Chờ lấy hàng")
-          )
-        }}
+
+        {{#if (eq orderDetails.order.YeuCau "Hủy")}}
           <button
             class="btn btn-danger"
             id="cancelOrderBtn"
             data-order-id="{{orderDetails.order.IDHoaDonXuat}}"
           ><i class="fas fa-times"></i>
-            Hủy đơn hàng</button>
+            Xác nhận yêu cầu hủy</button>
+        {{else}}
+          {{#if (eq orderDetails.order.YeuCau "Trả")}}
+            <button
+              class="btn btn-danger"
+              id="confirmReturnRequestBtn"
+              data-order-id="{{orderDetails.order.IDHoaDonXuat}}"
+            ><i class="fas fa-times"></i>
+              Xác nhận yêu cầu trả</button>
+          {{else}}
+            {{#if
+              (or
+                (eq orderDetails.order.TinhTrangDon "Chờ xác nhận")
+                (eq orderDetails.order.TinhTrangDon "Chờ lấy hàng")
+              )
+            }}
+              <button
+                class="btn btn-danger"
+                id="cancelOrderBtn"
+                data-order-id="{{orderDetails.order.IDHoaDonXuat}}"
+              ><i class="fas fa-times"></i>
+                Hủy đơn hàng</button>
+            {{/if}}
+          {{/if}}
         {{/if}}
+
         {{#if (eq orderDetails.order.LuuTru 0)}}
           <button
             class="btn btn-info"

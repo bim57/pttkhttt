@@ -755,3 +755,60 @@ product-list table {
 .cancel-button:hover {
   background-color: #e2e8f0;
 }
+
+/* Order Tabs */
+.order-tabs {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e2e8f0;
+  display: flex;
+  gap: 1rem;
+}
+
+.order-tab {
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.order-tab:hover {
+  color: #003147;
+}
+
+.order-tab.active {
+  color: #003147;
+}
+
+.order-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #003147;
+}
+
+.order-tab .badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e53e3e;
+  color: white;
+  border-radius: 9999px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+  margin-left: 0.5rem;
+}
+
+/* Order Content Sections */
+.order-content-section {
+  display: none;
+}
+
+.order-content-section.active {
+  display: block;
+}

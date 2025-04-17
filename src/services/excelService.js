@@ -16,7 +16,7 @@ export async function generateOrdersExcel(orders) {
       { header: "Mã đơn hàng", key: "IDHoaDonXuat", width: 20 },
       { header: "Tên khách hàng", key: "TenNguoiNhan", width: 30 },
       { header: "Số điện thoại", key: "SoDienThoai", width: 20 },
-      { header: "Địa chỉ", key: "DiaChi", width: 30 },
+      { header: "Địa chỉ", key: "DiaChi", width: 75 },
       { header: "Ngày đặt hàng", key: "NgayXuat", width: 20 },
       { header: "Tổng tiền", key: "TongTien", width: 20 },
       { header: "Trạng thái đơn hàng", key: "TrangThaiDonHang", width: 20 },
@@ -75,5 +75,4 @@ export async function generateOrdersExcel(orders) {
       error: error.message,
     };
   }
-  //   worksheet.addRows(orders);
 }

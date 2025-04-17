@@ -273,13 +273,23 @@ body {
   overflow-y: auto;
 }
 
-.items-summary-wrapper .order-summary-card {
+/* .items-summary-wrapper .order-summary-card {
   flex: 1;
   min-width: 250px;
   margin-bottom: 0;
-  align-self: flex-start; /* Prevent stretching */
-  position: sticky; /* Optional: Make it sticky */
+  align-self: flex-start; 
+  position: sticky; 
   top: 20px;
+} */
+
+/* Payment confirmation button within the summary card */
+.summary-payment-action {
+  padding: 0 20px 20px 20px;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
 }
 
 /* Responsive adjustments for items-summary-wrapper */

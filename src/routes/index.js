@@ -6,12 +6,9 @@ function route(app) {
   app.get("/", (req, res) => {
     res.render("dashboard", {
       title: "Dashboard",
-      cssFiles: ["/css/style.css", "/css/order.css"],
+      cssFiles: ["/css/style.css", "/css/order.css", "/css/dashboard.css"],
     });
   });
-  // app.get("/", (req, res) => {
-  //   res.send("Hello World!");
-  // });
 }
 
 export default route;

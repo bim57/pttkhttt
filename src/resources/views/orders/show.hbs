@@ -3,13 +3,13 @@
   <div class="sidebar">
     <ul>
       <li>
-        <a href="#">
+        <a href="/">
           <span></span>
           <span><h1>BOOK STORE</h1></span>
         </a>
       </li>
       <li>
-        <a href="#">
+        <a href="/">
           <span><i class="fas fa-home"></i></span>
           <span>Tổng Quan</span>
         </a>
@@ -132,71 +132,206 @@
         </div>
       </div>
 
-      <!-- Bảng đơn hàng -->
-      <div class="order-table-container">
-        <table class="order-table">
-          <thead>
-            <tr>
-              <th style="width: 40px;" class="checkbox-cell">
-                <input
-                  type="checkbox"
-                  id="select-all-checkbox"
-                  class="checkbox-custom"
-                />
-              </th>
-              <th>Mã đơn hàng</th>
-              <th>Khách hàng</th>
-              <th>Ngày đặt</th>
-              <th>Tổng tiền</th>
-              <th>Trạng thái đơn hàng</th>
-              <th>Phương Thức Thanh Toán</th>
-              <th>Tình Trạng Thanh Toán</th>
-              <th class="text-center" style="width: 120px;">Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each orders}}
-              <tr data-id="{{this.IDHoaDonXuat}}">
-                <td class="checkbox-cell">
+      <!-- Tab danh sách đơn hàng -->
+      <div class="order-tabs">
+        <div class="order-tab {{#if (eq activeTab 'all')}}active{{/if}}" data-target="all-orders" data-value="all">
+          Tất cả đơn hàng
+        </div>
+        <div class="order-tab {{#if (eq activeTab 'return-cancel')}}active{{/if}}" data-target="return-cancel-requests" data-value="return-cancel">
+          Yêu cầu hủy/trả
+          <span class="badge">{{counts.returnRequests}}</span>
+        </div>
+        <div class="order-tab {{#if (eq activeTab 'archived')}}active{{/if}}" data-target="archived-orders" data-value="archived">
+          Đơn hàng đã lưu trữ
+        </div>
+      </div>
+
+      <!-- Nội dung từng tab -->
+      <div id="all-orders" class="order-content-section {{#if (eq activeTab 'all')}}active{{else}}{{#unless activeTab}}active{{/unless}}{{/if}}">
+        <!-- Bảng đơn hàng -->
+        <div class="order-table-container">
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th style="width: 40px;" class="checkbox-cell">
                   <input
                     type="checkbox"
-                    class="order-checkbox checkbox-custom"
-                    data-id="{{this.IDHoaDonXuat}}"
+                    id="select-all-checkbox"
+                    class="checkbox-custom"
                   />
-                </td>
-                <td class="order-id">
-                  <a
-                    href="/orders/{{this.IDHoaDonXuat}}"
-                  >#{{this.IDHoaDonXuat}}</a>
-                </td>
-                <td>{{this.TenKH}}</td>
-                <td>{{formatCurrentDate this.NgayXuat}}</td>
-                <td>{{formatCurrency this.TongTien}}</td>
-                <td>
-                  <span class="status-badge {{statusClass this.TinhTrangDon}}">
-                    {{this.TinhTrangDon}}
-                  </span>
-                </td>
-                <td>{{this.PhuongThucThanhToan}}</td>
-                <td>
-                  <span
-                    class="status-badge {{statusClass this.TinhTrangThanhToan}}"
-                  >
-                    {{this.TinhTrangThanhToan}}
-                  </span>
-                </td>
-                <td class="action-buttons">
-                  <button class="edit-button">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button class="delete-button">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </td>
+                </th>
+                <th>Mã đơn hàng</th>
+                <th>Khách hàng</th>
+                <th>Ngày đặt</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái đơn hàng</th>
+                <th>Phương Thức Thanh Toán</th>
+                <th>Tình Trạng Thanh Toán</th>
+                <th class="text-center" style="width: 120px;">Thao tác</th>
               </tr>
-            {{/each}}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {{#each orders}}
+                <tr data-id="{{this.IDHoaDonXuat}}">
+                  <td class="checkbox-cell">
+                    <input
+                      type="checkbox"
+                      class="order-checkbox checkbox-custom"
+                      data-id="{{this.IDHoaDonXuat}}"
+                    />
+                  </td>
+                  <td class="order-id">
+                    <a href="/orders/{{this.IDHoaDonXuat}}">#{{this.IDHoaDonXuat}}</a>
+                  </td>
+                  <td>{{this.TenNguoiNhan}}</td>
+                  <td>{{formatCurrentDate this.NgayXuat}}</td>
+                  <td>{{formatCurrency this.TongTien}}</td>
+                  <td>
+                    <span class="status-badge {{statusClass this.TinhTrangDon}}">
+                      {{this.TinhTrangDon}}
+                    </span>
+                  </td>
+                  <td>{{this.PhuongThucThanhToan}}</td>
+                  <td>
+                    <span class="status-badge {{statusClass this.TinhTrangThanhToan}}">
+                      {{this.TinhTrangThanhToan}}
+                    </span>
+                  </td>
+                  <td class="action-buttons">
+                    <button class="edit-button">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete-button">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab yêu cầu hủy/trả hàng -->
+      <div id="return-cancel-requests" class="order-content-section {{#if (eq activeTab 'return-cancel')}}active{{/if}}">
+        <div class="order-table-container">
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th style="width: 40px;" class="checkbox-cell">
+                  <input type="checkbox" class="checkbox-custom" />
+                </th>
+                <th>Mã đơn hàng</th>
+                <th>Khách hàng</th>
+                <th>Ngày đặt</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái đơn hàng</th>
+                <th>Phương Thức Thanh Toán</th>
+                <th>Tình Trạng Thanh Toán</th>
+                <th class="text-center" style="width: 120px;">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each returnCancelRequests}}
+                <tr data-id="{{this.IDHoaDonXuat}}">
+                  <td class="checkbox-cell">
+                    <input
+                      type="checkbox"
+                      class="order-checkbox checkbox-custom"
+                      data-id="{{this.IDHoaDonXuat}}"
+                    />
+                  </td>
+                  <td class="order-id">
+                    <a href="/orders/{{this.IDHoaDonXuat}}">#{{this.IDHoaDonXuat}}</a>
+                  </td>
+                  <td>{{this.TenNguoiNhan}}</td>
+                  <td>{{formatCurrentDate this.NgayXuat}}</td>
+                  <td>{{formatCurrency this.TongTien}}</td>
+                  <td>
+                    <span class="status-badge {{statusClass this.TinhTrangDon}}">
+                      {{this.TinhTrangDon}}
+                    </span>
+                  </td>
+                  <td>{{this.PhuongThucThanhToan}}</td>
+                  <td>
+                    <span class="status-badge {{statusClass this.TinhTrangThanhToan}}">
+                      {{this.TinhTrangThanhToan}}
+                    </span>
+                  </td>
+                  <td class="action-buttons">
+                    <button class="edit-button">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete-button">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab đơn hàng đã lưu trữ -->
+      <div id="archived-orders" class="order-content-section {{#if (eq activeTab 'archived')}}active{{/if}}">
+        <div class="order-table-container">
+          <table class="order-table">
+            <thead>
+              <tr>
+                <th style="width: 40px;" class="checkbox-cell">
+                  <input type="checkbox" class="checkbox-custom" />
+                </th>
+                <th>Mã đơn hàng</th>
+                <th>Khách hàng</th>
+                <th>Ngày đặt</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái đơn hàng</th>
+                <th>Phương Thức Thanh Toán</th>
+                <th>Tình Trạng Thanh Toán</th>
+                <th class="text-center" style="width: 120px;">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each archivedOrders}}
+                <tr data-id="{{this.IDHoaDonXuat}}">
+                  <td class="checkbox-cell">
+                    <input
+                      type="checkbox"
+                      class="order-checkbox checkbox-custom"
+                      data-id="{{this.IDHoaDonXuat}}"
+                    />
+                  </td>
+                  <td class="order-id">
+                    <a href="/orders/{{this.IDHoaDonXuat}}">#{{this.IDHoaDonXuat}}</a>
+                  </td>
+                  <td>{{this.TenNguoiNhan}}</td>
+                  <td>{{formatCurrentDate this.NgayXuat}}</td>
+                  <td>{{formatCurrency this.TongTien}}</td>
+                  <td>
+                    <span class="status-badge {{statusClass this.TinhTrangDon}}">
+                      {{this.TinhTrangDon}}
+                    </span>
+                  </td>
+                  <td>{{this.PhuongThucThanhToan}}</td>
+                  <td>
+                    <span class="status-badge {{statusClass this.TinhTrangThanhToan}}">
+                      {{this.TinhTrangThanhToan}}
+                    </span>
+                  </td>
+                  <td class="action-buttons">
+                    <button class="edit-button">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete-button">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- Phân trang -->
@@ -214,3 +349,44 @@
     </div>
   </div>
 </div>
+
+<!-- Thêm script cho chức năng chuyển tab -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.order-tab');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        // Xóa active class khỏi tất cả các tab
+        tabs.forEach(t => t.classList.remove('active'));
+        
+        // Thêm active class cho tab được click
+        this.classList.add('active');
+        
+        // Lấy target section
+        const targetId = this.getAttribute('data-target');
+        
+        // Ẩn tất cả các section
+        document.querySelectorAll('.order-content-section').forEach(section => {
+          section.classList.remove('active');
+        });
+        
+        // Hiện section được chọn
+        document.getElementById(targetId).classList.add('active');
+        
+        // Lấy giá trị tab từ data-value
+        const tabValue = this.getAttribute('data-value') || '';
+        
+        const currentUrl = new URL(window.location);
+       
+        if (tabValue) {
+          currentUrl.searchParams.set('tab', tabValue);
+        } else {
+          currentUrl.searchParams.delete('tab');
+        }
+        
+        window.location.href = currentUrl.toString();
+      });
+    });
+  });
+</script>
