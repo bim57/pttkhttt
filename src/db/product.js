@@ -13,13 +13,13 @@ class Product{
     // Xem tất cả sản phẩm
     async getAll(){
         const query = 
-        `SELECT sanpham.SanPhamID, TenSanPham, tacgia.TenTacGia, nxb.TenNXB, anhsp.Anh, MoTa, Gia, SoLuongTon, SoTrang
-        FROM sanpham
-        LEFT JOIN nxb ON sanpham.ID_NXB = nxb.ID_NXB
-        LEFT JOIN sp_tg ON sanpham.SanPhamID = sp_tg.SanPhamID
-        LEFT JOIN anhsp ON sanpham.SanPhamID = anhsp.ID_SP AND anhsp.STT = 1
-        LEFT JOIN tacgia ON sp_tg.IDTacGia = tacgia.IDTacGia
-        WHERE sanpham.tinhTrang = 1`;
+        `SELECT SanPham.SanPhamID, TenSanPham, TacGia.TenTacGia, NXB.TenNXB, AnhSP.Anh, MoTa, Gia, SoLuongTon, SoTrang
+        FROM SanPham
+        LEFT JOIN NXB ON SanPham.ID_NXB = NXB.ID_NXB
+        LEFT JOIN SP_TG ON SanPham.SanPhamID = SP_TG.SanPhamID
+        LEFT JOIN AnhSP ON SanPham.SanPhamID = AnhSP.ID_SP AND AnhSP.STT = 1
+        LEFT JOIN TacGia ON SP_TG.IDTacGia = TacGia.IDTacGia
+        WHERE SanPham.tinhTrang = 1`;
         const [rows] = await pool.execute(query);
         return rows;
     }
@@ -27,14 +27,14 @@ class Product{
     // search 
     async search(id){
         const query = 
-        `SELECT sanpham.SanPhamID, TenSanPham, tacgia.TenTacGia, nxb.TenNXB, anhsp.Anh, MoTa, Gia, SoLuongTon, SoTrang
-        FROM sanpham
-        LEFT JOIN nxb ON sanpham.ID_NXB = nxb.ID_NXB
-        LEFT JOIN sp_tg ON sanpham.SanPhamID = sp_tg.SanPhamID
-        LEFT JOIN anhsp ON sanpham.SanPhamID = anhsp.ID_SP AND anhsp.STT = 1
-        LEFT JOIN tacgia ON sp_tg.IDTacGia = tacgia.IDTacGia
-        WHERE sanpham.SanPhamID = ?
-        AND sanpham.tinhTrang = 1`;
+        `SELECT SanPham.SanPhamID, TenSanPham, TacGia.TenTacGia, NXB.TenNXB, AnhSP.Anh, MoTa, Gia, SoLuongTon, SoTrang
+        FROM SanPham
+        LEFT JOIN NXB ON SanPham.ID_NXB = NXB.ID_NXB
+        LEFT JOIN SP_TG ON SanPham.SanPhamID = SP_TG.SanPhamID
+        LEFT JOIN AnhSP ON SanPham.SanPhamID = AnhSP.ID_SP AND AnhSP.STT = 1
+        LEFT JOIN TacGia ON SP_TG.IDTacGia = TacGia.IDTacGia
+        WHERE SanPham.SanPhamID = ?
+        AND SanPham.tinhTrang = 1`;
         const [rows] = await pool.execute(query, [id]);
         return rows;
     }
@@ -44,20 +44,20 @@ class Product{
         const input_query = keyword.toLowerCase();
         const str = `%${input_query}%`;
         const query = 
-        `SELECT sanpham.SanPhamID, TenSanPham, tacgia.TenTacGia, nxb.TenNXB, anhsp.Anh, MoTa, Gia, SoLuongTon, SoTrang
-        FROM sanpham
-        LEFT JOIN nxb ON sanpham.ID_NXB = nxb.ID_NXB
-        LEFT JOIN sp_tg ON sanpham.SanPhamID = sp_tg.SanPhamID
-        LEFT JOIN anhsp ON sanpham.SanPhamID = anhsp.ID_SP AND anhsp.STT = 1
-        LEFT JOIN tacgia ON sp_tg.IDTacGia = tacgia.IDTacGia
+        `SELECT SanPham.SanPhamID, TenSanPham, TacGia.TenTacGia, NXB.TenNXB, AnhSP.Anh, MoTa, Gia, SoLuongTon, SoTrang
+        FROM SanPham
+        LEFT JOIN NXB ON SanPham.ID_NXB = NXB.ID_NXB
+        LEFT JOIN SP_TG ON SanPham.SanPhamID = SP_TG.SanPhamID
+        LEFT JOIN AnhSP ON SanPham.SanPhamID = AnhSP.ID_SP AND AnhSP.STT = 1
+        LEFT JOIN TacGia ON SP_TG.IDTacGia = TacGia.IDTacGia
         WHERE (
-            LOWER(sanpham.SanPhamID) LIKE ? OR
+            LOWER(SanPham.SanPhamID) LIKE ? OR
             LOWER(TenSanPham) LIKE ? OR 
-            LOWER(tacgia.TenTacGia) LIKE ? OR 
-            LOWER(nxb.TenNXB) LIKE ? OR
+            LOWER(TacGia.TenTacGia) LIKE ? OR 
+            LOWER(NXB.TenNXB) LIKE ? OR
             LOWER(Gia) LIKE ? 
         )
-        AND sanpham.tinhTrang = 1`; 
+        AND SanPham.tinhTrang = 1`; 
         const [rows] = await pool.execute(query, [str, str, str, str, str]);
         return rows;
     }
@@ -65,12 +65,12 @@ class Product{
     // Hiển thị các danh mục của sản phẩm trong chi tiết sp (theo tên)
     async getCategory_by_name(id){
         const query = 
-        `SELECT danhmuc.TenDanhMuc
-        FROM sp_dm
-        LEFT JOIN sanpham ON sanpham.SanPhamID = sp_dm.SanPhamID
-        LEFT JOIN danhmuc ON danhmuc.DanhMucID = sp_dm.DanhMucID
-        where sanpham.SanPhamID = ?
-        AND danhmuc.tinhTrang = 1`;
+        `SELECT DanhMuc.TenDanhMuc
+        FROM SP_DM
+        LEFT JOIN SanPham ON SanPham.SanPhamID = SP_DM.SanPhamID
+        LEFT JOIN DanhMuc ON DanhMuc.DanhMucID = SP_DM.DanhMucID
+        where SanPham.SanPhamID = ?
+        AND DanhMuc.tinhTrang = 1`;
         const [rows] = await pool.execute(query, [id]);
         return rows;
     }
@@ -78,12 +78,12 @@ class Product{
     // Hiển thị các danh mục của sản phẩm trong chi tiết sp (theo id)
     async getCategory_by_id(id){
         const query = 
-        `SELECT danhmuc.DanhMucID
-        FROM sp_dm 
-        LEFT JOIN sanpham ON sanpham.SanPhamID = sp_dm.SanPhamID
-        LEFT JOIN danhmuc ON danhmuc.DanhMucID = sp_dm.DanhMucID
-        where sanpham.SanPhamID = ?
-        AND danhmuc.tinhTrang = 1`; 
+        `SELECT DanhMuc.DanhMucID
+        FROM SP_DM 
+        LEFT JOIN SanPham ON SanPham.SanPhamID = SP_DM.SanPhamID
+        LEFT JOIN DanhMuc ON DanhMuc.DanhMucID = SP_DM.DanhMucID
+        where SanPham.SanPhamID = ?
+        AND DanhMuc.tinhTrang = 1`; 
         const [rows] = await pool.execute(query, [id]);
         return rows;
     }
@@ -92,9 +92,9 @@ class Product{
     async getImage(id){
         const query = 
         `SELECT Anh
-        FROM anhsp
-        LEFT JOIN sanpham ON sanpham.SanPhamID = anhsp.ID_SP
-        where sanpham.SanPhamID = ?;`; 
+        FROM AnhSP
+        LEFT JOIN SanPham ON SanPham.SanPhamID = AnhSP.ID_SP
+        where SanPham.SanPhamID = ?;`; 
         const [rows] = await pool.execute(query, [id]);
         return rows;
     }
@@ -103,9 +103,9 @@ class Product{
     async getImageBase64(id) {
         const query = 
         `SELECT Anh
-        FROM anhsp
-        LEFT JOIN sanpham ON sanpham.SanPhamID = anhsp.ID_SP
-        where sanpham.SanPhamID = ?;`; 
+        FROM AnhSP
+        LEFT JOIN SanPham ON SanPham.SanPhamID = AnhSP.ID_SP
+        where SanPham.SanPhamID = ?;`; 
         const [rows] = await pool.execute(query, [id]);
         // kết quả là chuỗi String nên phải chuyển về base64
 
@@ -143,7 +143,7 @@ class Product{
 
         // Kiểm tra Tác giả xem có trùng không
         let [rows] = await pool.execute(
-            `SELECT IDTacGia FROM tacgia WHERE LOWER(TenTacGia) = LOWER(?)`, [normalizedAuthor]
+            `SELECT IDTacGia FROM TacGia WHERE LOWER(TenTacGia) = LOWER(?)`, [normalizedAuthor]
         );
 
         let authorId;
@@ -152,7 +152,7 @@ class Product{
         } else {
             // không thì thêm tác giả mới
             let [result] = await pool.execute(
-                `INSERT INTO tacgia (TenTacGia) VALUES (?)`, [author]
+                `INSERT INTO TacGia (TenTacGia) VALUES (?)`, [author]
             );
             authorId = result.insertId; // lấy ID của dòng vừa được thêm
         }
@@ -174,7 +174,7 @@ class Product{
 
         // Thêm sp vào bảng sanpham
         let [result] =  await pool.execute(
-            `INSERT INTO sanpham (TenSanPham, ID_NXB, MoTa, Gia, SoLuongTon, SoTrang) VALUES
+            `INSERT INTO SanPham (TenSanPham, ID_NXB, MoTa, Gia, SoLuongTon, SoTrang) VALUES
             (?, ?, ?, ?, ?, ?)`, [name, publisherId, description, price, inventory, pages]
         );
 
@@ -182,13 +182,13 @@ class Product{
 
         // Thêm thông tin vào bảng sp_tg
         await pool.execute(
-            `INSERT INTO sp_tg (SanPhamID, IDTacGia) VALUES (?, ?)`, [id, authorId]
+            `INSERT INTO SP_TG (SanPhamID, IDTacGia) VALUES (?, ?)`, [id, authorId]
         );
 
         // Thêm danh mục
         for (let cateID of category) {
             await pool.execute(
-                `INSERT INTO sp_dm (SanPhamID, DanhMucID) VALUES (?, ?)`, [id, cateID]
+                `INSERT INTO SP_DM (SanPhamID, DanhMucID) VALUES (?, ?)`, [id, cateID]
             );
         }
 
@@ -196,14 +196,14 @@ class Product{
         for (let image of imageBase64) {
             // Lấy STT lớn nhất của sản phẩm hiện có
             const [rows] = await pool.execute(
-                "SELECT MAX(STT) AS maxSTT FROM anhsp WHERE ID_SP = ?", [id]
+                "SELECT MAX(STT) AS maxSTT FROM AnhSP WHERE ID_SP = ?", [id]
             );
             
             let newSTT = rows[0].maxSTT ? rows[0].maxSTT + 1 : 1;
 
             // Chèn ảnh vào bảng
             await pool.execute(
-                "INSERT INTO anhsp (ID_SP, STT, Anh) VALUES (?, ?, ?)", [id, newSTT, image]
+                "INSERT INTO AnhSP (ID_SP, STT, Anh) VALUES (?, ?, ?)", [id, newSTT, image]
             );
         }
     }
@@ -215,7 +215,7 @@ class Product{
 
         // Kiểm tra Tác giả xem có trùng không
         let [rows] = await pool.execute(
-            `SELECT IDTacGia FROM tacgia WHERE LOWER(TenTacGia) = LOWER(?)`, [normalizedAuthor]
+            `SELECT IDTacGia FROM TacGia WHERE LOWER(TenTacGia) = LOWER(?)`, [normalizedAuthor]
         );
 
         let authorId;
@@ -224,7 +224,7 @@ class Product{
         } else {
             // không thì thêm tác giả mới
             let [result] = await pool.execute(
-                `INSERT INTO tacgia (TenTacGia) VALUES (?)`, [author]
+                `INSERT INTO TacGia (TenTacGia) VALUES (?)`, [author]
             );
             authorId = result.insertId; // lấy ID của dòng vừa được thêm
         }
@@ -246,7 +246,7 @@ class Product{
 
         // Sửa thông tin sp
         await pool.execute(
-            `UPDATE sanpham
+            `UPDATE SanPham
             SET TenSanPham = ?,  
                 ID_NXB = ?,  
                 MoTa = ?,  
@@ -258,40 +258,40 @@ class Product{
 
         // Sửa thông tin bảng sp_tg
         await pool.execute(
-            `UPDATE sp_tg
+            `UPDATE SP_TG
             SET IDTacGia = ?
             WHERE SanPhamID = ?`, [authorId, id]
         );
 
         // Xóa dm đã có trong sp
         await pool.execute(
-            `DELETE FROM sp_dm WHERE SanPhamID = ?`, [id]
+            `DELETE FROM SP_DM WHERE SanPhamID = ?`, [id]
         );
 
         // Thêm danh mục mới của sp
         for (let cateID of category) {
             await pool.execute(
-                `INSERT INTO sp_dm (SanPhamID, DanhMucID) VALUES (?, ?)`, [id, cateID]
+                `INSERT INTO SP_DM (SanPhamID, DanhMucID) VALUES (?, ?)`, [id, cateID]
             );
         }
 
         // Xóa ảnh cũ của sp
         await pool.execute(
-            `DELETE FROM anhsp WHERE ID_SP = ?`, [id]
+            `DELETE FROM AnhSP WHERE ID_SP = ?`, [id]
         );
 
         // Lưu ảnh vào database
         for (let image of imageBase64) {
             // Lấy STT lớn nhất của sản phẩm hiện có
             const [rows] = await pool.execute(
-                "SELECT MAX(STT) AS maxSTT FROM anhsp WHERE ID_SP = ?", [id]
+                "SELECT MAX(STT) AS maxSTT FROM AnhSP WHERE ID_SP = ?", [id]
             );
             
             let newSTT = rows[0].maxSTT ? rows[0].maxSTT + 1 : 1;
 
             // Chèn ảnh vào bảng
             await pool.execute(
-                "INSERT INTO anhsp (ID_SP, STT, Anh) VALUES (?, ?, ?)", [id, newSTT, image]
+                "INSERT INTO AnhSP (ID_SP, STT, Anh) VALUES (?, ?, ?)", [id, newSTT, image]
             );
         }
     }
@@ -300,7 +300,7 @@ class Product{
     async delete(id){
         // Xóa sản phẩm
         await pool.execute(
-            `UPDATE sanpham
+            `UPDATE SanPham
             SET tinhTrang = 0
             WHERE SanPhamID = ?`, [id]
         );

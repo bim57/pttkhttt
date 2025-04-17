@@ -5,7 +5,7 @@ class Provider{
     // Xem tất cả thông tin ncc
     async getAll(){
         const query = 
-        `SELECT * FROM ncc
+        `SELECT * FROM NCC
         WHERE tinhTrang = 1`;
         const [rows] = await pool.execute(query);
         return rows;
@@ -14,7 +14,7 @@ class Provider{
     // search ncc
     async search(id){
         const query = 
-        `SELECT * FROM ncc
+        `SELECT * FROM NCC
         WHERE ID_NCC = ? 
         AND tinhTrang = 1`;
         const [rows] = await pool.execute(query, [id]);
@@ -26,7 +26,7 @@ class Provider{
         const input_query = keyword.toLowerCase();
         const str = `%${input_query}%`;
         const query = 
-        `SELECT * FROM ncc 
+        `SELECT * FROM NCC 
         WHERE (
             LOWER(ID_NCC) LIKE ? OR
             LOWER(TenNCC) LIKE ? OR
@@ -44,7 +44,7 @@ class Provider{
     // thêm ncc mới
     async insert(name, phone, email, street, district, city){
         const query = 
-        `INSERT INTO ncc (TenNCC, SDT, Email, QuanHuyen, SoNhaDuong, TinhThanhPho) VALUES
+        `INSERT INTO NCC (TenNCC, SDT, Email, QuanHuyen, SoNhaDuong, TinhThanhPho) VALUES
         (?, ?, ?, ?, ?, ?)`;
         const [rows] = await pool.execute(query, [name, phone, email, district, street, city]);
         return rows;
@@ -53,7 +53,7 @@ class Provider{
     // sửa thông tin ncc
     async update(id, name, phone, email, street, district, city){
         const query = 
-        `UPDATE ncc  
+        `UPDATE NCC  
         SET TenNCC = ?,  
             SDT = ?,  
             Email = ?,  
@@ -69,7 +69,7 @@ class Provider{
     async delete(id){
         // xoá ncc
         await pool.execute(
-            `UPDATE ncc 
+            `UPDATE NCC 
             SET tinhTrang = 0
             WHERE ID_NCC = ?`, [id]
         );
