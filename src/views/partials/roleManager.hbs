@@ -1,0 +1,76 @@
+<div id="roleManager">
+  <h3>Quản lý phân quyền</h3>
+  <label for="roleSelect">Chọn nhóm quyền:</label>
+  <select id="roleSelect">
+    <option value="">Chọn nhóm quyền</option>
+    <!-- Danh sách nhóm quyền sẽ được load từ backend -->
+    {{#each roles}}
+      <option value="{{this.ID_NhomQuyen}}">{{this.TenNhomQuyen}}</option>
+    {{/each}}
+  </select>
+
+  <h4>Danh sách quyền</h4>
+  <div id="permissionList">
+    <!-- Các quyền sẽ được load sau khi chọn nhóm quyền -->
+  </div>
+
+  <button id="savePermission">Lưu phân quyền</button>
+</div>
+
+<script>
+  // Khi người dùng chọn nhóm quyền
+  document.getElementById("roleSelect").addEventListener("change", async (e) => {
+    const roleId = e.target.value;
+    if (roleId) {
+      // Gửi yêu cầu đến server để lấy quyền của nhóm quyền
+      const response = await fetch(`/roles/permissions/${roleId}`);
+      const permissions = await response.json();
+      const permissionList = document.getElementById("permissionList");
+
+      // Hiển thị danh sách quyền chi tiết
+      permissionList.innerHTML = permissions.map(permission => `
+        <div>
+          <label>
+            <input type="checkbox" value="${permission.HanhDong}" data-chucnang="${permission.ChucNang}" />
+            ${permission.ChucNang} - ${permission.HanhDong}
+          </label>
+        </div>
+      `).join("");
+    } else {
+      // Nếu không có nhóm quyền nào được chọn, xóa danh sách quyền
+      document.getElementById("permissionList").innerHTML = "";
+    }
+  });
+
+  // Lưu phân quyền
+  document.getElementById("savePermission").addEventListener("click", async () => {
+    const roleId = document.getElementById("roleSelect").value;
+    if (!roleId) return alert("Chọn nhóm quyền trước khi lưu");
+
+    // Lấy danh sách quyền đã chọn
+    const permissions = [];
+    document.querySelectorAll("#permissionList input[type=checkbox]:checked").forEach(checkbox => {
+      permissions.push({
+        ChucNang: checkbox.dataset.chucnang,
+        HanhDong: checkbox.value
+      });
+    });
+
+    if (permissions.length === 0) return alert("Chưa chọn quyền");
+
+    // Gửi yêu cầu lưu phân quyền
+    const response = await fetch("/roles/permissions/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        ID_NhomQuyen: roleId,
+        permissions: permissions
+      })
+    });
+
+    const result = await response.json();
+    alert(result.message || "Đã lưu phân quyền thành công");
+  });
+</script>

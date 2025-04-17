@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Book Store</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2 class="logo">Book Store</h2>
+      <ul>
+        <li><a href="/admin/users">Quản lý người dùng</a></li>
+        <li><a href="/admin/roles">Phân quyền chức năng</a></li>
+        <li><a href="/logout">Đăng xuất</a></li>
+      </ul>
+    </div>
+
+    <!-- Main content -->
+    <div class="main-content">
+      <h1>Trang quản lý admin</h1>
+      {{#if users}}
+        {{> userTable}}
+      {{else}}
+        <p>Không có dữ liệu người dùng</p>
+      {{/if}}
+    </div>
+  </div>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>
