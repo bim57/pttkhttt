@@ -1,60 +1,62 @@
-import * as RoleModel from "../models/role.model.js";
+import * as TaiKhoanModel from '../models/taiKhoan.model.js';
+import * as RoleModel from '../models/role.model.js';
 
-// Trang quản lý admin (Trang chính)
-export const getAdminPage = async (req, res) => {
+// Lấy danh sách người dùng
+export const getUsers = async (req, res) => {
   try {
-    res.render("admin", {  // Render trang admin.hbs
-      title: "Quản lý Book Store",  // Tiêu đề của trang
+    const users = await TaiKhoanModel.getAllAccounts();
+    res.render('admin', {
+      users: users
     });
   } catch (error) {
-    console.error("Lỗi khi lấy trang admin:", error);
-    res.status(500).send("Có lỗi xảy ra trong quá trình tải trang quản lý");
+    console.error(error);
+    res.status(500).send('Lỗi khi lấy danh sách người dùng');
   }
 };
 
-// Trang hiển thị phân quyền
-export const getRolePage = async (req, res) => {
+// Thêm người dùng mới
+export const addUser = async (req, res) => {
+  const { ID_NhanVien, ID_NhomQuyen, MatKhau } = req.body;
   try {
-    const roles = await RoleModel.getAllRoles();  // Lấy tất cả vai trò
-    const functions = await RoleModel.getAllFunctions();  // Lấy tất cả chức năng
-    
-    res.render("roleManager", {
-      title: "Quản lý phân quyền",
-      roles,       // Dữ liệu về các vai trò
-      functions,   // Dữ liệu về các chức năng
-    });
+    await TaiKhoanModel.createAccount(ID_NhanVien, ID_NhomQuyen, MatKhau);
+    res.redirect('/admin/users');
   } catch (error) {
-    console.error("Lỗi khi lấy dữ liệu phân quyền:", error);
-    res.status(500).send("Có lỗi xảy ra trong quá trình lấy dữ liệu");
+    console.error(error);
+    res.status(500).send('Lỗi khi thêm người dùng');
   }
 };
 
-// Lấy quyền chi tiết theo nhóm quyền (AJAX hoặc API)
-export const getPermissions = async (req, res) => {
+// Cập nhật thông tin người dùng
+export const updateUser = async (req, res) => {
+  const { ID_TK, ID_NhomQuyen, MatKhau } = req.body;
+  try {
+    await TaiKhoanModel.updateAccount(ID_TK, ID_NhomQuyen, MatKhau);
+    res.redirect('/admin/users');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Lỗi khi cập nhật người dùng');
+  }
+};
+
+// Xóa người dùng
+export const deleteUser = async (req, res) => {
   const { id } = req.params;
-  const permissions = await RoleModel.getPermissionsByRole(id);  // Lấy quyền theo nhóm quyền
-
-  // Trả về kết quả dưới dạng JSON
-  res.json(permissions);
+  try {
+    await TaiKhoanModel.deleteAccount(id);
+    res.redirect('/admin/users');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Lỗi khi xóa người dùng');
+  }
 };
 
-// Cập nhật quyền
-export const updatePermissions = async (req, res) => {
-  const { ID_NhomQuyen, permissions } = req.body;
-
+export const getRolesAndPermissions = async (req, res) => {
   try {
-    // Xóa quyền cũ trước khi cập nhật quyền mới
-    await RoleModel.deletePermissionsByRole(ID_NhomQuyen);
-
-    // Thêm quyền mới vào
-    for (const { ChucNang, HanhDong } of permissions) {
-      await RoleModel.addPermission(ID_NhomQuyen, ChucNang, HanhDong);
-    }
-
-    // Trả về thông báo thành công
-    res.json({ message: "Cập nhật quyền thành công!" });
+    const roles = await RoleModel.getAllRoles();
+    const permissions = await RoleModel.getPermissionsByRole(someRoleId); // Cập nhật roleId phù hợp
+    res.render('rolesAndPermissionsPage', { roles, permissions });
   } catch (error) {
-    console.error("Lỗi khi cập nhật quyền:", error);
-    res.status(500).json({ message: "Có lỗi xảy ra trong quá trình cập nhật quyền" });
+    console.error("Lỗi khi lấy quyền và nhóm quyền:", error);
+    res.status(500).send("Có lỗi khi tải thông tin quyền");
   }
 };

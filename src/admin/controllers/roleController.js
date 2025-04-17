@@ -1,20 +1,13 @@
 import * as RoleModel from "../models/role.model.js";
 
-// Trang hiển thị phân quyền
-export const getRolePage = async (req, res) => {
-  const roles = await RoleModel.getAllRoles();
-  const functions = await RoleModel.getAllFunctions();
-  res.render("roleManager", { roles, functions });  // Thay permissions thành roleManager
-};
-
-// Lấy quyền chi tiết theo nhóm quyền (AJAX hoặc API)
+// API: Lấy quyền chi tiết theo nhóm quyền
 export const getPermissions = async (req, res) => {
   const { id } = req.params;
   const permissions = await RoleModel.getPermissionsByRole(id);
   res.json(permissions);
 };
 
-// Cập nhật quyền
+// API: Cập nhật quyền cho nhóm
 export const updatePermissions = async (req, res) => {
   const { ID_NhomQuyen, permissions } = req.body;
 

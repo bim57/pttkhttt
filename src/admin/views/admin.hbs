@@ -2,68 +2,28 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Quản lý Book Store</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Book Store</title>
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <header>
-    <h1>Quản lý Hệ thống</h1>
-    <nav>
-      <button id="tab-tk">Quản lý tài khoản</button>
-      <button id="tab-roles">Phân quyền</button>
-    </nav>
-  </header>
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2 class="logo">Book Store</h2>
+      <ul>
+        <li><a href="/admin/users">Quản lý người dùng</a></li>
+        <li><a href="/admin/roles">Phân quyền chức năng</a></li>
+        <li><a href="/logout">Đăng xuất</a></li>
+      </ul>
+    </div>
 
-  <main>
-    <!-- Tab 1: Quản lý tài khoản -->
-    <section id="tai-khoan-tab" class="tab active">
-      <h2>Danh sách tài khoản</h2>
-      <table id="userTable">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Tên nhân viên</th>
-            <th>Nhóm quyền</th>
-            <th>Hành động</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-
-      <h3>Thêm / Sửa tài khoản</h3>
-      <form id="userForm">
-        <input type="hidden" name="ID_TK" />
-        <input type="text" name="ID_NhanVien" placeholder="ID Nhân viên" required />
-        <input type="text" name="ID_NhomQuyen" placeholder="ID Nhóm quyền" required />
-        <input type="password" name="MatKhau" placeholder="Mật khẩu" required />
-        <button type="submit">Lưu</button>
-      </form>
-    </section>
-
-    <!-- Tab 2: Phân quyền -->
-    <section id="phan-quyen-tab" class="tab">
-      <h2>Phân quyền theo nhóm</h2>
-      <label for="roleSelect">Chọn nhóm quyền:</label>
-      <select id="roleSelect">
-        {{#each roles}}
-          <option value="{{this.ID_NhomQuyen}}">{{this.TenNhomQuyen}}</option>
-        {{/each}}
-      </select>
-
-      <div id="permissionList">
-        <ul>
-          {{#each functions}}
-            <li>
-              <input type="checkbox" id="permission-{{this.ID_ChucNang}}" data-function-id="{{this.ID_ChucNang}}">
-              <label for="permission-{{this.ID_ChucNang}}">{{this.TenChucNang}}</label>
-            </li>
-          {{/each}}
-        </ul>
-      </div>
-
-      <button id="savePermission">Lưu phân quyền</button>
-    </section>
-  </main>
+    <!-- Main content -->
+    <div class="main-content">
+      <h1>Trang quản lý admin</h1>
+      {{> usersList}} <!-- Đây là partial cho danh sách người dùng -->
+    </div>
+  </div>
 
   <script src="/js/script.js"></script>
 </body>

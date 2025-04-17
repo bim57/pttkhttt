@@ -1,18 +1,15 @@
-import express from "express";
-import * as adminController from "../controllers/adminController.js";
+import express from 'express';
+import { getUsers, addUser, updateUser, deleteUser } from '../controllers/adminController.js';
 
 const router = express.Router();
 
-// Route GET cho trang chính của admin
-router.get("/", adminController.getAdminPage);
+router.get('/users', getUsers);
+router.post('/users/add', addUser);
+router.post('/users/update', updateUser);
+router.get('/users/delete/:id', deleteUser);
 
-// Route GET cho trang quản lý phân quyền
-router.get("/roles", adminController.getRolePage);  // Trang phân quyền
-
-// API lấy quyền chi tiết theo nhóm quyền (AJAX)
-router.get("/permissions/:id", adminController.getPermissions);  // Lấy quyền chi tiết theo nhóm quyền
-
-// API cập nhật quyền (POST)
-router.post("/permissions/update", adminController.updatePermissions);  // Cập nhật quyền
+router.get('/roles', getRolesAndPermissions);
+router.get('/roles/:idRole', getPermissions);
+router.post('/roles/update', updatePermissions);
 
 export default router;

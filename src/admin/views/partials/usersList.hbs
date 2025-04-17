@@ -1,0 +1,28 @@
+{{!-- usersList.hbs --}}
+<h2>Danh sách người dùng</h2>
+<button id="addUserBtn">Thêm người dùng</button>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Tên</th>
+      <th>Email</th>
+      <th>Quyền</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each users}}
+      <tr>
+        <td>{{this.ID_TK}}</td>
+        <td>{{this.Name}}</td>
+        <td>{{this.Email}}</td>
+        <td>{{this.Role}}</td>
+        <td>
+          <button class="editBtn" data-id="{{this.ID_TK}}">Sửa</button>
+          <button class="deleteBtn" data-id="{{this.ID_TK}}">Xóa</button>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

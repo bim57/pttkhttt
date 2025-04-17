@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 
 // Import routes
 import adminRoutes from './admin/routes/admin.route.js';
-import roleRoutes from './admin/routes/role.route.js';
+//import roleRoutes from './admin/routes/role.route.js';
 
 const app = express();
 const __dirname = path.resolve();
@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/admin', adminRoutes);   // Quản lý tài khoản người dùng
-app.use('/roles', roleRoutes);    // Phân quyền người dùng
+//app.use('/roles', roleRoutes);    // Phân quyền người dùng
 
 // Trang mặc định hoặc 404
 app.get('/', (req, res) => {
