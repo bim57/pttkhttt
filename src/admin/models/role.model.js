@@ -33,3 +33,37 @@ export const addPermission = async (idRole, chucNang, hanhDong) => {
     [idRole, chucNang, hanhDong]
   );
 };
+
+export const addRole = async (req, res) => {
+  const { TenNhomQuyen } = req.body;
+  try {
+    await RoleModel.addRole(TenNhomQuyen);
+    res.json({ message: 'Thêm nhóm quyền thành công' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Lỗi thêm nhóm quyền' });
+  }
+};
+
+export const editRole = async (req, res) => {
+  const { ID_NhomQuyen, TenNhomQuyen } = req.body;
+  try {
+    await RoleModel.updateRole(ID_NhomQuyen, TenNhomQuyen);
+    res.json({ message: 'Cập nhật nhóm quyền thành công' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Lỗi cập nhật nhóm quyền' });
+  }
+};
+
+export const deleteRole = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await RoleModel.deleteRole(id);
+    res.json({ message: 'Xóa nhóm quyền thành công' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Lỗi xóa nhóm quyền' });
+  }
+};
+

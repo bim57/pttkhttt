@@ -1,76 +1,58 @@
 <div id="roleManager">
-  <h3>Quản lý phân quyền</h3>
-  <label for="roleSelect">Chọn nhóm quyền:</label>
-  <select id="roleSelect">
-    <option value="">Chọn nhóm quyền</option>
-    <!-- Danh sách nhóm quyền sẽ được load từ backend -->
-    {{#each roles}}
-      <option value="{{this.ID_NhomQuyen}}">{{this.TenNhomQuyen}}</option>
-    {{/each}}
-  </select>
+  <h2>Danh sách nhóm quyền</h2>
+  <button id="addRoleBtn">Thêm</button>
+  <button id="editRoleBtn">Sửa</button>
+  <button id="deleteRoleBtn">Xóa</button>
 
-  <h4>Danh sách quyền</h4>
-  <div id="permissionList">
-    <!-- Các quyền sẽ được load sau khi chọn nhóm quyền -->
-  </div>
-
-  <button id="savePermission">Lưu phân quyền</button>
+  <table>
+    <thead>
+      <tr>
+        <th>ID Nhóm quyền</th>
+        <th>Tên nhóm quyền</th>
+        <th>Trạng thái</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each roles}}
+        <tr>
+          <td>{{this.ID_NhomQuyen}}</td>
+          <td>{{this.TenNhomQuyen}}</td>
+          <td>Hoạt động</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </div>
 
-<script>
-  // Khi người dùng chọn nhóm quyền
-  document.getElementById("roleSelect").addEventListener("change", async (e) => {
-    const roleId = e.target.value;
-    if (roleId) {
-      // Gửi yêu cầu đến server để lấy quyền của nhóm quyền
-      const response = await fetch(`/roles/permissions/${roleId}`);
-      const permissions = await response.json();
-      const permissionList = document.getElementById("permissionList");
+<!-- Modal Thêm nhóm quyền -->
+<div id="addRoleModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeAddRoleModal">&times;</span>
+    <button id="addRoleBtn">Thêm nhóm quyền</button>
 
-      // Hiển thị danh sách quyền chi tiết
-      permissionList.innerHTML = permissions.map(permission => `
-        <div>
-          <label>
-            <input type="checkbox" value="${permission.HanhDong}" data-chucnang="${permission.ChucNang}" />
-            ${permission.ChucNang} - ${permission.HanhDong}
-          </label>
-        </div>
-      `).join("");
-    } else {
-      // Nếu không có nhóm quyền nào được chọn, xóa danh sách quyền
-      document.getElementById("permissionList").innerHTML = "";
-    }
-  });
+    <div class="form-group">
+      <label for="newRoleName">Tên nhóm quyền:</label>
+      <input type="text" id="newRoleName" placeholder="Nhập tên nhóm quyền..." />
+    </div>
 
-  // Lưu phân quyền
-  document.getElementById("savePermission").addEventListener("click", async () => {
-    const roleId = document.getElementById("roleSelect").value;
-    if (!roleId) return alert("Chọn nhóm quyền trước khi lưu");
+    <table>
+      <thead>
+        <tr>
+          <th>Chức năng</th>
+          <th>Xem</th>
+          <th>Tạo mới</th>
+          <th>Cập nhật</th>
+          <th>Xóa</th>
+        </tr>
+      </thead>
+      <tbody id="permissionTableBody">
+        <!-- Dòng chức năng sẽ được thêm bằng JS -->
+      </tbody>
+    </table>
 
-    // Lấy danh sách quyền đã chọn
-    const permissions = [];
-    document.querySelectorAll("#permissionList input[type=checkbox]:checked").forEach(checkbox => {
-      permissions.push({
-        ChucNang: checkbox.dataset.chucnang,
-        HanhDong: checkbox.value
-      });
-    });
-
-    if (permissions.length === 0) return alert("Chưa chọn quyền");
-
-    // Gửi yêu cầu lưu phân quyền
-    const response = await fetch("/roles/permissions/update", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        ID_NhomQuyen: roleId,
-        permissions: permissions
-      })
-    });
-
-    const result = await response.json();
-    alert(result.message || "Đã lưu phân quyền thành công");
-  });
-</script>
+    <div class="form-actions" style="margin-top: 20px;">
+      <button id="submitAddRoleBtn">Thêm nhóm quyền</button>
+      <button id="cancelAddRoleBtn" class="cancel-btn">Hủy bỏ</button>
+    </div>
+  </div>
+</div>

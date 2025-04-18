@@ -4,20 +4,33 @@ import {
   addUser,
   updateUser,
   deleteUser,
+  addRole,
+  editRole,
+  deleteRole,
   getRolesAndPermissions,
-  getPermissions,
-  updatePermissions
+  getFunctionList
+  //getPermissions,
+  //updatePermissions
 } from '../controllers/adminController.js';
 
 const router = express.Router();
 
+router.get('/', getUsers); 
+
 router.get('/users', getUsers);
 router.post('/users/add', addUser);
 router.post('/users/update', updateUser);
-router.get('/users/delete/:id', deleteUser);
+router.post('/delete-user/:id', deleteUser);
 
 router.get('/roles', getRolesAndPermissions);
-router.get('/roles/:idRole', getPermissions);
-router.post('/roles/update', updatePermissions);
+router.get('/roles/functions', getFunctionList);
+
+//router.get('/roles/:idRole', getPermissions);
+//router.post('/roles/update', updatePermissions);
+
+router.post('/roles/add', addRole);
+router.post('/roles/edit', editRole);
+router.post('/roles/delete/:id', deleteRole);
+
 
 export default router;

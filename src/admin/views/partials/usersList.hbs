@@ -26,3 +26,50 @@
     {{/each}}
   </tbody>
 </table>
+
+<!-- Modal Thêm/Sửa người dùng -->
+<div id="userModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 id="modalTitle">Thêm người dùng</h2>
+    <form id="userForm" class="modal-form">
+      <input type="hidden" id="userId" />
+
+      <div class="form-group">
+        <label for="userName">Tên người dùng:</label>
+        <input type="text" id="userName" placeholder="Nhập tên..." required />
+      </div>
+
+      <div class="form-group">
+        <label for="userEmail">Email:</label>
+        <input type="email" id="userEmail" placeholder="Nhập email..." required />
+      </div>
+
+      <div class="form-group">
+        <label for="userRole">Quyền:</label>
+        <select id="userRole" required>
+          <option value="" disabled selected>-- Chọn quyền --</option>
+          {{#each roles}}
+            <option value="{{this.ID_NhomQuyen}}">{{this.TenQuyen}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="save-btn">Lưu</button>
+        <button type="button" class="cancel-btn" id="cancelModalBtn">Hủy</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Xóa người dùng -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <p>Bạn có chắc chắn muốn xóa người dùng này?</p>
+    <div class="form-actions">
+      <button id="confirmDeleteBtn">Xóa</button>
+      <button id="cancelDeleteBtn">Hủy</button>
+    </div>
+  </div>
+</div>

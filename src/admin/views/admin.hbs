@@ -4,24 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - Book Store</title>
-  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
   <div class="wrapper">
     <!-- Sidebar -->
     <div class="sidebar">
-      <h2 class="logo">Book Store</h2>
-      <ul>
-        <li><a href="/admin/users">Quản lý người dùng</a></li>
-        <li><a href="/admin/roles">Phân quyền chức năng</a></li>
-        <li><a href="/logout">Đăng xuất</a></li>
+      <div class="logo"><i class="fas fa-book"></i> Book Store</div>
+      <ul class="menu">
+        <li><a href="/admin/users"><i class="fas fa-users"></i> Quản lý người dùng</a></li>
+        <li><a href="/admin/roles"><i class="fas fa-user-shield"></i> Phân quyền chức năng</a></li>
+        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
       </ul>
     </div>
 
     <!-- Main content -->
     <div class="main-content">
       <h1>Trang quản lý admin</h1>
-      {{> usersList}} <!-- Đây là partial cho danh sách người dùng -->
+
+      {{#if isUsersPage}}
+        {{> usersList }}
+      {{/if}}
+
+      {{#if isRolesPage}}
+        {{> roleManager }}
+      {{/if}}
     </div>
   </div>
 
