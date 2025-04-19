@@ -196,7 +196,7 @@ class ReceiptController{
                 { header: 'Nhà Cung Cấp', key: 'TenNCC', width: 25 },
                 { header: 'Nhân Viên', key: 'TenNhanVien', width: 25 },
                 { header: 'Ngày Nhập', key: 'NgayNhap', width: 20 },
-                { header: 'Tình Trạng Thanh Toán', key: 'TinhTrangThanhToan', width: 25 },
+                // { header: 'Tình Trạng Thanh Toán', key: 'TinhTrangThanhToan', width: 25 },
                 { header: 'Tổng Tiền', key: 'TongTien', width: 20 }
             ];
       

@@ -2,6 +2,7 @@
 // const categoryConfig = require('../db/category');
 import productConfig from '../db/product.js';
 import categoryConfig from '../db/category.js';
+import ExcelJS from 'exceljs';
 
 class ProductController{
     // show all products
@@ -49,6 +50,55 @@ class ProductController{
             res.render('create_product', {category});
         } catch (err) {
             console.error(err);
+        }
+    }
+
+    // create excel
+    async create_excel(req, res){
+        try {
+            const data = await productConfig.getAll(); // Lấy dữ liệu từ DB
+            const workbook = new ExcelJS.Workbook();
+            const worksheet = workbook.addWorksheet('Danh sách sản phẩm');
+      
+            // Định nghĩa các cột
+            worksheet.columns = [
+                { header: 'Mã Sản Phẩm', key: 'SanPhamID', width: 20 },
+                { header: 'Tên Sản Phẩm', key: 'TenSanPham', width: 30 },
+                { header: 'Tác Giả', key: 'TenTacGia', width: 20 },
+                { header: 'Nhà Xuất Bản', key: 'TenNXB', width: 30 },
+                { header: 'Số Lượng Tồn', key: 'SoLuongTon', width: 20 },
+                { header: 'Số Trang', key: 'SoTrang', width: 20 },
+                { header: 'Giá', key: 'Gia', width: 20 },
+                { header: 'Mô Tả', key: 'MoTa', width: 30 },
+                { header: 'Hình Ảnh', key: 'Anh', width: 20 }
+            ];
+      
+            // Thêm dữ liệu
+            data.forEach((item, index) => {
+                worksheet.addRow({
+                    ...item,
+                    Anh: item.Anh && item.Anh.length > 0 ? "Đã có ảnh" : "Không có ảnh"
+                });
+            });
+
+            // Format tiền
+            worksheet.getColumn('Gia').eachCell((cell, rowNumber) => {
+                if (rowNumber > 1) {
+                    const value = Number(cell.value);
+                    cell.value = new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
+                    }).format(value);
+                }
+            });
+
+            // Xuất file
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            res.setHeader('Content-Disposition', 'attachment; filename=ds_sanpham.xlsx');
+            await workbook.xlsx.write(res);
+            res.end();
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -105,6 +155,24 @@ class ProductController{
         try {
             await productConfig.delete(req.params.id);
             res.redirect('/product');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async delete_opt(req, res){
+        try {
+            const product = await productConfig.getAll_delete();
+            res.render('product', {product});
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async on_sale(req, res){
+        try {
+            const product = await productConfig.getAll();
+            res.render('product', {product});
         } catch (error) {
             console.log(error);
         }

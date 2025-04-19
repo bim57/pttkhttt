@@ -12,15 +12,22 @@
         <div class="productHeader">
             <h2>Sản Phẩm</h2>
             <div>
+                <a href="/product"><button class="reset-btn">Làm Mới</button></a>
+                <a href="/product/create_excel"><button class="excel-btn">Xuất Excel</button></a>
                 <a href="/product/create"><button class="add-product">Thêm Sản Phẩm</button></a>
             </div>
         </div>
-        <div>
+        <div style="display: flex">
+            <select name="" id="selection-box">
+                <option value="">--- Chọn sản phẩm ---</option>
+                <option value="/product/on_sale">Sản phẩm đang bán</option>
+                <option value="/product/delete_opt">Sản phẩm đã xóa</option>
+            </select>
             <form action="/product/search" method="get" id="search-form">
                 <div class="search-container">
                     <input type="text" name="search" id="search" 
                     placeholder="Nhập thông tin cần tìm kiếm ..." autocomplete="off">
-                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                    <button class="search-btn" type="submit"><i class="fas fa-search"></i></button>
                 </div>
             </form>
         </div>

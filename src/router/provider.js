@@ -6,7 +6,13 @@ import ProviderController from '../controller/ProviderController.js';
 
 router.get('/search', ProviderController.search);
 
+router.get('/delete_opt', ProviderController.delete_opt);
+
+router.get('/on_cooperate', ProviderController.on_cooperate);
+
 router.get('/create', ProviderController.create);
+
+router.get('/create_excel', ProviderController.create_excel);
 
 router.post('/store', ProviderController.store);
 

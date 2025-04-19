@@ -27,11 +27,31 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
-#search-fornm{
+.product-table .inside-table .productHeader .excel-btn{
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 10px;
+    font-size: 18px;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #16A34A, #22C55E, #4ADE80);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+#search-form{
     width: 50%;
     margin: 20px 0;
     border-radius: 5px;
     margin-bottom: 1rem;
+}
+#selection-box{
+    width: 200px;
+    margin: 20px 20px 20px 0;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    font-size: 16px;
 }
 .search-container{
     display: flex;
@@ -53,6 +73,18 @@
     border: none;
     border-radius: 6px;
     background: linear-gradient(135deg, #6a11cb, #2575fc);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+.reset-btn{
+    display: inline-block;
+    padding: 5px 15px;
+    font-size: 18px;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #FF3D00, #FF6D00);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }

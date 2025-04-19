@@ -27,7 +27,6 @@
                     <td>SL tồn</td>
                     <td>Số trang</td>
                     <td>Mô tả</td>
-                    <td>Hoạt động</td>
                 </tr>
             </thead>
             <tbody class="category-list">
@@ -47,21 +46,11 @@
                                     {{this.MoTa}}
                                 </div>
                             </td>
-                            <td>
-                                <div class="button-container">
-                                    <a href="/product/view/{{this.SanPhamID}}">
-                                        <button class="icon-btn view-btn">
-                                            <i class="fas fa-eye"></i>
-                                            <span class="tooltip">Chi tiết</span>
-                                        </button>
-                                    </a>
-                                </div>
-                            </td>
                         </tr>
                     {{/each}}
                 {{else}}
                     <tr>
-                        <td colspan="10" style="text-align: center;">Không có dữ liệu</td>
+                        <td colspan="9" style="text-align: center;">Không có dữ liệu</td>
                     </tr>
                 {{/if}}
             </tbody>

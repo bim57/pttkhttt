@@ -24,6 +24,20 @@ class Product{
         return rows;
     }
 
+    // Xem tất cả sản phẩm đã xóa
+    async getAll_delete(){
+        const query = 
+        `SELECT SanPham.SanPhamID, TenSanPham, TacGia.TenTacGia, NXB.TenNXB, AnhSP.Anh, MoTa, Gia, SoLuongTon, SoTrang
+        FROM SanPham
+        LEFT JOIN NXB ON SanPham.ID_NXB = NXB.ID_NXB
+        LEFT JOIN SP_TG ON SanPham.SanPhamID = SP_TG.SanPhamID
+        LEFT JOIN AnhSP ON SanPham.SanPhamID = AnhSP.ID_SP AND AnhSP.STT = 1
+        LEFT JOIN TacGia ON SP_TG.IDTacGia = TacGia.IDTacGia
+        WHERE SanPham.tinhTrang = 0`;
+        const [rows] = await pool.execute(query);
+        return rows;
+    }
+
     // search 
     async search(id){
         const query = 

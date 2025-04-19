@@ -12,6 +12,7 @@
         <div class="receiptHeader">
             <h2>Hóa Đơn Nhập Hàng</h2>
             <div>
+                <a href="/receipt/create_excel"><button class="excel-receipt">Xuất Excel</button></a>
                 <a href="/receipt/create"><button class="add-receipt">Thêm Hóa Đơn</button></a>
             </div>
         </div>
@@ -23,7 +24,7 @@
                     <td class="sortable">Nhà cung cấp<span class="arrow">▲</span></td>
                     <td class="sortable">Nhân viên<span class="arrow">▲</span></td>
                     <td class="sortable">Tổng hóa đơn<span class="arrow">▲</span></td>
-                    <td>Tình trạng thanh toán</td>
+                    {{!-- <td>Tình trạng thanh toán</td> --}}
                     <td>Hoạt động</td>
                 </tr>
             </thead>
@@ -37,7 +38,7 @@
                         <td>{{this.TenNCC}}</td>
                         <td>{{this.TenNhanVien}}</td>
                         <td data-value="{{this.TongTien}}">{{formatCurrency this.TongTien}}</td>
-                        {{#if this.TinhTrangThanhToan}}
+                        {{!-- {{#if this.TinhTrangThanhToan}}
                             <td>
                                 <div class="delivered">
                                     Đã thanh toán
@@ -49,7 +50,7 @@
                                     Chưa thanh toán
                                 </div>
                             </td>
-                        {{/if}}
+                        {{/if}} --}}
                         <td>
                             <div class="button-container">
                                 <a href="/receipt/view/{{this.IDHoaDonNhap}}">

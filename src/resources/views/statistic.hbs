@@ -13,7 +13,7 @@
             <h2>Thống Kê Lịch Sử Nhập Hàng</h2>
             <div>
                 <a id="excel-link" href="#"><button class="excel-statistic">Xuất Excel</button></a>
-                <a href="/statistic"><button class="reset-btn">Hiển Thị Tất Cả</button></a>
+                <a href="/statistic"><button class="reset-btn">Làm Mới</button></a>
             </div>
         </div>
         <div>
@@ -39,7 +39,7 @@
                     <td class="sortable">Nhà cung cấp<span class="arrow">▲</span></td>
                     <td class="sortable">Nhân viên<span class="arrow">▲</span></td>
                     <td class="sortable">Tổng hóa đơn<span class="arrow">▲</span></td>
-                    <td>Tình trạng thanh toán</td>
+                    {{!-- <td>Tình trạng thanh toán</td> --}}
                     <td>Hoạt động</td>
                 </tr>
             </thead>
@@ -54,7 +54,7 @@
                             <td>{{this.TenNCC}}</td>
                             <td>{{this.TenNhanVien}}</td>
                             <td data-value="{{this.TongTien}}">{{formatCurrency this.TongTien}}</td>
-                            {{#if this.TinhTrangThanhToan}}
+                            {{!-- {{#if this.TinhTrangThanhToan}}
                                 <td>
                                     <div class="delivered">
                                         Đã thanh toán
@@ -66,7 +66,7 @@
                                         Chưa thanh toán
                                     </div>
                                 </td>
-                            {{/if}}
+                            {{/if}} --}}
                             <td>
                                 <div class="button-container">
                                     <a href="/receipt/view/{{this.IDHoaDonNhap}}">

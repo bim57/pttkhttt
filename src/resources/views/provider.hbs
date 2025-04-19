@@ -12,10 +12,17 @@
         <div class="providerHeader">
             <h2>Nhà Cung Cấp</h2>
             <div>
+                <a href="/provider"><button class="reset-btn">Làm Mới</button></a>
+                <a href="/provider/create_excel"><button class="excel-btn">Xuất Excel</button></a>
                 <a href="/provider/create"><button class="add-provider">Thêm Nhà Cung Cấp</button></a>
             </div>
         </div>
-        <div>
+        <div style="display: flex">
+            <select name="" id="selection-box">
+                <option value="">--- Chọn nhà cung cấp ---</option>
+                <option value="/provider/on_cooperate">Nhà cung cấp đang hợp tác</option>
+                <option value="/provider/delete_opt">Nhà cung cấp đã xóa</option>
+            </select>
             <form action="/provider/search" method="get" id="search-form">
                 <div class="search-container">
                     <input type="text" name="search" id="search" 

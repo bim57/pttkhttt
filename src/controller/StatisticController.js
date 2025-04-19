@@ -58,7 +58,7 @@ class StatisticController{
                 { header: 'Nhà Cung Cấp', key: 'TenNCC', width: 25 },
                 { header: 'Nhân Viên', key: 'TenNhanVien', width: 25 },
                 { header: 'Ngày Nhập', key: 'NgayNhap', width: 20 },
-                { header: 'Tình Trạng Thanh Toán', key: 'TinhTrangThanhToan', width: 25 },
+                // { header: 'Tình Trạng Thanh Toán', key: 'TinhTrangThanhToan', width: 25 },
                 { header: 'Tổng Tiền', key: 'TongTien', width: 20 }
             ];
         
@@ -93,7 +93,7 @@ class StatisticController{
             });
             
             // Gộp các ô từ cột A đến E cho dòng này
-            const mergeRange = `A${lastRow.number}:E${lastRow.number}`;
+            const mergeRange = `A${lastRow.number}:D${lastRow.number}`;
             worksheet.mergeCells(mergeRange);
             
             const mergedCell = worksheet.getCell(`A${lastRow.number}`);
@@ -101,7 +101,7 @@ class StatisticController{
             mergedCell.font = { bold: true };
             
             // Đặt giá trị và format tiền cho ô tổng tiền ở cột F
-            const tongTienCell = worksheet.getCell(`F${lastRow.number}`);
+            const tongTienCell = worksheet.getCell(`E${lastRow.number}`);
             tongTienCell.value = new Intl.NumberFormat('vi-VN', {
                 style: 'currency',
                 currency: 'VND',

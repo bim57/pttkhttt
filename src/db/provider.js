@@ -11,6 +11,15 @@ class Provider{
         return rows;
     }
 
+    // Xem tất cả thông tin ncc đã xóa
+    async getAll_delete(){
+        const query = 
+        `SELECT * FROM NCC
+        WHERE tinhTrang = 0`;
+        const [rows] = await pool.execute(query);
+        return rows;
+    }
+
     // search ncc
     async search(id){
         const query = 
