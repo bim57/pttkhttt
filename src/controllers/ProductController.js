@@ -1,6 +1,6 @@
-import Product from "../models/Product";
+import Dashboard from "../models/Dashboard";
 
-class ProductController {
+export class ProductController {
   async showTopProductsByDateRange(req, res) {
     try {
       const startDate = req.query.startDate || req.body.startDate;
@@ -13,7 +13,7 @@ class ProductController {
         });
       }
 
-      const productModel = new Product();
+      const productModel = new Dashboard();
       const products = await productModel.getTopProductsByDateRange(
         startDate,
         endDate

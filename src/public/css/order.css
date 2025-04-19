@@ -115,6 +115,87 @@
   margin-right: 0.5rem;
 }
 
+/* Reset Button */
+.reset-button {
+  padding: 0.5rem 1rem;
+  background-color: #64748b;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  height: 40px;
+  white-space: nowrap;
+}
+
+.reset-button:hover {
+  background-color: #475569;
+}
+
+.reset-button i {
+  margin-right: 0.5rem;
+}
+
+/* Active Filters Display */
+.active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.active-filters-title {
+  font-weight: 500;
+  color: #4a5568;
+  margin-right: 0.5rem;
+}
+
+.filter-tag {
+  display: inline-flex;
+  align-items: center;
+  background-color: #e2e8f0;
+  color: #4a5568;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.filter-tag .filter-name {
+  font-weight: 500;
+  margin-right: 0.25rem;
+}
+
+.filter-tag .filter-value {
+  margin-right: 0.5rem;
+}
+
+.filter-tag .remove-filter {
+  cursor: pointer;
+  color: #718096;
+  transition: color 0.2s;
+}
+
+.filter-tag .remove-filter:hover {
+  color: #e53e3e;
+}
+
+.no-results-message {
+  text-align: center;
+  padding: 2rem;
+  color: #4a5568;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.no-results-message i {
+  font-size: 2rem;
+  color: #e2e8f0;
+  display: block;
+  margin-bottom: 1rem;
+}
+
 /* Order Table */
 .order-table-container {
   width: 100%;
@@ -265,31 +346,27 @@
   text-align: center;
 }
 
-.edit-button {
+/* View Details Button */
+.view-button {
   background-color: #ebf8ff;
   color: #3182ce;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.25rem;
-  margin-right: 0.25rem;
   cursor: pointer;
+  transition: all 0.2s;
+  width: 50%;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
 }
 
-.edit-button:hover {
+.view-button:hover {
   background-color: #bee3f8;
 }
 
-.delete-button {
-  background-color: #fff5f5;
-  color: #e53e3e;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-}
-
-.delete-button:hover {
-  background-color: #fed7d7;
+.view-button i {
+  margin-right: 0.5rem;
 }
 
 /* Pagination */
@@ -368,6 +445,28 @@
 .checkbox-cell {
   text-align: center;
   vertical-align: middle;
+}
+
+/* Sort Icons */
+.sort-icon {
+  margin-left: 5px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.8rem;
+  vertical-align: middle;
+}
+
+.sort-icon i {
+  color: #cbd5e0;
+  transition: all 0.2s;
+}
+
+.sort-asc i.fa-sort-up {
+  color: white;
+}
+
+.sort-desc i.fa-sort-down {
+  color: white;
 }
 
 /* Order Detail Styles */

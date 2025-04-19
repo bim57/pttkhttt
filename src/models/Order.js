@@ -39,9 +39,12 @@ export class Order extends BaseModel {
    *  paymentMethod?: string,
    *  paymentStatus?: string,
    * }} body
+   * @param {string|null} sortField
+   * @param {string} sortDir
+   * @param {number|null} limit
    * *
    */
-  async findAll(body = {}) {
+  async findAll(body = {}, sortField = null, sortDir = "asc", limit = null) {
     try {
       let sql = `
          SELECT hdx.IDHoaDonXuat, dckh.TenNguoiNhan, dckh.SoDienThoai, dckh.SoNhaDuong, 
@@ -91,6 +94,44 @@ export class Order extends BaseModel {
         sql += " WHERE " + conditions.join(" AND ");
       }
 
+      // Add ORDER BY clause if sortField is provided
+      if (sortField) {
+        let orderByField;
+        switch (sortField) {
+          case "id":
+            orderByField = "hdx.IDHoaDonXuat";
+            break;
+          case "customer":
+            orderByField = "dckh.TenNguoiNhan";
+            break;
+          case "date":
+            orderByField = "hdx.NgayXuat";
+            break;
+          case "amount":
+            orderByField = "hdx.TongTien";
+            break;
+          case "status":
+            orderByField = "gh.TinhTrangDon";
+            break;
+          case "paymentMethod":
+            orderByField = "hdx.PhuongThucThanhToan";
+            break;
+          case "paymentStatus":
+            orderByField = "hdx.TinhTrangThanhToan";
+            break;
+          default:
+            orderByField = "hdx.IDHoaDonXuat";
+        }
+        sql += ` ORDER BY ${orderByField} ${
+          sortDir === "desc" ? "DESC" : "ASC"
+        }`;
+      }
+
+      if (limit) {
+        sql += " LIMIT ?";
+        params.push(limit);
+      }
+
       const [rows] = await db.query(sql, params);
       return rows;
     } catch (err) {
@@ -99,7 +140,7 @@ export class Order extends BaseModel {
     }
   }
 
-  async findReturnCancelRequests(body = {}) {
+  async findReturnCancelRequests(body = {}, sortField = null, sortDir = "asc") {
     try {
       let sql = `
          SELECT hdx.IDHoaDonXuat, dckh.TenNguoiNhan, dckh.SoDienThoai, 
@@ -147,6 +188,44 @@ export class Order extends BaseModel {
         sql += " AND " + conditions.join(" AND ");
       }
 
+      if (body.limit) {
+        sql += " LIMIT ?";
+        params.push(body.limit);
+      }
+
+      // Add ORDER BY clause if sortField is provided
+      if (sortField) {
+        let orderByField;
+        switch (sortField) {
+          case "id":
+            orderByField = "hdx.IDHoaDonXuat";
+            break;
+          case "customer":
+            orderByField = "dckh.TenNguoiNhan";
+            break;
+          case "date":
+            orderByField = "hdx.NgayXuat";
+            break;
+          case "amount":
+            orderByField = "hdx.TongTien";
+            break;
+          case "status":
+            orderByField = "gh.TinhTrangDon";
+            break;
+          case "paymentMethod":
+            orderByField = "hdx.PhuongThucThanhToan";
+            break;
+          case "paymentStatus":
+            orderByField = "hdx.TinhTrangThanhToan";
+            break;
+          default:
+            orderByField = "hdx.IDHoaDonXuat";
+        }
+        sql += ` ORDER BY ${orderByField} ${
+          sortDir === "desc" ? "DESC" : "ASC"
+        }`;
+      }
+
       const [rows] = await db.query(sql, params);
       return rows;
     } catch (err) {
@@ -155,7 +234,7 @@ export class Order extends BaseModel {
     }
   }
 
-  async findArchivedOrders(body = {}) {
+  async findArchivedOrders(body = {}, sortField = null, sortDir = "asc") {
     try {
       let sql = `
          SELECT hdx.IDHoaDonXuat, dckh.TenNguoiNhan, dckh.SoDienThoai, 
@@ -201,6 +280,39 @@ export class Order extends BaseModel {
 
       if (conditions.length > 0) {
         sql += " AND " + conditions.join(" AND ");
+      }
+
+      // Add ORDER BY clause if sortField is provided
+      if (sortField) {
+        let orderByField;
+        switch (sortField) {
+          case "id":
+            orderByField = "hdx.IDHoaDonXuat";
+            break;
+          case "customer":
+            orderByField = "dckh.TenNguoiNhan";
+            break;
+          case "date":
+            orderByField = "hdx.NgayXuat";
+            break;
+          case "amount":
+            orderByField = "hdx.TongTien";
+            break;
+          case "status":
+            orderByField = "gh.TinhTrangDon";
+            break;
+          case "paymentMethod":
+            orderByField = "hdx.PhuongThucThanhToan";
+            break;
+          case "paymentStatus":
+            orderByField = "hdx.TinhTrangThanhToan";
+            break;
+          default:
+            orderByField = "hdx.IDHoaDonXuat";
+        }
+        sql += ` ORDER BY ${orderByField} ${
+          sortDir === "desc" ? "DESC" : "ASC"
+        }`;
       }
 
       const [rows] = await db.query(sql, params);

@@ -99,6 +99,109 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Add reset button functionality
+  const resetButton = document.querySelector(".reset-button");
+  if (resetButton) {
+    resetButton.addEventListener("click", () => {
+      // Get current tab if any
+      const currentParams = new URLSearchParams(window.location.search);
+      const currentTab = currentParams.get("tab");
+
+      // Create a clean URL, preserving only the tab parameter if it exists
+      let newUrl = window.location.pathname;
+      if (currentTab) {
+        newUrl += `?tab=${currentTab}`;
+      }
+
+      // Navigate to the clean URL
+      window.location.href = newUrl;
+    });
+  }
+
+  // Handle removing individual filters
+  const removeFilterButtons = document.querySelectorAll(".remove-filter");
+  removeFilterButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const param = this.getAttribute("data-param");
+      const currentParams = new URLSearchParams(window.location.search);
+
+      // Remove the specified parameter
+      currentParams.delete(param);
+
+      // Navigate to the updated URL
+      const newUrl = `${window.location.pathname}?${currentParams.toString()}`;
+      window.location.href = newUrl;
+    });
+  });
+
+  // Handle clearing all filters
+  const clearAllButtons = document.querySelectorAll(".clear-all-filters");
+  clearAllButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const currentParams = new URLSearchParams(window.location.search);
+      const currentTab = currentParams.get("tab");
+
+      // Create a clean URL, preserving only the tab parameter if it exists
+      let newUrl = window.location.pathname;
+      if (currentTab) {
+        newUrl += `?tab=${currentTab}`;
+      }
+
+      // Navigate to the clean URL
+      window.location.href = newUrl;
+    });
+  });
+
+  // Add column sorting functionality
+  const sortIcons = document.querySelectorAll(".sort-icon");
+  sortIcons.forEach((sortIcon) => {
+    sortIcon.addEventListener("click", function () {
+      const sortField = this.getAttribute("data-sort");
+      const currentParams = new URLSearchParams(window.location.search);
+
+      // Get current sort direction
+      const currentSortField = currentParams.get("sortField");
+      const currentSortDir = currentParams.get("sortDir");
+
+      // Determine the new sort direction
+      let newSortDir = "asc";
+      if (currentSortField === sortField && currentSortDir === "asc") {
+        newSortDir = "desc";
+      }
+
+      // Update sort parameters
+      currentParams.set("sortField", sortField);
+      currentParams.set("sortDir", newSortDir);
+
+      // Navigate to the URL with updated sort parameters
+      const newUrl = `${window.location.pathname}?${currentParams.toString()}`;
+      window.location.href = newUrl;
+    });
+  });
+
+  // Highlight active sort column
+  const initSortIcons = () => {
+    const currentParams = new URLSearchParams(window.location.search);
+    const currentSortField = currentParams.get("sortField");
+    const currentSortDir = currentParams.get("sortDir");
+
+    if (currentSortField) {
+      const activeIcon = document.querySelector(
+        `.sort-icon[data-sort="${currentSortField}"]`
+      );
+      if (activeIcon) {
+        activeIcon.classList.add(`sort-${currentSortDir}`);
+        const iconElement = activeIcon.querySelector("i");
+        iconElement?.classList.remove("fa-sort");
+        iconElement?.classList.add(
+          currentSortDir === "asc" ? "fa-sort-up" : "fa-sort-down"
+        );
+      }
+    }
+  };
+
+  initSortIcons();
+
   // Sửa lại để các tab có thể sử dụng bộ lọc
   const orderTabs = document.querySelectorAll(".order-tab");
   orderTabs.forEach((tab) => {
