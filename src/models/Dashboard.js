@@ -71,10 +71,14 @@ class Dashboard extends BaseModel {
     try {
       const sql = `SELECT 
                     SUM(cthdx.ThanhTien) AS DoanhThu,
+                    SUM(cthdx.SoLuong *cthdn.GiaNhap) AS Von,
+                    SUM(cthdx.ThanhTien - (cthdx.SoLuong * cthdn.GiaNhap)) AS LoiNhuan,
                     DATE(gh.NgayGiaoHang) AS Ngay
                   FROM chitiethoadonxuat cthdx
                   INNER JOIN hoadonxuat hdx ON hdx.IDHoaDonXuat = cthdx.IDHoaDonXuat
                   INNER JOIN giaohang gh ON gh.ID_HDX = hdx.IDHoaDonXuat
+                  INNER JOIN sanpham sp ON sp.SanPhamID = cthdx.IDSanPham
+                  INNER JOIN chitiethoadonnhap cthdn ON cthdn.IDSanPham = sp.SanPhamID
                   WHERE gh.TinhTrangDon = 'Đã giao'
                   AND gh.NgayGiaoHang BETWEEN DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01') AND CURRENT_DATE()
                   GROUP BY DATE(gh.NgayGiaoHang)

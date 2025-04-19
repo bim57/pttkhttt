@@ -1,47 +1,46 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Get revenue data from server
-  const revenueData = JSON.parse(
-    document.getElementById("revenue-data")?.textContent || "[]"
-  );
+  // Load revenue data from hidden element
+  const revenueDataElement = document.getElementById("revenue-data") || {};
+  const revenueData = JSON.parse(revenueDataElement.textContent || " ");
 
-  if (revenueData.length > 0) {
-    drawRevenueChart(revenueData);
-  }
+  // Format dates and prepare datasets
+  const labels = revenueData.map((item) => {
+    const date = new Date(item.Ngay);
+    return date.getDate() + "/" + (date.getMonth() + 1);
+  });
 
-  function drawRevenueChart(data) {
-    const ctx = /**@type {HTMLCanvasElement}*/ (
-      document.getElementById("revenue-chart")
-    )?.getContext("2d");
+  const revenues = revenueData.map((item) => item.DoanhThu || 0);
+  const costs = revenueData.map((item) => item.Von || 0); // Include cost data
+  const profit = revenueData.map((item) => item.LoiNhuan || 0);
 
-    if (!ctx) {
-      console.error("Canvas context not found.");
-      return;
-    }
-
-    // Format dates and revenue values
-    const dates = data.map((item) => {
-      const date = new Date(item.Ngay);
-      return date.getDate() + "/" + (date.getMonth() + 1);
-    });
-    const revenues = data.map((item) => item.DoanhThu);
-
-    // Create the chart
-    new Chart(ctx, {
-      type: "line",
+  // Configure and create the revenue chart
+  const revenueChart = new Chart(
+    document.getElementById("revenue-chart")?.getContext("2d"),
+    {
+      type: "bar",
       data: {
-        labels: dates,
+        labels: labels,
         datasets: [
           {
-            label: "Doanh thu (VNĐ)",
+            label: "Doanh thu",
             data: revenues,
-            backgroundColor: "rgba(54, 162, 235, 0.2)",
+            backgroundColor: "rgba(54, 162, 235, 0.5)",
             borderColor: "rgba(54, 162, 235, 1)",
-            borderWidth: 2,
-            tension: 0.4,
-            pointBackgroundColor: "rgba(54, 162, 235, 1)",
-            pointBorderColor: "#fff",
-            pointRadius: 5,
-            pointHoverRadius: 7,
+            borderWidth: 1,
+          },
+          {
+            label: "Vốn",
+            data: costs, // Add the cost data here
+            backgroundColor: "rgba(255, 99, 132, 0.5)",
+            borderColor: "rgba(255, 99, 132, 1)",
+            borderWidth: 1,
+          },
+          {
+            label: "Lợi nhuận",
+            data: profit,
+            backgroundColor: "rgba(75, 192, 192, 0.5)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1,
           },
         ],
       },
@@ -51,11 +50,12 @@ document.addEventListener("DOMContentLoaded", function () {
           y: {
             beginAtZero: true,
             ticks: {
+              // Format large numbers with comma separators
               callback: function (value) {
                 return new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
-                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
                 }).format(value);
               },
             },
@@ -65,23 +65,23 @@ document.addEventListener("DOMContentLoaded", function () {
           tooltip: {
             callbacks: {
               label: function (context) {
-                return new Intl.NumberFormat("vi-VN", {
+                let label = context.dataset.label || "";
+                if (label) {
+                  label += ": ";
+                }
+                label += new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
-                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 0,
                 }).format(context.raw);
+                return label;
               },
             },
           },
-          legend: {
-            position: "top",
-          },
-          title: {
-            display: true,
-            text: "Doanh thu theo ngày",
-          },
         },
       },
-    });
-  }
+    }
+  );
+
+  // Other dashboard functionality can be added here
 });
