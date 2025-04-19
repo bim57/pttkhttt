@@ -9,8 +9,6 @@ import {
   deleteRole,
   getRolesAndPermissions,
   getFunctionList
-  //getPermissions,
-  //updatePermissions
 } from '../controllers/adminController.js';
 
 const router = express.Router();
@@ -24,10 +22,6 @@ router.post('/delete-user/:id', deleteUser);
 
 router.get('/roles', getRolesAndPermissions);
 router.get('/roles/functions', getFunctionList);
-
-//router.get('/roles/:idRole', getPermissions);
-//router.post('/roles/update', updatePermissions);
-
 router.post('/roles/add', addRole);
 router.post('/roles/edit', editRole);
 router.post('/roles/delete/:id', deleteRole);

@@ -1,28 +1,25 @@
-{{!-- usersList.hbs --}}
 <h2>Danh sách người dùng</h2>
 <button id="addUserBtn">Thêm người dùng</button>
 <table>
   <thead>
     <tr>
       <th>ID</th>
-      <th>Tên</th>
-      <th>Email</th>
-      <th>Quyền</th>
-      <th>Hành động</th>
+      <th>Tên người dùng</th>
+      <th>Nhóm quyền</th>
+      <th>Thao tác</th>
     </tr>
   </thead>
   <tbody>
     {{#each users}}
-      <tr>
-        <td>{{this.ID_TK}}</td>
-        <td>{{this.Name}}</td>
-        <td>{{this.Email}}</td>
-        <td>{{this.Role}}</td>
-        <td>
-          <button class="editBtn" data-id="{{this.ID_TK}}">Sửa</button>
-          <button class="deleteBtn" data-id="{{this.ID_TK}}">Xóa</button>
-        </td>
-      </tr>
+    <tr>
+      <td>{{this.ID_TK}}</td>
+      <td>{{this.TenNhanVien}}</td>
+      <td>{{this.TenQuyen}}</td>
+      <td>
+        <button class="editBtn" data-id="{{ID_TK}}">Sửa</button>
+        <button class="deleteBtn" data-id="{{ID_TK}}">Xóa</button>
+      </td>
+    </tr>
     {{/each}}
   </tbody>
 </table>
@@ -35,33 +32,37 @@
     <form id="userForm" class="modal-form">
       <input type="hidden" id="userId" />
 
+      <!-- Nhập tên nhân viên -->
       <div class="form-group">
-        <label for="userName">Tên người dùng:</label>
-        <input type="text" id="userName" placeholder="Nhập tên..." required />
+        <label for="userNhanVien">Tên nhân viên:</label>
+        <input type="text" id="userNhanVien" name="TenNhanVien" required placeholder="Nhập tên nhân viên">
       </div>
 
+      <!-- Chọn nhóm quyền -->
       <div class="form-group">
-        <label for="userEmail">Email:</label>
-        <input type="email" id="userEmail" placeholder="Nhập email..." required />
-      </div>
-
-      <div class="form-group">
-        <label for="userRole">Quyền:</label>
+        <label for="userRole">Chọn quyền:</label>
         <select id="userRole" required>
           <option value="" disabled selected>-- Chọn quyền --</option>
-          {{#each roles}}
+          {{#each roles}}  <!-- Giả sử bạn đã có danh sách quyền -->
             <option value="{{this.ID_NhomQuyen}}">{{this.TenQuyen}}</option>
           {{/each}}
         </select>
       </div>
 
+      <!-- Mật khẩu -->
+      <div class="form-group">
+        <label for="userPassword">Mật khẩu:</label>
+        <input type="password" id="userPassword" placeholder="Nhập mật khẩu..." required />
+      </div>
+
       <div class="form-actions">
-        <button type="submit" class="save-btn">Lưu</button>
+        <button type="submit" class="save-btn">Thêm</button>
         <button type="button" class="cancel-btn" id="cancelModalBtn">Hủy</button>
       </div>
     </form>
   </div>
 </div>
+
 
 <!-- Modal Xóa người dùng -->
 <div id="deleteModal" class="modal">

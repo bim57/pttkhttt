@@ -20,13 +20,37 @@ export const getUsers = async (req, res) => {
 export const addUser = async (req, res) => {
   const { ID_NhanVien, ID_NhomQuyen, MatKhau } = req.body;
   try {
+    // Kiểm tra xem người dùng đã tồn tại chưa (nếu có thể)
+    const existingUser = await TaiKhoanModel.getAccountByNhanVien(ID_NhanVien);
+    if (existingUser.length > 0) {
+      return res.status(400).json({ success: false, message: 'Người dùng đã tồn tại' });
+    }
+
+    // Tạo tài khoản mới
     await TaiKhoanModel.createAccount(ID_NhanVien, ID_NhomQuyen, MatKhau);
-    res.redirect('/admin/users');
+
+    // Lấy lại thông tin tài khoản vừa tạo để trả về
+    const [user] = await TaiKhoanModel.getAccountByNhanVien(ID_NhanVien);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy người dùng' });
+    }
+
+    res.json({
+      success: true,
+      newUser: {
+        ID_TK: user.ID_TK,
+        TenNhanVien: user.TenNhanVien,
+        TenQuyen: user.TenNhomQuyen
+      }
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).send('Lỗi khi thêm người dùng');
+    res.status(500).json({ success: false, message: 'Lỗi khi thêm người dùng', error: error.message });
   }
 };
+
+
 
 // Cập nhật thông tin người dùng
 export const updateUser = async (req, res) => {
@@ -39,19 +63,7 @@ export const updateUser = async (req, res) => {
     res.status(500).send('Lỗi khi cập nhật người dùng');
   }
 };
-/*
-// Xóa người dùng
-export const deleteUser = async (req, res) => {
-  const { id } = req.params;
-  try {
-    await TaiKhoanModel.deleteAccount(id);
-    res.redirect('/admin/users');
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Lỗi khi xóa người dùng');
-  }
-};
-*/
+
 export const deleteUser = async (req, res) => {
   const { id } = req.params;
   try {
@@ -62,8 +74,6 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ success: false, message: 'Lỗi khi xóa người dùng' });
   }
 };
-
-
 
 // Phân quyền chức năng
 // Hiển thị trang quản lý phân quyền
@@ -79,39 +89,6 @@ export const getRolesAndPermissions = async (req, res) => {
     res.status(500).send("Có lỗi khi tải thông tin quyền");
   }
 };
-
-/*
-// Lấy danh sách quyền theo ID nhóm quyền (API dùng ở frontend)
-export const getPermissions = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const permissions = await RoleModel.getPermissionsByRole(id);
-    res.json(permissions);
-  } catch (error) {
-    console.error("Lỗi khi lấy quyền theo nhóm quyền:", error);
-    res.status(500).json({ error: 'Lỗi khi lấy quyền' });
-  }
-};
-
-// Cập nhật quyền cho nhóm quyền (API dùng khi nhấn nút lưu phân quyền)
-export const updatePermissions = async (req, res) => {
-  const { ID_NhomQuyen, permissions } = req.body;
-  try {
-    // Xóa quyền cũ
-    await RoleModel.deletePermissionsByRole(ID_NhomQuyen);
-
-    // Thêm lại quyền mới
-    for (const { ChucNang, HanhDong } of permissions) {
-      await RoleModel.addPermission(ID_NhomQuyen, ChucNang, HanhDong);
-    }
-
-    res.json({ message: "Cập nhật quyền thành công!" });
-  } catch (error) {
-    console.error("Lỗi khi cập nhật quyền:", error);
-    res.status(500).json({ error: 'Lỗi khi cập nhật quyền' });
-  }
-};
-*/
 
 export const addRole = async (req, res) => {
   const { TenNhomQuyen } = req.body;

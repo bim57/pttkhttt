@@ -1,4 +1,3 @@
-
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f4f4f4;
@@ -19,12 +18,14 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
+  align-items: center; /* Căn giữa nội dung */
 }
 
 .sidebar .logo {
   font-size: 22px;
   font-weight: bold;
   margin-bottom: 30px;
+  text-align: center;
 }
 
 .sidebar .logo i {
@@ -35,28 +36,30 @@ body {
   list-style: none;
   padding: 0;
   margin: 0;
+  width: 100%;
 }
 
 .menu li {
-  margin: 15px 0;
+  margin: 18px 0; /* Tăng khoảng cách giữa các mục */
+  text-align: center;
 }
 
 .menu li a {
   color: white;
   text-decoration: none;
   font-size: 16px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-}
-
-.menu li a i {
-  margin-right: 10px;
+  justify-content: center; /* Căn giữa icon + chữ */
+  gap: 10px;
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
 }
 
 .menu li a:hover {
   background-color: #0056b3;
-  padding: 8px;
-  border-radius: 5px;
 }
 
 .main-content {
@@ -96,6 +99,7 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
@@ -168,12 +172,6 @@ button:hover {
   box-shadow: 0 0 3px #007BFF;
 }
 
-.form-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
 .fade-out {
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -206,4 +204,10 @@ button:hover {
 
 #cancelDeleteBtn:hover {
   background-color: #5a6268;
+}
+
+/* Sửa lỗi thanh cuộn cho bảng trong modal */
+.modal-content table {
+  max-height: 400px;
+  overflow-y: auto;
 }

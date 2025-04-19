@@ -1,8 +1,6 @@
 <div id="roleManager">
   <h2>Danh sách nhóm quyền</h2>
-  <button id="addRoleBtn">Thêm</button>
-  <button id="editRoleBtn">Sửa</button>
-  <button id="deleteRoleBtn">Xóa</button>
+  <button id="addRoleBtn">Thêm Quyền</button>
 
   <table>
     <thead>
@@ -10,6 +8,7 @@
         <th>ID Nhóm quyền</th>
         <th>Tên nhóm quyền</th>
         <th>Trạng thái</th>
+        <th>Thao tác</th>
       </tr>
     </thead>
     <tbody>
@@ -18,6 +17,10 @@
           <td>{{this.ID_NhomQuyen}}</td>
           <td>{{this.TenNhomQuyen}}</td>
           <td>Hoạt động</td>
+          <td>
+            <button class="editRoleBtn" data-id="{{ID_NhomQuyen}}" data-name="{{TenNhomQuyen}}">Sửa</button>
+            <button class="deleteRoleBtn" data-id="{{ID_NhomQuyen}}">Xóa</button>
+          </td>
         </tr>
       {{/each}}
     </tbody>
@@ -28,7 +31,6 @@
 <div id="addRoleModal" class="modal">
   <div class="modal-content">
     <span class="close" id="closeAddRoleModal">&times;</span>
-    <button id="addRoleBtn">Thêm nhóm quyền</button>
 
     <div class="form-group">
       <label for="newRoleName">Tên nhóm quyền:</label>
@@ -56,3 +58,15 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Xóa nhóm quyền -->
+<div id="deleteRoleModal" class="modal">
+  <div class="modal-content">
+    <p>Bạn có chắc chắn muốn xóa nhóm quyền này?</p>
+    <div class="form-actions">
+      <button id="confirmDeleteRoleBtn">Xóa</button>
+      <button id="cancelDeleteRoleBtn">Hủy</button>
+    </div>
+  </div>
+</div>
+
