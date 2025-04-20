@@ -1,0 +1,216 @@
+<div class="container">
+  <!-- side bar -->
+  <div class="sidebar">
+    <ul>
+      <li>
+        <a href="/">
+          <span></span>
+          <span><h1>BOOK STORE</h1></span>
+        </a>
+      </li>
+      <li>
+        <a href="/">
+          <span><i class="fas fa-home"></i></span>
+          <span>Tổng Quan</span>
+        </a>
+      </li>
+      {{! <li>
+        <a href="#">
+          <span><i class="fas fa-gifts"></i></span>
+          <span>Sản Phẩm</span>
+        </a>
+      </li> }}
+      <li class="active">
+        <a href="/orders/show">
+          <span><i class="fas fa-shopping-cart"></i></span>
+          <span>Đơn Hàng</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span><i class="fas fa-chart-bar"></i></span>
+          <span>Thống Kê</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <span><i class="fas fa-sign-out-alt"></i></span>
+          <span>Đăng Xuất</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <!-- nav bar -->
+    <div class="navbar">
+      <div class="navbar-toggle">
+        {{! <i class="fas fa-bars"></i> }}
+      </div>
+      <div class="search-box">
+        <label>
+          <input type="text" placeholder="Tìm Kiếm" />
+          <i class="fas fa-search"></i>
+        </label>
+      </div>
+      <div class="user-profile">
+        <a href="#"><img src="/user.jpg" /></a>
+      </div>
+    </div>
+
+    <!-- Nội dung thống kê doanh thu -->
+    <div class="statistics-container">
+      <h2 class="content-title">Thống Kê Doanh Thu</h2>
+
+      <div class="section-header">
+        <div class="tab-navigation">
+          <span class="tab-item" data-tab="year">Thống kê theo năm</span>
+          <span class="tab-item" data-tab="month">Thống kê từng tháng trong năm</span>
+          <span class="tab-item active" data-tab="day">Thống kê từng ngày trong
+            tháng</span>
+          <span class="tab-item" data-tab="custom">Thống kê từ ngày đến ngày</span>
+        </div>
+        <button id="export-btn" class="export-button">
+          <i class="fas fa-file-export"></i>
+          Xuất excel
+        </button>
+      </div>
+
+      <!-- Date range selector - Hidden by default -->
+      <div
+        id="date-range-selector"
+        class="date-range-selector"
+        style="display: none;"
+      >
+        <div class="date-range-inputs">
+          <div class="date-input-group">
+            <label for="start-date">Từ ngày:</label>
+            <input type="date" id="start-date" class="date-input" />
+          </div>
+          <div class="date-input-group">
+            <label for="end-date">Đến ngày:</label>
+            <input type="date" id="end-date" class="date-input" />
+          </div>
+          <button id="apply-date-range" class="apply-button">Áp dụng</button>
+        </div>
+      </div>
+
+      <!-- Year selector - Hidden by default -->
+      <div id="year-selector" class="year-selector" style="display: none;">
+        <div class="year-selector-inputs">
+          <label for="select-year">Chọn từ năm:</label>
+          <select id="select-year" class="year-input">
+            <option value="2023">2022</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+          </select>
+          <label for="select-year-for-months">Chọn đến năm:</label>
+          <select id="select-year-for-months" class="year-input">
+            <option value="2023">2025</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+          </select>
+          <button id="apply-year" class="apply-button">Áp dụng</button>
+        </div>
+      </div>
+
+      <!-- Month in year selector - Hidden by default -->
+      <div
+        id="month-in-year-selector"
+        class="month-in-year-selector"
+        style="display: none;"
+      >
+        <div class="month-in-year-inputs">
+          <label for="select-year-for-months">Chọn năm:</label>
+          <select id="select-year-for-months" class="year-input">
+            <option value="2023">2025</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+          </select>
+          <button id="apply-month-in-year" class="apply-button">Áp dụng</button>
+        </div>
+      </div>
+
+      <!-- Day in month selector - Hidden by default -->
+      <div id="day-in-month-selector" class="day-in-month-selector">
+        <div class="day-in-month-inputs">
+          <label for="select-month">Chọn tháng:</label>
+          <select id="select-month" class="month-input">
+            <option value="5">Tháng 4/2025</option>
+            <option value="4">Tháng 4/2025</option>
+            <option value="3">Tháng 3/2025</option>
+            <option value="2">Tháng 2/2025</option>
+            <option value="1">Tháng 1/2025</option>
+          </select>
+          <button id="apply-day-in-month" class="apply-button">Áp dụng</button>
+        </div>
+      </div>
+
+      <div class="statistics-table-container">
+        <table class="statistics-table">
+          <thead>
+            <tr>
+              <th>Thời gian</th>
+              <th>Doanh thu</th>
+              <th>Vốn</th>
+              <th>Lợi nhuận</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Sample data -->
+            <tr>
+              <td>11/04/2025</td>
+              <td>390,000 đ</td>
+              <td>330,000 đ</td>
+              <td>60,000 đ</td>
+            </tr>
+            <tr>
+              <td>12/04/2025</td>
+              <td>410,000 đ</td>
+              <td>370,000 đ</td>
+              <td>40,000 đ</td>
+            </tr>
+            <tr>
+              <td>13/04/2025</td>
+              <td>260,000 đ</td>
+              <td>210,000 đ</td>
+              <td>50,000 đ</td>
+            </tr>
+            <tr>
+              <td>14/04/2025</td>
+              <td>260,000 đ</td>
+              <td>210,000 đ</td>
+              <td>50,000 đ</td>
+            </tr>
+            <tr>
+              <td>15/04/2025</td>
+              <td>180,000 đ</td>
+              <td>160,000 đ</td>
+              <td>20,000 đ</td>
+            </tr>
+
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>Tổng</td>
+              <td>1,500,000 đ</td>
+              <td>1,300,00 đ</td>
+              <td>220,000 đ</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js library (optional, if you want to add charts later) -->
+<script
+  src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"
+></script>
+
+<!-- Custom statistics JavaScript -->
+<script src="/js/statistic.js"></script>

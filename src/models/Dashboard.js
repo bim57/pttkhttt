@@ -70,19 +70,28 @@ class Dashboard extends BaseModel {
   async getRevenueCurrentMonth() {
     try {
       const sql = `SELECT 
-                    SUM(cthdx.ThanhTien) AS DoanhThu,
-                    SUM(cthdx.SoLuong *cthdn.GiaNhap) AS Von,
-                    SUM(cthdx.ThanhTien - (cthdx.SoLuong * cthdn.GiaNhap)) AS LoiNhuan,
-                    DATE(gh.NgayGiaoHang) AS Ngay
-                  FROM chitiethoadonxuat cthdx
-                  INNER JOIN hoadonxuat hdx ON hdx.IDHoaDonXuat = cthdx.IDHoaDonXuat
-                  INNER JOIN giaohang gh ON gh.ID_HDX = hdx.IDHoaDonXuat
-                  INNER JOIN sanpham sp ON sp.SanPhamID = cthdx.IDSanPham
-                  INNER JOIN chitiethoadonnhap cthdn ON cthdn.IDSanPham = sp.SanPhamID
-                  WHERE gh.TinhTrangDon = 'Đã giao'
-                  AND gh.NgayGiaoHang BETWEEN DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01') AND CURRENT_DATE()
-                  GROUP BY DATE(gh.NgayGiaoHang)
-                  ORDER BY DATE(gh.NgayGiaoHang)`;
+                        DATE(gh.NgayGiaoHang) AS Ngay,
+                        SUM(cthdx.ThanhTien) AS DoanhThu,
+                        SUM(cthdx.SoLuong * 
+                            (SELECT AVG(cthdn_sub.GiaNhap) 
+                            FROM chitiethoadonnhap cthdn_sub 
+                            WHERE cthdn_sub.IDSanPham = cthdx.IDSanPham)
+                        ) AS Von,
+                        SUM(cthdx.ThanhTien - 
+                            (cthdx.SoLuong * 
+                                (SELECT AVG(cthdn_sub.GiaNhap) 
+                                FROM chitiethoadonnhap cthdn_sub 
+                                WHERE cthdn_sub.IDSanPham = cthdx.IDSanPham)
+                            )
+                        ) AS LoiNhuan
+                    FROM chitiethoadonxuat cthdx
+                    INNER JOIN hoadonxuat hdx ON hdx.IDHoaDonXuat = cthdx.IDHoaDonXuat
+                    INNER JOIN giaohang gh ON gh.ID_HDX = hdx.IDHoaDonXuat
+                    INNER JOIN sanpham sp ON sp.SanPhamID = cthdx.IDSanPham
+                    WHERE gh.TinhTrangDon = 'Đã giao'
+                    AND gh.NgayGiaoHang BETWEEN DATE_FORMAT(CURRENT_DATE(), '%Y-%m-01') AND CURRENT_DATE()
+                    GROUP BY DATE(gh.NgayGiaoHang)
+                    ORDER BY DATE(gh.NgayGiaoHang)`;
 
       const [revenueData] = await db.query(sql);
       return revenueData;
