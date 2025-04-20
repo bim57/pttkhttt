@@ -82,12 +82,10 @@
                                         <span class="tooltip">Chỉnh sửa</span>
                                     </button>
                                 </a>
-                                <a href="/product/delete/{{this.SanPhamID}}">
-                                    <button class="icon-btn delete-btn">
-                                        <i class="fas fa-trash-alt"></i>
-                                        <span class="tooltip">Xóa</span>
-                                    </button>
-                                </a>
+                                <button class="icon-btn delete-btn" data-id="{{this.SanPhamID}}">
+                                    <i class="fas fa-trash-alt"></i>
+                                    <span class="tooltip">Xóa</span>
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -99,8 +97,22 @@
                 {{/if}}
             </tbody>
         </table>
+    </div>
+</div>
 
-
-        
+<!-- Delete product -->
+<div class="delete-popup">
+    <div class="popup">
+        <div class="popup-head">
+            <p>Bạn có chắc chắn muốn xóa sản phẩm?</p>
+            <button class="popup-close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="popup-body">
+            <p>Nếu đã xóa, bạn sẽ không thể tiếp tục sử dụng sản phẩm.</p>
+        </div>
+        <div class="popup-foot">
+            <button class="popup-btn popup-cancel-btn">Hủy</button>
+            <button class="popup-btn popup-confirm-btn">Xác nhận</button>
+        </div>
     </div>
 </div>
