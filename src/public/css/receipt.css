@@ -194,7 +194,6 @@ input[type="checkbox"]{
 .receipt-table .inside-table .info-container{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
     margin: 20px 0;
 }
 .receipt-table .inside-table .info-container .info-box{

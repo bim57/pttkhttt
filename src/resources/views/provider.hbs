@@ -39,6 +39,7 @@
                     <td class="sortable">SĐT<span class="arrow">▲</span></td>
                     <td class="sortable">Email<span class="arrow">▲</span></td>
                     <td class="sortable">Số nhà, Đường<span class="arrow">▲</span></td>
+                    <td class="sortable">Phường, Xã<span class="arrow">▲</span></td>
                     <td class="sortable">Quận, Huyện<span class="arrow">▲</span></td>
                     <td class="sortable">Tỉnh, Thành phố<span class="arrow">▲</span></td>
                     <td>Hoạt động</td>
@@ -53,6 +54,7 @@
                         <td>{{this.SDT}}</td>
                         <td>{{this.Email}}</td>
                         <td>{{this.SoNhaDuong}}</td>
+                        <td>{{this.PhuongXa}}</td>
                         <td>{{this.QuanHuyen}}</td>
                         <td>{{this.TinhThanhPho}}</td>
                         <td>
@@ -75,7 +77,7 @@
                 {{/each}}
                 {{else}}
                     <tr>
-                        <td colspan="7" style="text-align: center;">Không có dữ liệu</td>
+                        <td colspan="9" style="text-align: center;">Không có dữ liệu</td>
                     </tr>
                 {{/if}}
             </tbody>

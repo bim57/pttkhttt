@@ -42,35 +42,37 @@ class Provider{
             LOWER(SDT) LIKE ? OR
             LOWER(Email) LIKE ? OR
             LOWER(SoNhaDuong) LIKE ? OR
+            LOWER(PhuongXa) LIKE ? OR
             LOWER(QuanHuyen) LIKE ? OR
             LOWER(TinhThanhPho) LIKE ?
         )
         AND tinhTrang = 1`;
-        const [rows] = await pool.execute(query, [str, str, str, str, str, str, str]);
+        const [rows] = await pool.execute(query, [str, str, str, str, str, str, str, str]);
         return rows;
     }
 
     // thêm ncc mới
-    async insert(name, phone, email, street, district, city){
+    async insert(name, phone, email, street, ward, district, city){
         const query = 
-        `INSERT INTO NCC (TenNCC, SDT, Email, QuanHuyen, SoNhaDuong, TinhThanhPho) VALUES
-        (?, ?, ?, ?, ?, ?)`;
-        const [rows] = await pool.execute(query, [name, phone, email, district, street, city]);
+        `INSERT INTO NCC (TenNCC, SDT, Email, SoNhaDuong, PhuongXa, QuanHuyen, TinhThanhPho) VALUES
+        (?, ?, ?, ?, ?, ?, ?)`;
+        const [rows] = await pool.execute(query, [name, phone, email, street, ward, district, city]);
         return rows;
     }
 
     // sửa thông tin ncc
-    async update(id, name, phone, email, street, district, city){
+    async update(id, name, phone, email, street, ward, district, city){
         const query = 
         `UPDATE NCC  
         SET TenNCC = ?,  
             SDT = ?,  
             Email = ?,  
-            QuanHuyen = ?,
             SoNhaDuong = ?,
+            PhuongXa = ?,
+            QuanHuyen = ?,
             TinhThanhPho = ?
         WHERE ID_NCC = ?`;
-        const [rows] = await pool.execute(query, [name, phone, email, district, street, city, id]);
+        const [rows] = await pool.execute(query, [name, phone, email, street, ward, district, city, id]);
         return rows;
     }
 

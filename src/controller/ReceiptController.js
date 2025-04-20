@@ -110,11 +110,11 @@ class ReceiptController{
     // get data from create form and create new receipt
     async store(req, res){
         try {
-            const {provider, employee, product_details, payment} = req.body;
+            const {provider, employee, product_details} = req.body;
             const [provider_id, provider_name] = provider.split(' - ');
             const [employee_id, employee_name] = employee.split(' - ');
             const product = JSON.parse(product_details);
-            await receiptConfig.insert(provider_id, employee_id, product, payment);
+            await receiptConfig.insert(provider_id, employee_id, product);
             res.redirect('/receipt');
         } catch (error) {
             console.log(error);
@@ -141,11 +141,11 @@ class ReceiptController{
     // get data from update and edit receipt
     async edit(req, res){
         try {
-            const {id, provider, employee, product_details, payment} = req.body;
+            const {id, provider, employee, product_details} = req.body;
             const [provider_id, provider_name] = provider.split(' - ');
             const [employee_id, employee_name] = employee.split(' - ');
             const product = JSON.parse(product_details);
-            await receiptConfig.update(id, provider_id, employee_id, product, payment);
+            await receiptConfig.update(id, provider_id, employee_id, product);
             res.redirect('/receipt');
         } catch (error) {
             console.log(error);

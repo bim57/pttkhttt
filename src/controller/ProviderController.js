@@ -47,6 +47,7 @@ class ProviderController{
                 { header: 'SĐT', key: 'SDT', width: 15 },
                 { header: 'Email', key: 'Email', width: 30 },
                 { header: 'Số Nhà / Đường', key: 'SoNhaDuong', width: 25 },
+                { header: 'Phường / Xã', key: 'PhuongXa', width: 25 },
                 { header: 'Quận / Huyện', key: 'QuanHuyen', width: 25 },
                 { header: 'Tỉnh / Thành Phố', key: 'TinhThanhPho', width: 25 }
             ];
@@ -71,8 +72,8 @@ class ProviderController{
     // get data from create form and create new provider
     async store(req, res){
         try {
-            const {name, phone, email, street, district, city} = req.body;
-            await providerConfig.insert(name, phone, email, street, district, city);
+            const {name, phone, email, street, ward, district, city} = req.body;
+            await providerConfig.insert(name, phone, email, street, ward, district, city);
             res.redirect('/provider');
         } catch (error) {
             console.log(error);
@@ -93,8 +94,8 @@ class ProviderController{
     // get data from update and edit provider
     async edit(req, res){
         try {
-            const {id, name, phone, email, street, district, city} = req.body;
-            await providerConfig.update(id, name, phone, email, street, district, city);
+            const {id, name, phone, email, street, ward, district, city} = req.body;
+            await providerConfig.update(id, name, phone, email, street, ward, district, city);
             res.redirect('/provider');
         } catch (error) {
             console.log(error);

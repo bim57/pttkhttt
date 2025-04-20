@@ -28,9 +28,8 @@ class Receipt{
     // xem thông tin chi tiết hóa đơn
     async view(id){
         const query = 
-        `SELECT HoaDonNhap.NgayNhap, HoaDonNhap.TongTien, HoaDonNhap.TinhTrangThanhToan, NCC.ID_NCC, 
-        NCC.TenNCC, NCC.SDT, NCC.Email, NCC.SoNhaDuong, NCC.QuanHuyen, NCC.TinhThanhPho, NhanVien.IDNhanVien, 
-        NhanVien.TenNhanVien
+        `SELECT HoaDonNhap.NgayNhap, HoaDonNhap.TongTien, HoaDonNhap.TinhTrangThanhToan, NCC.ID_NCC, NCC.TenNCC, 
+        NCC.SDT, NCC.Email, NCC.SoNhaDuong, NCC.PhuongXa, NCC.QuanHuyen, NCC.TinhThanhPho, NhanVien.IDNhanVien, NhanVien.TenNhanVien
         FROM ChiTietHoaDonNhap 
         LEFT JOIN HoaDonNhap ON ChiTietHoaDonNhap.IDHoaDonNhap = HoaDonNhap.IDHoaDonNhap
         LEFT JOIN NCC ON HoaDonNhap.ID_NCC = NCC.ID_NCC
@@ -80,12 +79,12 @@ class Receipt{
     }
 
     // thêm hóa đơn
-    async insert(provider_id, employee_id, product_details, payment){
+    async insert(provider_id, employee_id, product_details){
         // tạo hóa đơn mới
         let receipt_id;
         let [result] = await pool.execute(
-            `INSERT INTO HoaDonNhap (ID_NCC, IDNhanVien, NgayNhap, TinhTrangThanhToan) 
-            VALUES (?, ?, NOW(), ?)`, [provider_id, employee_id, payment]
+            `INSERT INTO HoaDonNhap (ID_NCC, IDNhanVien, NgayNhap) 
+            VALUES (?, ?, NOW())`, [provider_id, employee_id]
         );
         receipt_id = result.insertId;
 
@@ -134,14 +133,13 @@ class Receipt{
     }
 
     // sửa hóa đơn
-    async update(receipt_id, provider_id, employee_id, product_details, payment){
+    async update(receipt_id, provider_id, employee_id, product_details){
         // sửa thông tin hóa đơn
         await pool.execute(
             `UPDATE HoaDonNhap
             SET ID_NCC = ?,
-                IDNhanVien = ?,
-                TinhTrangThanhToan = ?
-            WHERE IDHoaDonNhap = ?`, [provider_id, employee_id, payment, receipt_id]
+                IDNhanVien = ?
+            WHERE IDHoaDonNhap = ?`, [provider_id, employee_id, receipt_id]
         );
 
         // lấy thông tin của số lượng tồn
