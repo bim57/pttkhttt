@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Load revenue data from hidden element
   const revenueDataElement = document.getElementById("revenue-data") || {};
+  // @ts-ignore
   const revenueData = JSON.parse(revenueDataElement.textContent || " ");
 
   // Format dates and prepare datasets
@@ -14,7 +15,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const profit = revenueData.map((item) => item.LoiNhuan || 0);
 
   // Configure and create the revenue chart
+  // @ts-ignore
   const revenueChart = new Chart(
+    // @ts-ignore
     document.getElementById("revenue-chart")?.getContext("2d"),
     {
       type: "bar",
@@ -47,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
       options: {
         responsive: true,
         scales: {
+          // @ts-ignore
           y: {
             beginAtZero: true,
             ticks: {

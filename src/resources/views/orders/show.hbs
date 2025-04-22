@@ -474,29 +474,18 @@
         </div>
       </div>
 
-      <!-- Phân trang -->
-      {{! <div class="pagination">
-        <button class="page-button">
-          <i class="fas fa-chevron-left"></i>
-        </button>
-        <button class="page-button active">1</button>
-        <button class="page-button">2</button>
-        <button class="page-button">3</button>
-        <button class="page-button">
-          <i class="fas fa-chevron-right"></i>
-        </button>
-      </div> }}
+      
     </div>
   </div>
 </div>
 
 <!-- Thêm script cho chức năng chuyển tab -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', () => {
     const tabs = document.querySelectorAll('.order-tab');
     
     tabs.forEach(tab => {
-      tab.addEventListener('click', function() {
+      tab.addEventListener('click', () => {
         // Xóa active class khỏi tất cả các tab
         tabs.forEach(t => t.classList.remove('active'));
         

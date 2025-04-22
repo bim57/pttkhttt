@@ -14,12 +14,6 @@
           <span>Tổng Quan</span>
         </a>
       </li>
-      {{! <li>
-        <a href="#">
-          <span><i class="fas fa-gifts"></i></span>
-          <span>Sản Phẩm</span>
-        </a>
-      </li> }}
       <li class="active">
         <a href="/orders/show">
           <span><i class="fas fa-shopping-cart"></i></span>
@@ -27,7 +21,7 @@
         </a>
       </li>
       <li>
-        <a href="#">
+        <a href="/statistic">
           <span><i class="fas fa-chart-bar"></i></span>
           <span>Thống Kê</span>
         </a>
@@ -60,93 +54,119 @@
 
     <!-- Nội dung thống kê doanh thu -->
     <div class="statistics-container">
-      <h2 class="content-title">Thống Kê Doanh Thu</h2>
+      <h2 class="content-title">Thống kê doanh thu</h2>
 
       <div class="section-header">
         <div class="tab-navigation">
-          <span class="tab-item" data-tab="year">Thống kê theo năm</span>
-          <span class="tab-item" data-tab="month">Thống kê từng tháng trong năm</span>
-          <span class="tab-item active" data-tab="day">Thống kê từng ngày trong
-            tháng</span>
-          <span class="tab-item" data-tab="custom">Thống kê từ ngày đến ngày</span>
+          <a href="/statistic?type=year" class="tab-item {{#if (eq activeTab 'year')}}active{{/if}}" data-tab="year">Thống kê theo năm</a>
+          <a href="/statistic?type=month" class="tab-item {{#if (eq activeTab 'month')}}active{{/if}}" data-tab="month">Thống kê từng tháng trong năm</a>
+          <a href="/statistic?type=day" class="tab-item {{#if (eq activeTab 'day')}}active{{/if}}" data-tab="day">Thống kê từng ngày trong tháng</a>
+          <a href="/statistic?type=custom" class="tab-item {{#if (eq activeTab 'custom')}}active{{/if}}" data-tab="custom">Thống kê từ ngày đến ngày</a>
         </div>
-        <button id="export-btn" class="export-button">
-          <i class="fas fa-file-export"></i>
-          Xuất excel
-        </button>
+        <form action="/statistic/api/export" method="GET">
+          <!-- Thêm các tham số hiện tại của URL -->
+          <input type="hidden" name="type" value="{{activeTab}}">
+          {{#if (eq activeTab 'custom')}}
+            <input type="hidden" name="startDate" value="{{defaultStartDate}}">
+            <input type="hidden" name="endDate" value="{{defaultEndDate}}">
+          {{/if}}
+          {{#if (eq activeTab 'year')}}
+            <input type="hidden" name="startYear" value="{{startYear}}">
+            <input type="hidden" name="endYear" value="{{endYear}}">
+          {{/if}}
+          {{#if (eq activeTab 'month')}}
+            <input type="hidden" name="year" value="{{selectedYear}}">
+          {{/if}}
+          {{#if (eq activeTab 'day')}}
+            <input type="hidden" name="month" value="{{currentMonth}}">
+            <input type="hidden" name="year" value="{{currentYear}}">
+          {{/if}}
+          <button type="submit" id="export-btn" class="export-button">
+            <i class="fas fa-file-export"></i>
+            Xuất excel
+          </button>
+        </form>
       </div>
 
       <!-- Date range selector - Hidden by default -->
       <div
         id="date-range-selector"
         class="date-range-selector"
-        style="display: none;"
+        style="display: {{#if (eq activeTab 'custom')}}block{{else}}none{{/if}};"
       >
-        <div class="date-range-inputs">
-          <div class="date-input-group">
-            <label for="start-date">Từ ngày:</label>
-            <input type="date" id="start-date" class="date-input" />
+        <form action="/statistic" method="GET">
+          <input type="hidden" name="type" value="custom">
+          <div class="date-range-inputs">
+            <div class="date-input-group">
+              <label for="start-date">Từ ngày:</label>
+              <input type="date" id="start-date" name="startDate" class="date-input" value="{{defaultStartDate}}" />
+            </div>
+            <div class="date-input-group">
+              <label for="end-date">Đến ngày:</label>
+              <input type="date" id="end-date" name="endDate" class="date-input" value="{{defaultEndDate}}" />
+            </div>
+            <button type="submit" class="apply-button">Áp dụng</button>
           </div>
-          <div class="date-input-group">
-            <label for="end-date">Đến ngày:</label>
-            <input type="date" id="end-date" class="date-input" />
-          </div>
-          <button id="apply-date-range" class="apply-button">Áp dụng</button>
-        </div>
+        </form>
       </div>
 
       <!-- Year selector - Hidden by default -->
-      <div id="year-selector" class="year-selector" style="display: none;">
-        <div class="year-selector-inputs">
-          <label for="select-year">Chọn từ năm:</label>
-          <select id="select-year" class="year-input">
-            <option value="2023">2022</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-          </select>
-          <label for="select-year-for-months">Chọn đến năm:</label>
-          <select id="select-year-for-months" class="year-input">
-            <option value="2023">2025</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-          </select>
-          <button id="apply-year" class="apply-button">Áp dụng</button>
-        </div>
+      <div id="year-selector" class="year-selector" style="display: {{#if (eq activeTab 'year')}}block{{else}}none{{/if}};">
+        <form action="/statistic" method="GET">
+          <input type="hidden" name="type" value="year">
+          <div class="year-selector-inputs">
+            <label for="select-year">Chọn từ năm:</label>
+            <select id="select-year" name="startYear" class="year-input">
+              {{#each years}}
+                <option value="{{this}}" {{#if (eq ../startYear this)}}selected{{/if}}>{{this}}</option>
+              {{/each}}
+            </select>
+            <label for="select-year-to">Chọn đến năm:</label>
+            <select id="select-year-to" name="endYear" class="year-input">
+              {{#each years}}
+                <option value="{{this}}" {{#if (eq ../endYear this)}}selected{{/if}}>{{this}}</option>
+              {{/each}}
+            </select>
+            <button type="submit" class="apply-button">Áp dụng</button>
+          </div>
+        </form>
       </div>
 
       <!-- Month in year selector - Hidden by default -->
       <div
         id="month-in-year-selector"
         class="month-in-year-selector"
-        style="display: none;"
+        style="display: {{#if (eq activeTab 'month')}}block{{else}}none{{/if}};"
       >
-        <div class="month-in-year-inputs">
-          <label for="select-year-for-months">Chọn năm:</label>
-          <select id="select-year-for-months" class="year-input">
-            <option value="2023">2025</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-          </select>
-          <button id="apply-month-in-year" class="apply-button">Áp dụng</button>
-        </div>
+        <form action="/statistic" method="GET">
+          <input type="hidden" name="type" value="month">
+          <div class="month-in-year-inputs">
+            <label for="select-year-for-months">Chọn năm:</label>
+            <select id="select-year-for-months" name="year" class="year-input">
+              {{#each years}}
+                <option value="{{this}}" {{#if (eq ../selectedYear this)}}selected{{/if}}>{{this}}</option>
+              {{/each}}
+            </select>
+            <button type="submit" class="apply-button">Áp dụng</button>
+          </div>
+        </form>
       </div>
 
       <!-- Day in month selector - Hidden by default -->
-      <div id="day-in-month-selector" class="day-in-month-selector">
-        <div class="day-in-month-inputs">
-          <label for="select-month">Chọn tháng:</label>
-          <select id="select-month" class="month-input">
-            <option value="5">Tháng 4/2025</option>
-            <option value="4">Tháng 4/2025</option>
-            <option value="3">Tháng 3/2025</option>
-            <option value="2">Tháng 2/2025</option>
-            <option value="1">Tháng 1/2025</option>
-          </select>
-          <button id="apply-day-in-month" class="apply-button">Áp dụng</button>
-        </div>
+      <div id="day-in-month-selector" class="day-in-month-selector" style="display: {{#if (eq activeTab 'day')}}block{{else}}none{{/if}};">
+        <form action="/statistic" method="GET">
+          <input type="hidden" name="type" value="day">
+          <div class="day-in-month-inputs">
+            <label for="select-month">Chọn tháng:</label>
+            <select id="select-month" name="month" class="month-input">
+              {{#each months}}
+                <option value="{{this.value}}" {{#if (eq ../currentMonth this.value)}}selected{{/if}}>{{this.text}}</option>
+              {{/each}}
+            </select>
+            <input type="hidden" name="year" value="{{currentYear}}">
+            <button type="submit" class="apply-button">Áp dụng</button>
+          </div>
+        </form>
       </div>
 
       <div class="statistics-table-container">
@@ -160,45 +180,27 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Sample data -->
-            <tr>
-              <td>11/04/2025</td>
-              <td>390,000 đ</td>
-              <td>330,000 đ</td>
-              <td>60,000 đ</td>
-            </tr>
-            <tr>
-              <td>12/04/2025</td>
-              <td>410,000 đ</td>
-              <td>370,000 đ</td>
-              <td>40,000 đ</td>
-            </tr>
-            <tr>
-              <td>13/04/2025</td>
-              <td>260,000 đ</td>
-              <td>210,000 đ</td>
-              <td>50,000 đ</td>
-            </tr>
-            <tr>
-              <td>14/04/2025</td>
-              <td>260,000 đ</td>
-              <td>210,000 đ</td>
-              <td>50,000 đ</td>
-            </tr>
-            <tr>
-              <td>15/04/2025</td>
-              <td>180,000 đ</td>
-              <td>160,000 đ</td>
-              <td>20,000 đ</td>
-            </tr>
-
+            {{#if data.length}}
+              {{#each data}}
+                <tr>
+                  <td>{{this.Ngay}}</td>
+                  <td>{{this.DoanhThu}}</td>
+                  <td>{{this.Von}}</td>
+                  <td>{{this.LoiNhuan}}</td>
+                </tr>
+              {{/each}}
+            {{else}}
+              <tr>
+                <td colspan="4" class="no-data">Không có dữ liệu cho khoảng thời gian này</td>
+              </tr>
+            {{/if}}
           </tbody>
           <tfoot>
             <tr>
               <td>Tổng</td>
-              <td>1,500,000 đ</td>
-              <td>1,300,00 đ</td>
-              <td>220,000 đ</td>
+              <td>{{totals.DoanhThu}}</td>
+              <td>{{totals.Von}}</td>
+              <td>{{totals.LoiNhuan}}</td>
             </tr>
           </tfoot>
         </table>
@@ -206,11 +208,3 @@
     </div>
   </div>
 </div>
-
-<!-- Chart.js library (optional, if you want to add charts later) -->
-<script
-  src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"
-></script>
-
-<!-- Custom statistics JavaScript -->
-<script src="/js/statistic.js"></script>

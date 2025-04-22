@@ -1,12 +1,12 @@
 import express from "express";
+import StatisticController from "../controllers/StatisticController.js";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.render("statistic", {
-    title: "Statistic",
-    cssFiles: ["/css/statistic.css", "/css/style.css"],
-  });
-});
+// Trang thống kê - server-side rendering
+router.get("/", StatisticController.show);
+
+// API xuất Excel
+router.get("/api/export", StatisticController.exportToExcel);
 
 export default router;
