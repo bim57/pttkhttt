@@ -20,13 +20,44 @@
             <form method="GET" action="/statistic/history">
                 <div class="search-container">
                     <div>
-                        <label>Ngày bắt đầu:</label>
-                        <input id="date" type="date" name="from" value="{{from}}" required>
+                        <label>Xem thống kê theo: </label>
+                        <select name="type" id="filter-type">
+                            <option value="all" {{#if (eq type "all")}}selected{{/if}}>-- Tất Cả --</option>
+                            <option value="month" {{#if (eq type "month")}}selected{{/if}}>Tháng</option>
+                            <option value="year" {{#if (eq type "year")}}selected{{/if}}>Năm</option>
+                        </select>
                     </div>
-                    <div>
-                        <label class="date">Ngày kết thúc:</label>
-                        <input id="date" type="date" name="to" value="{{to}}" required>
+
+                    <!-- Select chọn tháng -->
+                    <div id="month-select" style="display: none;">
+                        <label>Chọn tháng:</label>
+                        <select name="month">
+                            <option value="">-- Chọn tháng --</option>
+                            {{#each (range 1 12)}}
+                                <option value="{{this}}" {{#if (eq ../month this)}}selected{{/if}}>Tháng {{this}}</option>
+                            {{/each}}
+                        </select>
+
+                        <label>Chọn năm:</label>
+                        <select name="month_year">
+                            <option value="">-- Chọn năm --</option>
+                            {{#each (range 2023 2025)}}
+                                <option value="{{this}}" {{#if (eq ../month_year this)}}selected{{/if}}>{{this}}</option>
+                            {{/each}}
+                        </select>
                     </div>
+
+                    <!-- Select chọn năm -->
+                    <div id="year-select" style="display: none;">
+                        <label>Chọn năm:</label>
+                        <select name="year">
+                            <option value="">-- Chọn năm --</option>
+                            {{#each (range 2023 2025)}}
+                                <option value="{{this}}" {{#if (eq ../year this)}}selected{{/if}}>{{this}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
                     <button class="search-btn" type="submit">Thống Kê</button>
                 </div>
             </form>

@@ -13,16 +13,27 @@ class Statistic {
         return rows;
     }
 
-    // Lấy hóa đơn theo thời gian
-    async getReceiptsByDateRange(from, to) {
+    async getReceiptsByMonthYear(month, year) {
         const query = 
         `SELECT HoaDonNhap.IDHoaDonNhap, NCC.TenNCC, NhanVien.TenNhanVien, NgayNhap, TongTien, TinhTrangThanhToan
         FROM HoaDonNhap
         LEFT JOIN NCC ON HoaDonNhap.ID_NCC = NCC.ID_NCC
         LEFT JOIN NhanVien ON HoaDonNhap.IDNhanVien = NhanVien.IDNhanVien
-        WHERE DATE(NgayNhap) BETWEEN ? AND ?
+        WHERE MONTH(NgayNhap) = ? AND YEAR(NgayNhap) = ?
         ORDER BY NgayNhap`;
-        const [rows] = await pool.execute(query, [from, to]);
+        const [rows] = await pool.execute(query, [month, year]);
+        return rows;
+    }
+
+    async getReceiptsByYear(year) {
+        const query = 
+        `SELECT HoaDonNhap.IDHoaDonNhap, NCC.TenNCC, NhanVien.TenNhanVien, NgayNhap, TongTien, TinhTrangThanhToan
+        FROM HoaDonNhap
+        LEFT JOIN NCC ON HoaDonNhap.ID_NCC = NCC.ID_NCC
+        LEFT JOIN NhanVien ON HoaDonNhap.IDNhanVien = NhanVien.IDNhanVien
+        WHERE YEAR(NgayNhap) = ?
+        ORDER BY NgayNhap`;
+        const [rows] = await pool.execute(query, [year]);
         return rows;
     }
       

@@ -21,15 +21,35 @@ class StatisticController{
     // xem hóa đơn theo thời gian
     async history(req, res){
         try {
-            const { from, to } = req.query;
-            if (!from || !to) return res.render('statistic', { statistic: [] });
-            const statistic = await statisticConfig.getReceiptsByDateRange(from, to);
-            const total = statistic.reduce((sum, r) => sum + Number(r.TongTien || 0), 0);
+            const { type, month, month_year, year } = req.query;
+            let statistic = [];
+            let total = 0;
+            
+            if (type === "all"){
+                statistic = await statisticConfig.getAll();
+            } else if (type === "month" && month && month_year) {
+                // Lấy theo tháng + năm
+                statistic = await statisticConfig.getReceiptsByMonthYear(month, month_year);
+    
+            } else if (type === "year" && year) {
+                // Lấy theo năm
+                statistic = await statisticConfig.getReceiptsByYear(year);
+    
+            } else {
+                // Nếu không có lọc, lấy toàn bộ
+                statistic = await statisticConfig.getAll();
+            }
+    
+            // Tính tổng tiền
+            total = statistic.reduce((sum, r) => sum + Number(r.TongTien || 0), 0);
+    
             res.render('statistic', {
-              statistic,
-              total, 
-              from,
-              to
+                statistic,
+                total,
+                type: type || 'all',
+                month, 
+                month_year, 
+                year 
             });
         } catch (err) {
             console.log(err);
@@ -39,11 +59,13 @@ class StatisticController{
     // xuất file excel
     async create_excel(req, res){
         try {
-            const { from, to } = req.query;
+            const { type, month, month_year, year } = req.query;
             let data = [];
 
-            if (from && to) {
-                data = await statisticConfig.getReceiptsByDateRange(from, to);
+            if (type === "month" && month && month_year) {
+                data = await statisticConfig.getReceiptsByMonthYear(month, month_year);
+            } else if (type === "year" && year) {
+                data = await statisticConfig.getReceiptsByYear(year);
             } else {
                 data = await statisticConfig.getAll(); // <-- Thêm dòng này để lấy tất cả nếu không có ngày
             }
@@ -73,7 +95,7 @@ class StatisticController{
             // Format ngày và tiền
             worksheet.getColumn('NgayNhap').eachCell((cell, rowNumber) => {
                 if (rowNumber > 1 && cell.value instanceof Date) {
-                    cell.value = moment(cell.value).format('DD/MM/YY HH:mm');
+                    cell.value = moment(cell.value).format('DD/MM/YYYY HH:mm');
                 }
             });
         

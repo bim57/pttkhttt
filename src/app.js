@@ -37,7 +37,17 @@ const hbs = exphbs.create({
             return found ? "checked" : "";
         },
         formatDate: (timestamp, format) => moment(timestamp).format(format),
-        inc: (value) => parseInt(value) + 1
+        inc: (value) => parseInt(value) + 1,
+        range: function(start, end) {
+            let arr = [];
+            for (let i = start; i <= end; i++) {
+                arr.push(i);
+            }
+            return arr;
+        },
+        eq: function(a, b) {
+            return a == b;
+        }
     }
 });
 
