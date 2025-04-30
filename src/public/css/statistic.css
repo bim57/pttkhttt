@@ -65,9 +65,16 @@
 }
 .search-container{
     display: flex;
+    margin: 10px 0;
     font-size: 16px;
     gap: 30px;
-    margin: 15px 0;
+}
+select{
+    width: 160px;
+    font-size: 16px;
+}
+label{
+    font-size: 16px;
 }
 .search-btn{
     display: inline-flex;
